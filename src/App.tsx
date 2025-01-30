@@ -47,6 +47,7 @@ interface Prompt {
 const CATEGORIES = [
   ".cursorrules",
   "Angular",
+  "Anthropic",
   "AutoHotkey",
   "Backend",
   "Bolt.new",
@@ -77,6 +78,7 @@ const CATEGORIES = [
   "NextJS",
   "Novo Elements",
   "NuxtJS",
+  "Openai",
   "Other",
   "Perplexity",
   "Prompt",
