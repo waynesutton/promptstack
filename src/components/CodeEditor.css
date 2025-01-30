@@ -1,0 +1,62 @@
+.ProseMirror {
+  @apply text-[#E2E2E2] text-sm leading-relaxed;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.ProseMirror:focus {
+  @apply outline-none;
+}
+
+.ProseMirror pre {
+  @apply bg-transparent p-0 m-0;
+}
+
+.ProseMirror code {
+  @apply bg-transparent p-0 text-inherit whitespace-pre-wrap break-words;
+}
+
+/* Syntax highlighting */
+.hljs-comment,
+.hljs-quote {
+  @apply text-gray-500 italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  @apply text-purple-400;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute {
+  @apply text-green-400;
+}
+
+.hljs-number,
+.hljs-literal {
+  @apply text-yellow-400;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+  @apply text-orange-400;
+}
+
+.hljs-function {
+  @apply text-blue-400;
+}
+
+.hljs-title {
+  @apply text-blue-300;
+}
+
+.hljs-params {
+  @apply text-gray-300;
+}
+
+.hljs-built_in {
+  @apply text-cyan-400;
+}
