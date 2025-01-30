@@ -1,47 +1,38 @@
-This document serves as some special instructions for building the appp promptstack.dev
-
 # PromptStack
 
-**PromptStack** is an **open-source project** that provides a searchable collection of AI prompts and code gen rules to enhance your workflow for developers. Built with [Convex.dev](https://docs.convex.dev/) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
-rules to enhance your workflow for developers.. Built with [Convex.dev](https://docs.convex.dev/) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
+**PromptStack** is an **open-source** platform that provides a searchable collection of AI prompts and code generation Cursor rules for Bolt.new, Loveable, Windsurf, and Trae—designed to optimize developer workflows. Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
+rules to enhance your workflow for developers.
+
+Built with [Convex.dev](https://docs.convex.dev/) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
 
 PromptStack is a community-driven platform for developers to discover, share, and manage AI prompts and code generation rules.
 
-Our mission is to help developers leverage AI tools more effectively by providing a curated collection of prompts that enhance productivity and code quality.
+The goal of PromptStack is to help developers leverage AI tools more effectively by providing a curated collection of prompts that enhance productivity and code quality.
 
-Whether you're using GitHub Copilot, ChatGPT, Claude, or other AI assistants, you'll find valuable prompts to improve your workflow.
+Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot, ChatGPT, Claude, or other AI assistants, you'll find valuable prompts to improve your workflow.
 
-**PromptStack** is an **open-source project** that provides a searchable directory of AI prompts and code-generation rules to enhance developer workflows.
+## Links
 
-1. Task Requirements Summary:
+- [Website](https://promptstack.dev)
+-
 
-- Build a prompt direcotry
-- each new prompt creates a new prompt card and link that can be shared separetly
-- Support user creation
-- Enable channel-based conversations
-- Store and retrieve messages with proper ordering
-- Generate AI responses automatically
+# Features
 
 - **Searchable Directory**: Quickly find AI prompts and code-gen rules tailored to your needs.
 - **Prompt Rating System**: Rate and discover top prompts in the directory.
-- **Private & Public Prompts**: Option to keep prompts private or share them publicly.
 - **Category Organization**: Prompts are organized into clear, functional categories.
-- **GitHub Integration**: Automatically link GitHub profiles submitted with prompts.
+- **GitHub Integration**: Automatically link GitHub or social profiles submitted with prompts.
 - **Carbon Copy View**: View and copy prompts in a Carbon-style editor window.
 - **Readme Support**: Find and submit README examples for AI and code-gen projects.
-- **Developer Tools**: Built-in roadmaps, prompt feedback, and engineering specs documentation.
-- **SEO Optimized**: AI tool lists, prompt engineering insights, and metadata for better discoverability.
+- **.Cursorrules**: Find and submit Cursor rules for AI and code-gen projects.
+- **SEO Optimized**: AI tool lists, prompt engineering, and metadata for better discoverability.
 
-2. Main Components Needed:
+1. Main Components Needed:
 
 - Database tables: users, prompts, ratings, categories
 - Public APIs
 - Internal AI
 - Context loading
-
-## Links
-
-- [Website](https://promptstack.dev)
 
 ---
 
@@ -67,87 +58,16 @@ Whether you're using GitHub Copilot, ChatGPT, Claude, or other AI assistants, yo
 - Filter by "My Prompts" to view only your submissions.
 - Rate and share prompts using the share icon available on each prompt card.
 
-## Planned Features
+### Development Roadmap
 
-- [ ] Add support for prompt threading, showing only the first in listings.
-- [ ] Enable sidebar floating for better navigation.
-- [ ] Introduce a footer navigation section with links to Docs and About pages.
-- [ ] Update prompt submission cards to a three-column layout.
-- [ ] Add icons (e.g., cube for Cursor, database for Convex) for better category visuals.
-- [ ] Improve SEO with AI tools listing, prompt engineering texts, and meta tags.
-- [ ] Allow users to preview, copy, and share prompts directly from prompt cards.
-
-## Development Roadmap
-
-1. **Design Enhancements**
-
-   - Update site design inspired by [MagicPatterns](https://www.magicpatterns.com/).
-   - Create Carbon-style views for better readability of prompts.
-
-2. **User Features**
-
-   - Allow prompts to be editable only by their creators.
-   - Add "Prompt Threads" for multi-step prompts.
-
-3. **Documentation**
-
-   - Add an About page in both markdown and readme formats.
-   - Provide a prompt help page and developer roadmaps in the Docs section.
-
-4. **SEO Improvements**
-   - Add meta tags and Open Graph (OG) images.
-   - Write detailed SEO text about prompt engineering and feedback.
-
----
-
-## Features
-
-- 🔍 **Searchable Directory**: Quickly find AI prompts and code-gen rules tailored to your needs.
-- ⭐ **Prompt Rating System**: Rate and discover top prompts in the directory.
-- 📝 **Private & Public Prompts**: Option to keep prompts private or share them publicly.
-- 🧩 **Category Organization**: Prompts are organized into clear, functional categories.
-- 💻 **GitHub Integration**: Automatically link GitHub profiles submitted with prompts.
-- 📦 **Carbon Copy View**: View and copy prompts in a Carbon-style editor window.
-- 📄 **Readme Support**: Find and submit README examples for AI and code-gen projects.
-- 🛠 **Developer Tools**: Built-in roadmaps, prompt feedback, and engineering specs documentation.
-- 🌐 **SEO Optimized**: AI tool lists, prompt engineering insights, and metadata for better discoverability.
-  I understand you want to save the current state of the application. The current state includes:
-
-1. Header layout with:
-
-   - Logo
-   - Search box
-   - About link
-   - GitHub link
-   - Add Prompt button
-   - Theme toggle
-
-2. Prompt cards with:
-
-   - Title
-   - Description
-   - Categories
-   - Star rating
-   - GitHub profile link
-   - Code window with:
-     - Share button
-     - Comment button
-     - Copy button
-
-3. Sidebar with:
-
-   - Categories list
-   - Star rating filter
-   - Add Prompt button
-   - Scroll controls
-
-4. Footer with:
-   - Product links
-   - Stack info
-   - Resources
-   - Prompt counter
-
-All the recent changes have been saved in the codebase. Let me know if you'd like to make any further modifications!
+- [ ] Allow prompts to be editable only by their creators.
+- [ ] Add "Prompt Threads" for multi-step prompts.
+- [ ] Add a "prompt feedback / comments" section to each prompt page
+- [ ] All private prompts should be visible to the creator only.
+- [ ] Allow for public prompts to be visible to all users.
+- [ ] Setup sign-in with Clerk
+- [ ] Add for private team prompts
+- Add for public team prompts
 
 ---
 
@@ -155,7 +75,7 @@ All the recent changes have been saved in the codebase. Let me know if you'd lik
 
 **PromptStack** is powered by:
 
-- **[Convex.dev](https://docs.convex.dev/)**  
+- **[Convex.dev](https://convex.link/promptstackgithub)**  
   Convex.dev provides a serverless database and backend that makes building reactive applications easy. It supports real-time updates, ensuring a seamless user experience.
 
   - Learn more about Convex:
@@ -167,7 +87,7 @@ All the recent changes have been saved in the codebase. Let me know if you'd lik
 
 ## Stack
 
-- [Convex.dev](https://docs.convex.dev/)
+- [Convex.dev](https://convex.link/promptstackgithub)
 - [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Shadcn/UI](https://ui.shadcn.com/)
@@ -207,5 +127,5 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ---
 
-Enhance your AI workflows today with **PromptStack**!
+Enhance your AI workflows with **PromptStack**!
 ```
