@@ -87,23 +87,13 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 
 ## Stack
 
-- [Convex.dev](https://convex.link/promptstackgithub)
-- [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Shadcn/UI](https://ui.shadcn.com/)
-- [Lucide Icons](https://lucide.dev/)
-- [Bun](https://bun.sh/) (package manager/runtime)
-
-**Key Libraries/Frameworks:**
-
-- [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview)
-- [Convex.dev](https://docs.convex.dev/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Shadcn/UI](https://ui.shadcn.com/)
-- [Lucide Icons](https://lucide.dev/)
-- [React](https://react.dev/)
-- [clsx/cn](https://www.npmjs.com/package/clsx) (utility for conditional class names)
-- [Radix UI](https://www.radix-ui.com/) (UI components)
+- [Next.js](https://nextjs.org/) - React framework for production
+- [React](https://react.dev/) - JavaScript library for building user interfaces
+- [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for types
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Convex](https://convex.link/promptstackgithub) - Backend development platform
+- [Clerk](https://clerk.com/) - Authentication and user management
+- [Bun](https://bun.sh/) - JavaScript runtime & package manager
 
 ## Getting Started
 
