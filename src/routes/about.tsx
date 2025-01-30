@@ -60,252 +60,79 @@ function About() {
           <div className={`${textColor} font-inter space-y-8`}>
             <div>
               <h1 className="text-3xl font-bold mb-6">PromptStack</h1>
+
               <p className="mb-4">
-                <strong>PromptHub</strong> is an <strong>open-source project</strong> that provides
-                a searchable collection of AI prompts and code generation rules to enhance developer
-                workflows. Built with{" "}
-                <a href="https://docs.convex.dev/" className="text-blue-600 hover:underline">
+                <strong>PromptStack</strong> is an <strong>open-source</strong> platform that
+                provides a searchable collection of AI prompts and code generation Cursor rules for
+                Bolt.new, Loveable, Windsurf, and Trae—designed to optimize developer workflows.
+                Built with{" "}
+                <a
+                  href="https://convex.link/promptstackgithub"
+                  className={`${mutedTextColor} hover:${textColor}`}>
                   Convex.dev
                 </a>{" "}
                 as the database and{" "}
                 <a
                   href="https://tanstack.com/router/latest/docs/framework/react/overview"
-                  className="text-blue-600 hover:underline">
+                  className={`${mutedTextColor} hover:${textColor}`}>
                   TanStack Router
                 </a>{" "}
                 for client-side routing.
               </p>
-              <p className="mb-4">
+
+              <p className="mb-8">
                 PromptStack is a community-driven platform for developers to discover, share, and
-                manage AI prompts and code generation rules.
+                manage AI prompts and code generation rules. The goal of PromptStack is to help
+                developers leverage AI tools more effectively by providing a curated collection of
+                prompts that enhance productivity and code quality.
               </p>
-              <p className="mb-4">
-                Our mission is to help developers leverage AI tools more effectively by providing a
-                curated collection of prompts that enhance productivity and code quality.
-              </p>
-              <p className="mb-4">
-                Whether you're using GitHub Copilot, ChatGPT, Claude, or other AI assistants, you'll
-                find valuable prompts to improve your workflow.
-              </p>
-            </div>
 
-            <div>
               <h2 className="text-2xl font-bold mb-4">Features</h2>
-              <ul className="list-disc pl-6 space-y-2">
+              <ul className="list-disc pl-6 mb-8 space-y-2">
                 <li>
-                  <strong>Searchable Directory</strong>: Quickly find AI prompts and code-gen rules
-                  tailored to your needs.
+                  Searchable Directory: Quickly find AI prompts and code-gen rules tailored to your
+                  needs.
+                </li>
+                <li>Prompt Rating System: Rate and discover top prompts in the directory.</li>
+                <li>
+                  Category Organization: Prompts are organized into clear, functional categories.
                 </li>
                 <li>
-                  <strong>Prompt Rating System</strong>: Rate and discover top prompts in the
-                  directory.
+                  GitHub Integration: Automatically link GitHub or social profiles submitted with
+                  prompts.
                 </li>
+                <li>Carbon Copy View: View and copy prompts in a Carbon-style editor window.</li>
                 <li>
-                  <strong>Private & Public Prompts</strong>: Option to keep prompts private or share
-                  them publicly.
+                  Readme Support: Find and submit README examples for AI and code-gen projects.
                 </li>
+                <li>.Cursorrules: Find and submit Cursor rules for AI and code-gen projects.</li>
                 <li>
-                  <strong>Category Organization</strong>: Prompts are organized into clear,
-                  functional categories.
-                </li>
-                <li>
-                  <strong>GitHub Integration</strong>: Automatically link GitHub profiles submitted
-                  with prompts.
-                </li>
-                <li>
-                  <strong>Carbon Copy View</strong>: View and copy prompts in a Carbon-style editor
-                  window.
-                </li>
-                <li>
-                  <strong>Readme Support</strong>: Find and submit README examples for AI and
-                  code-gen projects.
-                </li>
-                <li>
-                  <strong>Developer Tools</strong>: Built-in roadmaps, prompt feedback, and
-                  engineering specs documentation.
-                </li>
-                <li>
-                  <strong>SEO Optimized</strong>: AI tool lists, prompt engineering insights, and
-                  metadata for better discoverability.
+                  SEO Optimized: AI tool lists, prompt engineering, and metadata for better
+                  discoverability.
                 </li>
               </ul>
-            </div>
 
-            <div>
               <h2 className="text-2xl font-bold mb-4">Technology Stack</h2>
-              <p className="mb-4">
-                <strong>PromptStack</strong> is powered by:
-              </p>
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
-                  <a href="https://docs.convex.dev/" className="text-blue-600 hover:underline">
-                    Convex.dev
-                  </a>
-                </h3>
-                <p className="mb-4">
-                  Convex.dev provides a serverless database and backend that makes building reactive
-                  applications easy. It supports real-time updates, ensuring a seamless user
-                  experience.
-                </p>
-                <p className="mb-2">Learn more about Convex:</p>
-                <ul className="list-disc pl-6 space-y-1">
-                  <li>
-                    <a
-                      href="https://docs.convex.dev/understanding/"
-                      className="text-blue-600 hover:underline">
-                      Understanding Convex
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://docs.convex.dev/understanding/best-practices/"
-                      className="text-blue-600 hover:underline">
-                      Best Practices
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://docs.convex.dev/understanding/best-practices/typescript"
-                      className="text-blue-600 hover:underline">
-                      TypeScript Support
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">
-                  <a
-                    href="https://tanstack.com/router/latest/docs/framework/react/overview"
-                    className="text-blue-600 hover:underline">
-                    TanStack Router
-                  </a>
-                </h3>
-                <p>
-                  TanStack Router is a powerful, type-safe router for React that ensures smooth
-                  navigation across PromptStack's pages.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Getting Started</h2>
-              <h3 className="text-xl font-semibold mb-2">Installation</h3>
-              <p className="mb-4">Clone the repository and install dependencies:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-6 overflow-x-auto">
-                <code>
-                  git clone https://github.com/your-repo/PromptStack cd PromptStack npm install
-                </code>
-              </pre>
-              <h3 className="text-xl font-semibold mb-2">Running the App</h3>
-              <p className="mb-4">Start the development server:</p>
-              <pre className="bg-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
-                <code>npm run dev</code>
-              </pre>
-              <p>
-                Open your browser and navigate to{" "}
-                <code className="bg-gray-100 px-2 py-1 rounded">http://localhost:3000</code>.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Planned Features</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Add support for prompt threading, showing only the first in listings.</li>
-                <li>Enable sidebar floating for better navigation.</li>
-                <li>Introduce a footer navigation section with links to Docs and About pages.</li>
-                <li>Update prompt submission cards to a three-column layout.</li>
-                <li>
-                  Add icons (e.g., cube for Cursor, database for Convex) for better category
-                  visuals.
-                </li>
-                <li>Improve SEO with AI tools listing, prompt engineering texts, and meta tags.</li>
-                <li>Allow users to preview, copy, and share prompts directly from prompt cards.</li>
+              <ul className="list-disc pl-6 mb-8 space-y-2">
+                <li>Next.js - React framework for production</li>
+                <li>React - JavaScript library for building user interfaces</li>
+                <li>TypeScript - JavaScript with syntax for types</li>
+                <li>Tailwind CSS - CSS framework</li>
+                <li>Convex - Backend development platform</li>
+                <li>Clerk - Authentication and user management</li>
+                <li>Bun - JavaScript runtime & package manager</li>
               </ul>
-            </div>
 
-            <div>
               <h2 className="text-2xl font-bold mb-4">Development Roadmap</h2>
-              <ol className="list-decimal pl-6 space-y-4">
-                <li>
-                  <strong>Design Enhancements</strong>
-                  <ul className="list-disc pl-6 mt-2 space-y-1">
-                    <li>
-                      Update site design inspired by{" "}
-                      <a
-                        href="https://www.magicpatterns.com/"
-                        className="text-blue-600 hover:underline">
-                        MagicPatterns
-                      </a>
-                      .
-                    </li>
-                    <li>Create Carbon-style views for better readability of prompts.</li>
-                  </ul>
-                </li>
-                <li>
-                  <strong>User Features</strong>
-                  <ul className="list-disc pl-6 mt-2 space-y-1">
-                    <li>Allow prompts to be editable only by their creators.</li>
-                    <li>Add "Prompt Threads" for multi-step prompts.</li>
-                  </ul>
-                </li>
-                <li>
-                  <strong>Documentation</strong>
-                  <ul className="list-disc pl-6 mt-2 space-y-1">
-                    <li>Add an About page in both markdown and readme formats.</li>
-                    <li>Provide a prompt help page and developer roadmaps in the Docs section.</li>
-                  </ul>
-                </li>
-                <li>
-                  <strong>SEO Improvements</strong>
-                  <ul className="list-disc pl-6 mt-2 space-y-1">
-                    <li>Add meta tags and Open Graph (OG) images.</li>
-                    <li>Write detailed SEO text about prompt engineering and feedback.</li>
-                  </ul>
-                </li>
-              </ol>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Contributing</h2>
-              <p className="mb-4">
-                We welcome contributions from the community! Feel free to submit a pull request or
-                open an issue to report bugs, suggest features, or provide feedback.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4">License</h2>
-              <p className="mb-4">
-                This project is licensed under the MIT License. See the{" "}
-                <code className="bg-gray-100 px-2 py-1 rounded">LICENSE</code> file for details.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Links</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>
-                  <a href="https://promptstack.dev" className="text-blue-600 hover:underline">
-                    Website
-                  </a>
-                </li>
-                <li>
-                  <a href="https://promptstack.dev/docs" className="text-blue-600 hover:underline">
-                    Docs
-                  </a>
-                </li>
-                <li>
-                  <a href="https://docs.convex.dev/" className="text-blue-600 hover:underline">
-                    Convex.dev Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://tanstack.com/router/latest/docs/framework/react/overview"
-                    className="text-blue-600 hover:underline">
-                    TanStack Router Documentation
-                  </a>
-                </li>
+              <ul className="list-disc pl-6 mb-8 space-y-2">
+                <li>Allow prompts to be editable only by their creators</li>
+                <li>Add "Prompt Threads" for multi-step prompts</li>
+                <li>Add a "prompt feedback / comments" section to each prompt page</li>
+                <li>All private prompts should be visible to the creator only</li>
+                <li>Allow for public prompts to be visible to all users</li>
+                <li>Setup sign-in with Clerk</li>
+                <li>Add for private team prompts</li>
+                <li>Add for public team prompts</li>
               </ul>
             </div>
           </div>

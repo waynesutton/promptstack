@@ -211,6 +211,29 @@ const PromptStackLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const ConvexIcon = ({ className }: { className?: string }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 1665 1677"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}>
+    <path
+      d="M1141.42 407.122C994.759 206.145 765.205 69.3212 513.699 65.1579C999.868 -151.716 1597.88 199.9 1662.98 719.754C1669.04 768.011 1661.09 817.215 1639.32 860.741C1548.49 1042.04 1380.06 1182.65 1183.25 1234.69C1327.45 971.828 1309.66 650.68 1141.42 407.122Z"
+      fill="currentColor"
+    />
+    <path
+      d="M305.701 786.921C205.212 1015.15 200.859 1282.36 324.057 1502.26C-109.502 1181.68 -104.77 495.674 318.759 178.311C357.932 148.978 404.486 131.568 453.311 128.919C654.1 118.51 858.105 194.776 1001.17 336.898C710.494 339.737 427.385 522.736 305.701 786.921Z"
+      fill="currentColor"
+    />
+    <path
+      d="M1052.1 1321.36C1300.01 1294.3 1533.73 1164.48 1662.41 947.791C1601.47 1483.73 1005.17 1822.48 518.429 1614.5C473.578 1595.39 434.973 1563.59 408.478 1522.72C299.095 1353.91 263.139 1139.12 314.802 944.195C462.413 1194.57 762.555 1348.04 1052.1 1321.36Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 function App() {
   const { theme, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
@@ -503,6 +526,17 @@ function App() {
                   )}>
                   README
                 </Link>
+                <a
+                  href="https://convex.link/promptstack"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    textColor,
+                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
+                  )}>
+                  <ConvexIcon className="w-5 h-5" />
+                  <span className="text-sm">convex</span>
+                </a>
                 <a
                   href="https://github.com/waynesutton/PromptStack"
                   target="_blank"
