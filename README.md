@@ -67,7 +67,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [ ] Allow for public prompts to be visible to all users.
 - [ ] Setup sign-in with Clerk
 - [ ] Add for private team prompts
-- Add for public team prompts
+- [ ] Add for public team prompts
 
 ---
 
