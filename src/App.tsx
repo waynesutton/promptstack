@@ -514,6 +514,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF]">
       <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
+        {/* header starts here */}
         <header className={cn(bgColor, "border-b", borderColor)}>
           <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between gap-4">
@@ -547,7 +548,7 @@ function App() {
                       "border",
                       borderColor,
                       textColor,
-                      "w-full pl-9 pr-3 py-2 text-sm focus:border-[#A3A3A3] focus:ring-1 focus:ring-[#A3A3A3] transition-all duration-200 placeholder-[#525252] rounded-lg"
+                      "w-full pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all duration-200 placeholder-[#525252] rounded-lg"
                     )}
                   />
                 </div>
@@ -614,6 +615,7 @@ function App() {
             </div>
           </div>
         </header>
+        {/* header ends here */}
       </div>
       {/* sidebar starts here */}
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-8">
@@ -844,7 +846,7 @@ function App() {
                     "border",
                     borderColor,
                     textColor,
-                    "w-full p-3 placeholder-[#525252] rounded-lg"
+                    "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
                   placeholder="Enter prompt title"
                   required
@@ -867,7 +869,7 @@ function App() {
                     "border",
                     borderColor,
                     textColor,
-                    "w-full p-3 placeholder-[#525252] rounded-lg"
+                    "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
                   placeholder="Enter prompt description"
                 />
@@ -885,7 +887,7 @@ function App() {
                     "border",
                     borderColor,
                     textColor,
-                    "w-full p-3 placeholder-[#525252] rounded-lg"
+                    "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
                   placeholder="Enter your profile URL with https://"
                 />
@@ -909,7 +911,7 @@ function App() {
                               mutedTextColor,
                               "hover:border-[#A3A3A3]",
                             ].join(" "),
-                        "p-1.5 border rounded-lg transition-colors duration-200 text-xs"
+                        "p-1.5 border rounded-lg transition-colors duration-200 text-xs focus:outline-none focus:ring-1 focus:ring-black"
                       )}>
                       {category}
                     </button>
@@ -928,7 +930,7 @@ function App() {
                     "border",
                     borderColor,
                     textColor,
-                    "w-full p-3 placeholder-[#525252] h-32 rounded-lg"
+                    "w-full p-3 placeholder-[#525252] h-32 rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
                   placeholder="Enter your prompt text or code gen rules or code examples"
                   required
