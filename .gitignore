@@ -1,2 +1,20 @@
-node_modules
-node_modules
+# Node/Bun
+node_modules/
+.env
+.env.local
+
+# Convex
+convex/_generated/
+.convex/
+
+# Build outputs
+dist/
+build/
+.next/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
