@@ -3,6 +3,7 @@ import { useTheme } from "../ThemeContext";
 import { Command, ArrowLeft, Book, Sun, Moon, Copy, FileText } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import React from "react";
+import { Header } from "../components/Header";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -21,39 +22,9 @@ function About() {
 
   return (
     <div className={`min-h-screen ${bgColor}`}>
-      <header className={`${bgColor} border-b ${borderColor}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                to="/"
-                className={`flex items-center gap-2 ${mutedTextColor} hover:${textColor} transition-colors duration-200`}>
-                <ArrowLeft size={20} />
-                <FileText size={32} className={mutedTextColor} />
-              </Link>
-              <h1 className={`${textColor} text-sm font-medium`}>About</h1>
-            </div>
-            <div className="flex items-center gap-3">
-              {/* <button
-                className={`px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white 
-                         transition-colors duration-200 text-sm rounded-lg`}>
-                Log in
-              </button>
-              <button
-                className={`px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white 
-                         transition-colors duration-200 text-sm rounded-lg`}>
-                Sign up
-              </button> */}
-              <button
-                onClick={toggleTheme}
-                className={`p-3 ${buttonBgColor} ${buttonHoverBgColor} ${textColor} 
-                         transition-colors duration-200 rounded-lg`}>
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
+        <Header />
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="max-w-3xl">

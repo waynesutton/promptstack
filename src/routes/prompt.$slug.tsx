@@ -18,6 +18,7 @@ import { CodeEditor } from "../components/CodeEditor";
 import { CodeBlock } from "../components/CodeBlock";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
+import { Header } from "../components/Header";
 
 interface Prompt {
   title: string;
@@ -178,76 +179,7 @@ function PromptDetail() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF]">
       <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
-        <header className={cn(bgColor, "border-b", borderColor)}>
-          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <a href="/">
-                  <PromptStackLogo className={mutedTextColor} />
-                </a>
-                <a href="/">
-                  <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
-                    <span className="font-normal">promptstack.dev</span> - AI prompts + code gen
-                    rules for developers.
-                  </h1>
-                </a>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="relative w-64">
-                  <Search
-                    className={cn(
-                      mutedTextColor,
-                      "absolute left-3 top-1/2 transform -translate-y-1/2"
-                    )}
-                    size={16}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search prompts..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className={cn(
-                      bgColor,
-                      "border",
-                      borderColor,
-                      textColor,
-                      "w-full pl-9 pr-3 py-2 text-sm focus:border-[#A3A3A3] focus:ring-1 focus:ring-[#A3A3A3] transition-all duration-200 placeholder-[#525252] rounded-lg"
-                    )}
-                  />
-                </div>
-                <Link
-                  to="/about"
-                  className={cn(
-                    textColor,
-                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
-                  )}>
-                  README
-                </Link>
-                <a
-                  href="https://github.com/waynesutton/PromptStack"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    textColor,
-                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-                  )}>
-                  <Github size={20} />
-                  <span className="text-sm">open source</span>
-                </a>
-                <button
-                  onClick={toggleTheme}
-                  className={cn(
-                    buttonBgColor,
-                    buttonHoverBgColor,
-                    textColor,
-                    "p-2 transition-colors duration-200 rounded-lg"
-                  )}>
-                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
 
       <div className={cn("min-h-screen", bgColor)}>

@@ -33,6 +33,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { CodeBlock } from "./components/CodeBlock";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
+import { Header } from "./components/Header";
 
 interface Prompt {
   title: string;
@@ -514,110 +515,13 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF]">
       <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
-        {/* header starts here */}
-        <header className={cn(bgColor, "border-b", borderColor)}>
-          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <a href="/">
-                  <PromptStackLogo className={mutedTextColor} />
-                </a>
-                <a href="/">
-                  <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
-                    <span className="font-normal">promptstack.dev</span> - AI prompts + code gen
-                    rules for developers.
-                  </h1>
-                </a>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="relative w-64">
-                  <Search
-                    className={cn(
-                      mutedTextColor,
-                      "absolute left-3 top-1/2 transform -translate-y-1/2"
-                    )}
-                    size={16}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search prompts..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className={cn(
-                      bgColor,
-                      "border",
-                      borderColor,
-                      textColor,
-                      "w-full pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all duration-200 placeholder-[#525252] rounded-lg"
-                    )}
-                  />
-                </div>
-                <Link
-                  to="/about"
-                  className={cn(
-                    textColor,
-                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
-                  )}>
-                  README
-                </Link>
-                <a
-                  href="https://convex.link/promptstack"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    textColor,
-                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-                  )}>
-                  <ConvexIcon className="w-5 h-5" />
-                  <span className="text-sm">convex</span>
-                </a>
-                <a
-                  href="https://github.com/waynesutton/PromptStack"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    textColor,
-                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-                  )}>
-                  <Github size={20} />
-                  <span className="text-sm">open source</span>
-                </a>
-                <a
-                  href="https://github.com/waynesutton/PromptStack/stargazers"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    textColor,
-                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
-                  )}></a>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center gap-2 transition-colors duration-200 rounded-lg text-sm">
-                  <Plus size={16} />
-                  <span>Add Prompt</span>
-                </button>
-                <button
-                  onClick={toggleTheme}
-                  className={cn(
-                    buttonBgColor,
-                    buttonHoverBgColor,
-                    textColor,
-                    "p-2 transition-colors duration-200 rounded-lg"
-                  )}>
-                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
-                <button
-                  onClick={() => setIsSignInOpen(true)}
-                  className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
-                  Sign in
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
-        {/* header ends here */}
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setIsModalOpen={setIsModalOpen}
+          setIsSignInOpen={setIsSignInOpen}
+        />
       </div>
-      {/* sidebar starts here */}
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-8">
         <div className="flex gap-8">
           <div className="w-56 flex-shrink-0">
@@ -889,7 +793,7 @@ function App() {
                     textColor,
                     "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
-                  placeholder="Enter your profile URL with https://"
+                  placeholder="https:// Your GitHub or social profile URL"
                 />
               </div>
               <div>
