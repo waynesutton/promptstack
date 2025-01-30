@@ -306,6 +306,34 @@ function PromptDetail() {
                 options={{
                   visibleFiles: ["/prompt.txt"],
                   activeFile: "/prompt.txt",
+                  codeEditor: {
+                    additionalLanguages: [
+                      {
+                        name: "markdown",
+                        extensions: ["md", "markdown"],
+                      },
+                      {
+                        name: "javascript",
+                        extensions: ["js", "jsx"],
+                      },
+                      {
+                        name: "typescript",
+                        extensions: ["ts", "tsx"],
+                      },
+                      {
+                        name: "css",
+                        extensions: ["css", "scss", "less"],
+                      },
+                      {
+                        name: "html",
+                        extensions: ["html"],
+                      },
+                      {
+                        name: "vue",
+                        extensions: ["vue"],
+                      },
+                    ],
+                  },
                 }}>
                 <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
                   <span className="text-[#6C6C6C] text-[12px] font-mono">prompt.txt</span>

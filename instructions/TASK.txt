@@ -1,4 +1,4 @@
-This document serves as some special instructions for building the appp promptstack.dev
+This document serves as some special instructions for building the app promptstack.dev
 **PromptStack** is an **open-source project** that provides a searchable directory of AI prompts and code-generation rules to enhance developer workflows.
 
 1. Task Requirements Summary:

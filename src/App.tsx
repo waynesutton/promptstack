@@ -145,6 +145,34 @@ const PromptCard = ({
         options={{
           visibleFiles: ["/prompt.txt"],
           activeFile: "/prompt.txt",
+          codeEditor: {
+            additionalLanguages: [
+              {
+                name: "markdown",
+                extensions: ["md", "markdown"],
+              },
+              {
+                name: "javascript",
+                extensions: ["js", "jsx"],
+              },
+              {
+                name: "typescript",
+                extensions: ["ts", "tsx"],
+              },
+              {
+                name: "css",
+                extensions: ["css", "scss", "less"],
+              },
+              {
+                name: "html",
+                extensions: ["html"],
+              },
+              {
+                name: "vue",
+                extensions: ["vue"],
+              },
+            ],
+          },
         }}>
         <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
           <span className="text-[#6C6C6C] text-[12px] font-mono">prompt.txt</span>
@@ -807,7 +835,10 @@ function App() {
                 <input
                   type="text"
                   value={newPrompt.title}
-                  onChange={(e) => setNewPrompt({ ...newPrompt, title: e.target.value })}
+                  onChange={(e) =>
+                    setNewPrompt({ ...newPrompt, title: e.target.value.slice(0, 54) })
+                  }
+                  maxLength={54}
                   className={cn(
                     bgColor,
                     "border",
@@ -826,7 +857,11 @@ function App() {
                 <input
                   type="text"
                   value={newPrompt.description}
-                  onChange={(e) => setNewPrompt({ ...newPrompt, description: e.target.value })}
+                  onChange={(e) => {
+                    const text = e.target.value;
+                    if (text.length <= 138) setNewPrompt({ ...newPrompt, description: text });
+                  }}
+                  maxLength={120}
                   className={cn(
                     bgColor,
                     "border",
