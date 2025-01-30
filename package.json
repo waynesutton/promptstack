@@ -1,0 +1,52 @@
+{
+  "name": "ai-prompts-directory",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@liveblocks/client": "^2.16.2",
+    "@liveblocks/react": "^2.16.2",
+    "@tabler/icons-react": "^3.29.0",
+    "@tanstack/react-query": "^5.28.4",
+    "@tanstack/react-router": "^1.19.4",
+    "@tanstack/router-devtools": "^1.19.4",
+    "@tanstack/router-vite-plugin": "^1.19.4",
+    "@tiptap/extension-code-block-lowlight": "^2.11.3",
+    "@tiptap/pm": "^2.11.3",
+    "@tiptap/react": "^2.11.3",
+    "@tiptap/starter-kit": "^2.11.3",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.0.8",
+    "lowlight": "^3.3.0",
+    "lucide-react": "^0.344.0",
+    "motion": "^12.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.5"
+  }
+}
