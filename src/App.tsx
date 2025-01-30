@@ -32,6 +32,7 @@ import "./fonts.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { CodeBlock } from "./components/CodeBlock";
+import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 
 interface Prompt {
   title: string;
@@ -122,6 +123,8 @@ const generateSlug = (title: string) => {
     .replace(/(^-|-$)/g, "");
 };
 
+/* This is start of prompt card */
+
 const PromptCard = ({
   prompt,
   copied,
@@ -133,51 +136,53 @@ const PromptCard = ({
 }) => {
   return (
     <div className="mt-4">
-      <div className="rounded-lg overflow-hidden bg-[#1A1A1A] shadow-xl">
+      <SandpackProvider
+        theme="dark"
+        template="static"
+        files={{
+          "/prompt.txt": prompt.prompt,
+        }}
+        options={{
+          visibleFiles: ["/prompt.txt"],
+          activeFile: "/prompt.txt",
+        }}>
         <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
-          <div className="flex space-x-1.5">
-            <div className="w-2 h-2 rounded-full bg-[#FF5F56]"></div>
-            <div className="w-2 h-2 rounded-full bg-[#FFBD2E]"></div>
-            <div className="w-2 h-2 rounded-full bg-[#27C93F]"></div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-[#6C6C6C] text-[12px] font-mono text-left">prompt.txt</span>
-            <div className="flex items-center gap-1">
-              <Link
-                to="/prompt/$slug"
-                params={{ slug: prompt.slug || generateSlug(prompt.title) }}
-                className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
-                <Expand size={14} />
-                <span className="text-[12px] font-mono">Expand</span>
-              </Link>
-              <button
-                onClick={() => onCopy(prompt.prompt)}
-                className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
-                {copied === prompt.prompt ? (
-                  <span className="text-[12px] font-mono">Copied!</span>
-                ) : (
-                  <>
-                    <Copy size={14} />
-                    <span className="text-[12px] font-mono">Copy</span>
-                  </>
-                )}
-              </button>
-            </div>
+          <span className="text-[#6C6C6C] text-[12px] font-mono">prompt.txt</span>
+          <div className="flex items-center gap-1">
+            <Link
+              to="/prompt/$slug"
+              params={{ slug: prompt.slug || generateSlug(prompt.title) }}
+              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+              <Expand size={14} />
+              <span className="text-[12px] font-mono">Expand</span>
+            </Link>
+            <button
+              onClick={() => onCopy(prompt.prompt)}
+              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+              {copied === prompt.prompt ? (
+                <span className="text-[12px] font-mono">Copied!</span>
+              ) : (
+                <>
+                  <Copy size={14} />
+                  <span className="text-[12px] font-mono">Copy</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
-        <div className="relative">
-          <pre className="overflow-x-auto p-2 text-white whitespace-pre-wrap break-words text-xs">
-            {prompt.prompt.split("\n").map((line, i) => (
-              <div key={i} className="table-row">
-                <span className="table-cell text-[#666] pr-4 text-right select-none w-[2.5em] whitespace-nowrap text-xs">
-                  {i + 1}
-                </span>
-                <span className="table-cell break-all whitespace-pre-wrap">{line}</span>
-              </div>
-            ))}
-          </pre>
-        </div>
-      </div>
+        {/* code editor start*/}
+        <SandpackLayout>
+          <SandpackCodeEditor
+            showTabs={false}
+            showLineNumbers
+            readOnly
+            showReadOnly={false}
+            wrapContent
+            closableTabs={false}
+          />
+        </SandpackLayout>
+      </SandpackProvider>
+      {/* code editor end */}
     </div>
   );
 };
