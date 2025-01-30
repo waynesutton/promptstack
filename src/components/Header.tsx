@@ -129,7 +129,7 @@ export function Header({
               )}>
               README
             </Link>
-            <a
+            {/* <a
               href="https://convex.link/promptstack"
               target="_blank"
               rel="noopener noreferrer"
@@ -139,7 +139,7 @@ export function Header({
               )}>
               <ConvexIcon className="w-5 h-5" />
               <span className="text-sm">convex</span>
-            </a>
+            </a> */}
             <a
               href="https://github.com/waynesutton/PromptStack"
               target="_blank"
