@@ -91,8 +91,8 @@ export function Header({
             </a>
             <a href="/">
               <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
-                <span className="font-normal">promptstack.dev</span> - AI prompts + code gen rules
-                for developers.
+                <span className="font-bold">promptstack.dev</span> - AI Prompts and Code Generation
+                Directory for Prompt Engineering
               </h1>
             </a>
           </div>

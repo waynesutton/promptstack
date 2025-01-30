@@ -19,6 +19,7 @@ import { CodeBlock } from "../components/CodeBlock";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
 
 interface Prompt {
   title: string;
@@ -310,100 +311,7 @@ function PromptDetail() {
         </div>
       </div>
 
-      <footer
-        className={`${bgColor} border-t ${borderColor} bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF] py-6 sm:py-8 mt-auto`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col space-y-8">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-              <div>
-                <h4 className={`font-normal ${textColor} mb-4`}>Product</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      to="/about"
-                      className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      README
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href="https://github.com/waynesutton/PromptStack"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      Repo
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className={`font-normal ${textColor} mb-4`}>Stack</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="https://convex.dev"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      Convex
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://docs.convex.dev/quickstarts"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      Bun + Tanstack Router
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className={`font-normal ${textColor} mb-4`}>Resources</h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="https://discord.gg/XcRXcWPJGG"
-                      className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      Community
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://github.com/waynesutton/PromptStack/discussions"
-                      className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      Support
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className={`font-normal ${textColor} mb-4`}></h4>
-                <ul className="space-y-2"></ul>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <div className="flex text-[0.8rem] flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                <p className={mutedTextColor}>
-                  <a href="https://promptstack.dev" target="_blank" rel="noopener noreferrer">
-                    PromptStack
-                  </a>{" "}
-                  is an open source project powered by{" "}
-                  <a href="https://convex.dev" target="_blank" rel="noopener noreferrer">
-                    Convex.dev
-                  </a>
-                </p>
-                <span className={`hidden sm:inline ${mutedTextColor}`}> </span>
-                <p className={mutedTextColor}>
-                  A searchable collection of AI prompts and code gen rules to enhance your workflow
-                  for developers.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer count={count} />
     </div>
   );
 }
