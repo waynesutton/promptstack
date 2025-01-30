@@ -1,20 +1,31 @@
-# Node/Bun
+# Dependencies
 node_modules/
 .env
 .env.local
+
+# Build outputs
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Convex
 convex/_generated/
 .convex/
 
-# Build outputs
-dist/
-build/
+# Next
 .next/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
