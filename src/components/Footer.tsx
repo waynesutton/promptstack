@@ -47,7 +47,7 @@ export function Footer({ count = 0 }: FooterProps) {
                     <Link
                       to="/about"
                       className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
-                      README
+                      About
                     </Link>
                   </li>
                   <li>

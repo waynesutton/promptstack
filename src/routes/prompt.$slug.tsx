@@ -305,6 +305,10 @@ function PromptDetail() {
                 </SandpackLayout>
               </SandpackProvider>
             </div>
+
+            <div className="comments mt-8">
+              <h2>Comments</h2>
+            </div>
           </div>
         </div>
       </div>
