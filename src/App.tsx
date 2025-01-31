@@ -113,14 +113,6 @@ const CATEGORIES = [
   "Windsurf",
 ] as const;
 
-const STAR_RATINGS = [
-  { value: 5, label: "5 stars" },
-  { value: 4, label: "4 stars" },
-  { value: 3, label: "3 stars" },
-  { value: 2, label: "2 stars" },
-  { value: 1, label: "1 star" },
-];
-
 const generateSlug = (title: string) => {
   return title
     .toLowerCase()
@@ -140,37 +132,6 @@ const PromptCard = ({
   onCopy: (text: string) => void;
 }) => {
   const ratePromptMutation = useMutation(api.prompts.ratePrompt);
-
-  const handleRating = async (rating: number) => {
-    try {
-      await ratePromptMutation({
-        promptId: prompt._id,
-        rating: rating === prompt.stars ? 0 : rating,
-      });
-    } catch (error) {
-      console.error("Error rating prompt:", error);
-    }
-  };
-
-  const renderStars = (count: number) => {
-    return (
-      <div className="flex items-center gap-1">
-        {[1, 5].map((rating) => (
-          <button key={rating} onClick={() => handleRating(rating)} className="focus:outline-none">
-            <Star
-              size={16}
-              className={`${
-                count === rating ? "fill-current text-yellow-400" : mutedTextColor
-              } cursor-pointer hover:text-yellow-400 transition-colors`}
-            />
-            <span className="sr-only">
-              {rating} star{rating > 1 ? "s" : ""}
-            </span>
-          </button>
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div className="mt-4">
@@ -311,7 +272,6 @@ function App() {
   const [copied, setCopied] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedStarRating, setSelectedStarRating] = useState<number | null>(null);
   const [count, setCount] = useState(0);
   const [newPrompt, setNewPrompt] = useState({
     title: "",
@@ -329,7 +289,6 @@ function App() {
   const searchResults = useQuery(api.prompts.searchPrompts, {
     searchQuery: searchQuery || undefined,
     categories: selectedCategories.length > 0 ? selectedCategories : undefined,
-    starRating: selectedStarRating || undefined,
   });
 
   const prompts = searchResults || [];
@@ -417,34 +376,8 @@ function App() {
     );
   };
 
-  const toggleStarRating = (rating: number) => {
-    setSelectedStarRating((prev) => (prev === rating ? null : rating));
-  };
-
   const getCategoryCount = (category: string) => {
     return prompts.filter((prompt) => prompt.categories.includes(category)).length;
-  };
-
-  const getStarRatingCount = (rating: number) => {
-    return prompts.filter((prompt) => prompt.stars === rating).length;
-  };
-
-  const renderStars = (count: number) => {
-    return Array(5)
-      .fill(0)
-      .map((_, index) => (
-        <button
-          key={index}
-          onClick={() => toggleStarRating(index + 1)}
-          className="focus:outline-none">
-          <Star
-            size={16}
-            className={`${
-              index < count ? "fill-current text-yellow-400" : mutedTextColor
-            } cursor-pointer hover:text-yellow-400 transition-colors`}
-          />
-        </button>
-      ));
   };
 
   useEffect(() => {
@@ -526,33 +459,6 @@ function App() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className={cn(textColor, "font-normal text-med mb-4")}>Star Rating</h3>
-                  <div className="flex flex-col gap-2">
-                    {STAR_RATINGS.map(({ value, label }) => (
-                      <button
-                        key={value}
-                        onClick={() => toggleStarRating(value)}
-                        className={cn(
-                          selectedStarRating === value
-                            ? "bg-[#1a1a1a] text-white"
-                            : cn(mutedTextColor, `hover:${buttonBgColor}`, `hover:${textColor}`),
-                          "flex items-center justify-between px-3 py-2 text-left transition-colors duration-200 rounded-md"
-                        )}>
-                        <div className="flex items-center gap-2">
-                          <div className="flex">{renderStars(value)}</div>
-                        </div>
-                        <span
-                          className={cn(
-                            selectedStarRating === value ? "text-gray-400" : "text-[#525252]",
-                            "text-sm ml-2"
-                          )}>
-                          {getStarRatingCount(value)}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className={cn(
@@ -606,9 +512,6 @@ function App() {
                         {category}
                       </span>
                     ))}
-                    <div className={cn(mutedTextColor, "flex items-center gap-1")}>
-                      {renderStars(prompt.stars)}
-                    </div>
                     {prompt.githubProfile && (
                       <a
                         href={
