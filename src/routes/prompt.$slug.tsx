@@ -307,7 +307,7 @@ function PromptDetail() {
             </div>
 
             <div className="comments mt-8">
-              <h2>Comments</h2>
+              <h2>Comment</h2>
             </div>
           </div>
         </div>
