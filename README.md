@@ -118,5 +118,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ---
 
-Enhance your AI workflows with **PromptStack**!
+
 ```
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f6a1c7ac-d77a-4c43-92f9-7e8ca585c0d6/deploy-status)](https://app.netlify.com/sites/promptstack/deploys)
