@@ -15,6 +15,7 @@ export const createPrompt = mutation({
     const promptId = await ctx.db.insert("prompts", {
       ...args,
       stars: 0,
+      likes: 0,
       createdAt: Date.now(),
     });
     return promptId;
@@ -36,7 +37,7 @@ export const searchPrompts = query({
     // Map the prompts to include their IDs
     prompts = prompts.map(prompt => ({
       ...prompt,
-      _id: prompt._id.toString(),
+      _id: prompt._id,
     }));
 
     if (args.searchQuery) {
@@ -75,7 +76,7 @@ export const getPromptBySlug = query({
     
     return {
       ...prompts[0],
-      _id: prompts[0]._id.toString(),
+      _id: prompts[0]._id,
     };
   },
 });
@@ -110,6 +111,20 @@ export const ratePrompt = mutation({
     // Update prompt with new rating
     await ctx.db.patch(args.promptId, { 
       stars: Math.round(averageRating) 
+    });
+  },
+});
+
+export const likePrompt = mutation({
+  args: {
+    promptId: v.id("prompts"),
+  },
+  handler: async (ctx, args) => {
+    const prompt = await ctx.db.get(args.promptId);
+    if (!prompt) throw new Error("Prompt not found");
+    
+    await ctx.db.patch(args.promptId, { 
+      likes: (prompt.likes || 0) + 1 
     });
   },
 }); 
