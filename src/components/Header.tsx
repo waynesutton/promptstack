@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Search, Sun, Moon, Plus, Github } from "lucide-react";
+import { Search, Sun, Moon, Plus, Github, Menu, X } from "lucide-react";
 import { useTheme } from "../ThemeContext";
 
 interface HeaderProps {
@@ -68,6 +68,7 @@ export function Header({
   setIsModalOpen,
   setIsSignInOpen,
 }: HeaderProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   const bgColor =
@@ -92,14 +93,16 @@ export function Header({
             <a href="/">
               <PromptStackLogo className="#2A2A2A" />
             </a>
-            <a href="/">
+            <a href="/" className="hidden sm:block">
               <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
                 <span className="font-normal">PromptStack</span> - AI Prompts and Code Generation
                 Directory for Prompt Engineering
               </h1>
             </a>
           </div>
-          <div className="flex items-center gap-4">
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-4">
             {setSearchQuery && (
               <div className="relative w-64">
                 <Search
@@ -180,7 +183,83 @@ export function Header({
               </button>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2">
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden pt-4 pb-3 border-t border-gray-200">
+            <div className="space-y-4">
+              {setSearchQuery && (
+                <div className="relative">
+                  <Search
+                    className={cn(
+                      mutedTextColor,
+                      "absolute left-3 top-1/2 transform -translate-y-1/2"
+                    )}
+                    size={16}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Search prompts..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className={cn(
+                      bgColor,
+                      "border",
+                      borderColor,
+                      textColor,
+                      "w-full pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all duration-200 placeholder-[#525252] rounded-lg"
+                    )}
+                  />
+                </div>
+              )}
+              <div className="flex flex-col gap-4">
+                <Link
+                  to="/about"
+                  className={cn(
+                    textColor,
+                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
+                  )}>
+                  About
+                </Link>
+                <a
+                  href="https://github.com/waynesutton/PromptStack"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    textColor,
+                    "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
+                  )}>
+                  <Github size={20} />
+                  <span className="text-sm">open source</span>
+                </a>
+                {setIsModalOpen && (
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center gap-2 transition-colors duration-200 rounded-lg text-sm">
+                    <Plus size={16} />
+                    <span>Add Prompt</span>
+                  </button>
+                )}
+                <button
+                  onClick={toggleTheme}
+                  className={cn(
+                    buttonBgColor,
+                    buttonHoverBgColor,
+                    textColor,
+                    "p-2 transition-colors duration-200 rounded-lg w-fit"
+                  )}>
+                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
