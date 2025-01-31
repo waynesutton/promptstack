@@ -20,6 +20,9 @@ import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { useParams } from "@tanstack/react-router";
 
 interface Prompt {
   title: string;
@@ -63,6 +66,11 @@ const PromptStackLogo = ({ className }: { className?: string }) => (
 
 export const Route = createFileRoute("/prompt/$slug")({
   component: PromptDetail,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      slug: search.slug as string,
+    };
+  },
 });
 
 function Counter({ value }: { value: number }) {
@@ -121,6 +129,10 @@ function PromptDetail() {
   const [copied, setCopied] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [count, setCount] = useState(0);
+  const { slug } = Route.useParams();
+  const prompt = useQuery(api.prompts.getPromptBySlug, { slug });
+
+  if (!prompt) return <div>Loading...</div>;
 
   const bgColor = theme === "dark" ? "bg-[#0A0A0A]" : "bg-white";
   const textColor = theme === "dark" ? "text-white" : "text-black";
@@ -164,17 +176,6 @@ function PromptDetail() {
           className={index < count ? "fill-current text-yellow-400" : mutedTextColor}
         />
       ));
-  };
-
-  // TODO: Replace with actual data fetching
-  const prompt: Prompt = {
-    title: "Example Prompt",
-    description: "Example description",
-    prompt: "Example prompt content",
-    categories: ["React", "TypeScript"],
-    stars: 4,
-    githubProfile: "example",
-    isPublic: true,
   };
 
   return (

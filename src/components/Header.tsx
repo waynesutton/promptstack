@@ -127,7 +127,7 @@ export function Header({
                 textColor,
                 "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
               )}>
-              README
+              About
             </Link>
             {/* <a
               href="https://convex.link/promptstack"
