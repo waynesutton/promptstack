@@ -1,1 +1,4 @@
-llms.txt
+<title>PromptStack - AI Prompts and Code Generation Directory for Prompt Engineering</title>
+    <meta
+      name="description"
+      content="A searchable collection of AI prompts and code generation snippets for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows." />

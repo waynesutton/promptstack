@@ -68,6 +68,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [ ] Setup sign-in with Clerk
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
+- [ ] Only allow prompt feedback or comments if user is logged in
 
 ---
 
