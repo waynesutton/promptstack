@@ -5,6 +5,7 @@
 [build.environment]
   NODE_VERSION = "18.20.6"
   NPM_FLAGS = "--version"
+  CONVEX_DEPLOY_KEY = " REMOVED_CONVEX_DEPLOY_KEY"
 
 [[redirects]]
   from = "/*"
