@@ -38,7 +38,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { SignInButton, useAuth } from "@clerk/clerk-react";
+import { SignInButton, useAuth, useUser } from "@clerk/clerk-react";
 
 interface Prompt {
   _id: string;
@@ -301,14 +301,19 @@ function App() {
   });
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMyPromptsOpen, setIsMyPromptsOpen] = useState(false);
+  const [showPrivatePrompts, setShowPrivatePrompts] = useState(false);
   const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
   const likePromptMutation = useMutation(api.prompts.likePrompt);
+  const { isSignedIn } = useUser();
 
   const createPrompt = useMutation(api.prompts.createPrompt);
   const searchResults = useQuery(api.prompts.searchPrompts, {
     searchQuery: searchQuery || undefined,
     categories: selectedCategories.length > 0 ? selectedCategories : undefined,
   });
+
+  const privatePrompts = useQuery(api.prompts.getPrivatePrompts);
+  const privatePromptsCount = privatePrompts?.length || 0;
 
   const prompts = searchResults || [];
 
@@ -447,11 +452,28 @@ function App() {
               </button>
 
               <button
-                disabled={true}
-                onClick={() => setIsMyPromptsOpen(true)}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left opacity-50 cursor-not-allowed text-[0.875em] text-[#A3A3A3]">
+                onClick={() => {
+                  if (isSignedIn) {
+                    setShowPrivatePrompts(!showPrivatePrompts);
+                    setIsMyPromptsOpen(false);
+                  } else {
+                    setIsSignInOpen(true);
+                  }
+                }}
+                className={cn(
+                  "w-full flex items-center gap-2 px-2.5 py-1.5 text-left",
+                  isSignedIn
+                    ? `${mutedTextColor} hover:${textColor} transition-colors duration-200`
+                    : "opacity-50 cursor-not-allowed",
+                  "text-[0.875em]"
+                )}>
                 <User size={16} />
-                My prompts
+                <span>{showPrivatePrompts ? "Show All Prompts" : "My Prompts"}</span>
+                {privatePromptsCount > 0 && (
+                  <span className="ml-auto text-xs bg-[#2A2A2A] text-white px-1.5 py-0.5 rounded">
+                    {privatePromptsCount}
+                  </span>
+                )}
               </button>
 
               <div>
@@ -506,7 +528,7 @@ function App() {
         </div>
         <div className="flex-1">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-            {prompts.map((prompt, index) => (
+            {(showPrivatePrompts ? privatePrompts : prompts).map((prompt, index) => (
               <div
                 key={index}
                 className={cn(
@@ -517,10 +539,18 @@ function App() {
                   "shadow-[0_20px_34px_#0000000f,0_4px_10px_#0000000a,0_1px_4px_#00000008,0_1px_8px_#00000005]"
                 )}>
                 <div className="flex justify-between items-start text-left">
-                  <h2
-                    className={cn(textColor, "text-base sm:text-med font-normal mb-1.5 text-left")}>
-                    {prompt.title}
-                  </h2>
+                  <div className="flex items-center gap-2">
+                    {!prompt.isPublic && isSignedIn && (
+                      <Lock size={14} className={cn(mutedTextColor)} />
+                    )}
+                    <h2
+                      className={cn(
+                        textColor,
+                        "text-base sm:text-med font-normal mb-1.5 text-left"
+                      )}>
+                      {prompt.title}
+                    </h2>
+                  </div>
                 </div>
                 <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm text-left")}>
                   {prompt.description}
@@ -709,31 +739,47 @@ function App() {
               </div>
               <div className="flex flex-col gap-4">
                 <label className={cn(mutedTextColor, "block text-sm font-medium")}>
-                  Visibility (coming soon)
+                  Visibility
                 </label>
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
-                    disabled
+                    disabled={!isSignedIn}
+                    onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: true }))}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg border opacity-50 cursor-not-allowed",
-                      ["border-" + borderColor, mutedTextColor].join(" ")
+                      "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
+                      newPrompt.isPublic
+                        ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                        : ["border-" + borderColor, mutedTextColor].join(" "),
+                      !isSignedIn && "opacity-50 cursor-not-allowed"
                     )}>
                     <Globe size={16} />
                     <span>Public</span>
                   </button>
                   <button
                     type="button"
-                    disabled
+                    disabled={!isSignedIn}
+                    onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: false }))}
                     className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg border opacity-50 cursor-not-allowed",
-                      ["border-" + borderColor, mutedTextColor].join(" ")
+                      "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
+                      !newPrompt.isPublic
+                        ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                        : ["border-" + borderColor, mutedTextColor].join(" "),
+                      !isSignedIn && "opacity-50 cursor-not-allowed"
                     )}>
                     <Lock size={16} />
                     <span>Private</span>
                   </button>
                 </div>
-                <p className={cn(mutedTextColor, "text-sm")}>All prompts are currently public</p>
+                {!isSignedIn ? (
+                  <p className={cn(mutedTextColor, "text-sm")}>Sign in to set prompt visibility</p>
+                ) : (
+                  <p className={cn(mutedTextColor, "text-sm")}>
+                    {newPrompt.isPublic
+                      ? "Anyone can view this prompt"
+                      : "Only you can view this prompt"}
+                  </p>
+                )}
               </div>
               <div className="pt-4">
                 <button
@@ -752,7 +798,9 @@ function App() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className={cn(bgColor, "p-4 rounded-lg max-w-sm w-full border", borderColor)}>
             <div className="flex justify-between items-center mb-2">
-              <h2 className={cn(textColor, "text-lg font-medium")}>Coming Soon</h2>
+              <h2 className={cn(textColor, "text-sm font-normal")}>
+                Sign in to create private prompts.
+              </h2>
               <button
                 onClick={() => setIsSignInOpen(false)}
                 className={cn(mutedTextColor, "hover:text-white transition-colors")}>
@@ -765,15 +813,74 @@ function App() {
 
       {isMyPromptsOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className={cn(bgColor, "p-4 rounded-lg max-w-sm w-full border", borderColor)}>
-            <div className="flex justify-between items-center mb-2">
-              <h2 className={cn(textColor, "text-lg font-medium")}>Coming Soon</h2>
+          <div
+            className={cn(
+              bgColor,
+              "p-6 rounded-lg max-w-4xl w-full border",
+              borderColor,
+              "max-h-[90vh] overflow-y-auto"
+            )}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={cn(textColor, "text-lg font-medium")}>
+                {isSignedIn ? "My Private Prompts" : "Sign In Required"}
+              </h2>
               <button
                 onClick={() => setIsMyPromptsOpen(false)}
                 className={cn(mutedTextColor, "hover:text-white transition-colors")}>
                 <X size={20} />
               </button>
             </div>
+
+            {!isSignedIn ? (
+              <div className="mt-2">
+                <SignInButton mode="modal">
+                  <button className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                    Sign in to view private prompts
+                  </button>
+                </SignInButton>
+              </div>
+            ) : privatePrompts && privatePrompts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {privatePrompts.map((prompt) => (
+                  <div
+                    key={prompt._id}
+                    className={cn(
+                      bgColor,
+                      "border",
+                      borderColor,
+                      "p-3 sm:p-4 transition-all duration-200 rounded-lg"
+                    )}>
+                    <div className="flex justify-between items-start">
+                      <h2 className={cn(textColor, "text-base sm:text-lg font-semibold mb-1.5")}>
+                        {prompt.title}
+                      </h2>
+                    </div>
+                    <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm")}>
+                      {prompt.description}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {prompt.categories.map((category, idx) => (
+                        <span
+                          key={idx}
+                          className={cn(
+                            buttonBgColor,
+                            mutedTextColor,
+                            "inline-block px-2 py-1 text-xs sm:text-sm rounded-md"
+                          )}>
+                          {category}
+                        </span>
+                      ))}
+                    </div>
+                    <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className={cn(mutedTextColor, "text-center py-8")}>
+                You don't have any private prompts yet. Create one by setting visibility to private
+                when adding a new prompt.
+              </p>
+            )}
           </div>
         </div>
       )}

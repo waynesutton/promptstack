@@ -13,6 +13,7 @@ export default defineSchema({
     isPublic: v.boolean(),
     slug: v.string(),
     createdAt: v.number(),
+    userId: v.optional(v.string()),
   }),
   starRatings: defineTable({
     promptId: v.id("prompts"),
@@ -21,9 +22,9 @@ export default defineSchema({
   }),
   comments: defineTable({
     promptId: v.id("prompts"),
+    content: v.string(),
     userId: v.string(),
     userName: v.string(),
-    content: v.string(),
     createdAt: v.number(),
   }).index("by_prompt", ["promptId"]),
 });
