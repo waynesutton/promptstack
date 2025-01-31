@@ -234,7 +234,7 @@ function PromptGuide() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="https://convex.dev"
+                      href="https://convex.link/promptstack"
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`${mutedTextColor} hover:${textColor} transition-colors duration-200`}>
