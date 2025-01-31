@@ -1,5 +1,19 @@
 /* Inter Font */
-@import url("https://rsms.me/inter/inter.css");
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  src: url('/fonts/InterVariable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  src: url('/fonts/InterVariable-Italic.woff2') format('woff2');
+}
 
 :root {
   font-family: "Inter", sans-serif;

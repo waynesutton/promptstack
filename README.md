@@ -11,7 +11,6 @@ The goal of PromptStack is to help developers leverage AI tools more effectively
 
 Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot, ChatGPT, Claude, or other AI assistants, you'll find valuable prompts to improve your workflow.
 
-
 # Features
 
 - **Searchable Directory**: Quickly find AI prompts and code-gen rules tailored to your needs.
