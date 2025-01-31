@@ -1,6 +1,6 @@
 # PromptStack - AI Prompts and Code Generation Directory for Prompt Engineering
 
-**PromptStack** is an **open-source** a searchable collection of AI prompts and code generation snippets for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.. Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
+**[PromptStack](https://promptstack.dev)** is an **open-source** a searchable collection of AI prompts and code generation snippets for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.. Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
 rules to enhance your workflow for developers.
 
 Built with [Convex.dev](https://docs.convex.dev/) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
@@ -11,9 +11,6 @@ The goal of PromptStack is to help developers leverage AI tools more effectively
 
 Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot, ChatGPT, Claude, or other AI assistants, you'll find valuable prompts to improve your workflow.
 
-## Links
-
-- [Website](https://promptstack.dev)
 
 # Features
 
