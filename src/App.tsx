@@ -38,7 +38,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { SignInButton } from "@clerk/clerk-react";
+import { SignInButton, useAuth } from "@clerk/clerk-react";
 
 interface Prompt {
   _id: string;
