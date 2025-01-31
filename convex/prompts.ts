@@ -12,11 +12,20 @@ export const createPrompt = mutation({
     slug: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity && !args.isPublic) {
+      throw new Error("Must be logged in to create private prompts");
+    }
+
+    const userId = identity?.subject;
+
     const promptId = await ctx.db.insert("prompts", {
       ...args,
       stars: 0,
       likes: 0,
       createdAt: Date.now(),
+      isPublic: args.isPublic,
+      userId: userId,
     });
     return promptId;
   },
@@ -29,10 +38,26 @@ export const searchPrompts = query({
     starRating: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    let prompts = await ctx.db
-      .query("prompts")
-      .filter((q) => q.eq(q.field("isPublic"), true))
-      .collect();
+    const identity = await ctx.auth.getUserIdentity();
+    const userId = identity?.subject;
+
+    let query = ctx.db.query("prompts");
+    
+    if (userId) {
+      query = query.filter(q => 
+        q.or(
+          q.eq(q.field("isPublic"), true),
+          q.and(
+            q.eq(q.field("userId"), userId),
+            q.eq(q.field("isPublic"), false)
+          )
+        )
+      );
+    } else {
+      query = query.filter(q => q.eq(q.field("isPublic"), true));
+    }
+
+    let prompts = await query.collect();
 
     // Map the prompts to include their IDs
     prompts = prompts.map(prompt => ({
@@ -126,5 +151,25 @@ export const likePrompt = mutation({
     await ctx.db.patch(args.promptId, { 
       likes: (prompt.likes || 0) + 1 
     });
+  },
+});
+
+export const getPrivatePrompts = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return [];
+
+    const prompts = await ctx.db
+      .query("prompts")
+      .filter(q => q.and(
+        q.eq(q.field("userId"), identity.subject),
+        q.eq(q.field("isPublic"), false)
+      ))
+      .collect();
+
+    return prompts.map(prompt => ({
+      ...prompt,
+      _id: prompt._id,
+    }));
   },
 }); 
