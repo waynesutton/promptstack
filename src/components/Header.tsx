@@ -72,8 +72,8 @@ export function Header({
 
   const bgColor =
     theme === "dark"
-      ? "bg-gradient-to-b from-[#0A0A0A] to-[#F5F5F4]"
-      : "bg-gradient-to-b from-[#F5F5F4] to-[#ffffff]";
+      ? "bg-gradient-to-b from-[#ffffff] to-[#ffffff]"
+      : "bg-gradient-to-b from-[#ffffff] to-[#ffffff]";
   const textColor = theme === "dark" ? "text-white" : "text-black";
   const mutedTextColor = theme === "dark" ? "text-[#A3A3A3]" : "text-gray-500";
   const borderColor = theme === "dark" ? "border-[#1F1F1F]" : "border-gray-200";
@@ -94,7 +94,7 @@ export function Header({
             </a>
             <a href="/">
               <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
-                <span className="font-bold">PromptStack</span> - AI Prompts and Code Generation
+                <span className="font-normal">PromptStack</span> - AI Prompts and Code Generation
                 Directory for Prompt Engineering
               </h1>
             </a>

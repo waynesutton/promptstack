@@ -432,159 +432,142 @@ function App() {
           setIsSignInOpen={setIsSignInOpen}
         />
       </div>
-      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-8">
-        <div className="flex gap-8">
-          <div className="w-56 flex-shrink-0">
-            <div className={cn(bgColor, "border", borderColor, "p-3 rounded-lg sticky top-[88px]")}>
-              <div className="space-y-6">
-                <div>
-                  <h3 className={cn(textColor, "font-normal text-med mb-1")}>Categories</h3>
-                  <button
-                    onClick={() =>
-                      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })
-                    }
-                    className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
-                    <ChevronDown size={16} />
-                    Scroll to bottom
-                  </button>
+      <div className="flex flex-col lg:flex-row gap-6 max-w-[1920px] mx-auto px-4 sm:px-6 py-8">
+        <div className="w-full lg:w-64 lg:flex-none">
+          <div className="lg:sticky lg:top-24">
+            <div className="space-y-4">
+              <button
+                onClick={() =>
+                  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })
+                }
+                className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+                <ChevronDown size={16} />
+                Scroll to bottom
+              </button>
 
-                  <div className="h-[1px] bg-[#E5E7EB] my-3" />
-
-                  <button
-                    disabled={false}
-                    onClick={() => setIsMyPromptsOpen(true)}
-                    className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left opacity-50 cursor-not-allowed text-[0.875em] text-[#A3A3A3]">
-                    <User size={16} />
-                    My prompts
-                  </button>
-
-                  <div className="h-[1px] bg-[#E5E7EB] my-3" />
-
-                  <div className="flex flex-col gap-0.5">
-                    {CATEGORIES.map((category) => (
-                      <button
-                        key={category}
-                        onClick={() => toggleFilterCategory(category)}
+              <div>
+                <h3 className={cn(textColor, "text-sm font-medium mb-2")}>Categories</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
+                  {CATEGORIES.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => toggleFilterCategory(category)}
+                      className={cn(
+                        selectedCategories.includes(category)
+                          ? "bg-[#1a1a1a] text-white"
+                          : cn(mutedTextColor, `hover:${buttonBgColor}`, `hover:${textColor}`),
+                        "flex items-center justify-between px-2.5 py-1.5 text-left transition-colors duration-200 rounded-md text-[0.875em]"
+                      )}>
+                      <span className="flex items-center gap-2">
+                        {category === "Cursor" && <Cube size={16} />}
+                        {category === "Convex" && <Database size={16} />}
+                        <span className="truncate">{category}</span>
+                      </span>
+                      <span
                         className={cn(
                           selectedCategories.includes(category)
-                            ? "bg-[#1a1a1a] text-white"
-                            : cn(mutedTextColor, `hover:${buttonBgColor}`, `hover:${textColor}`),
-                          "flex items-center justify-between px-2.5 py-1.5 text-left transition-colors duration-200 rounded-md text-[0.875em]"
+                            ? "text-gray-400"
+                            : "text-[#525252]",
+                          "text-sm ml-2"
                         )}>
-                        <span className="flex items-center gap-2">
-                          {category === "Cursor" && <Cube size={16} />}
-                          {category === "Convex" && <Database size={16} />}
-                          <span className="truncate">{category}</span>
-                        </span>
-                        <span
-                          className={cn(
-                            selectedCategories.includes(category)
-                              ? "text-gray-400"
-                              : "text-[#525252]",
-                            "text-sm ml-2"
-                          )}>
-                          {getCategoryCount(category)}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
+                        {getCategoryCount(category)}
+                      </span>
+                    </button>
+                  ))}
                 </div>
-
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className={cn(
-                    "w-full px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm mt-4"
-                  )}>
-                  <Plus size={16} />
-                  <span>Add Prompt</span>
-                </button>
-                <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
-                  <ChevronUp size={16} />
-                  Scroll to top
-                </button>
               </div>
+
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className={cn(
+                  "w-full px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm mt-4"
+                )}>
+                <Plus size={16} />
+                <span>Add Prompt</span>
+              </button>
+
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+                <ChevronUp size={16} />
+                Scroll to top
+              </button>
             </div>
           </div>
-          {/* sidebar ends here */}
-          <div className="flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {prompts.map((prompt, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    bgColor,
-                    "border",
-                    borderColor,
-                    "p-3 sm:p-4 transition-all duration-200 rounded-lg",
-                    "shadow-[0_1px_#00000014]"
-                  )}>
-                  <div className="flex justify-between items-start text-left">
-                    <h2
-                      className={cn(
-                        textColor,
-                        "text-base sm:text-med font-normal mb-1.5 text-left"
-                      )}>
-                      {prompt.title}
-                    </h2>
-                  </div>
-                  <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm text-left")}>
-                    {prompt.description}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2 text-left">
-                    {prompt.categories.map((category, idx) => (
-                      <span
-                        key={idx}
-                        className={cn(
-                          buttonBgColor,
-                          mutedTextColor,
-                          "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
-                        )}>
-                        {category}
-                      </span>
-                    ))}
-                    <div className="flex items-center gap-3 ml-auto">
-                      <button
-                        onClick={() => handleLike(prompt._id)}
-                        className={cn(
-                          "flex items-center gap-1 transition-colors duration-200",
-                          likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
-                        )}>
-                        <Heart
-                          size={16}
-                          className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
-                        />
-                        <span className="text-xs">
-                          {(prompt.likes || 0) + (likedPrompts.has(prompt._id) ? 1 : 0)}
-                        </span>
-                      </button>
-                      {prompt.githubProfile && (
-                        <a
-                          href={
-                            prompt.githubProfile.startsWith("http")
-                              ? prompt.githubProfile
-                              : `https://github.com/${prompt.githubProfile.replace("@", "")}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cn(
-                            mutedTextColor,
-                            `hover:${textColor}`,
-                            "flex items-center gap-1 transition-colors duration-200 text-left"
-                          )}>
-                          <User size={16} />
-                          <span className="text-xs sm:text-sm">
-                            {getDomainFromUrl(prompt.githubProfile)}
-                          </span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
+        </div>
+        <div className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+            {prompts.map((prompt, index) => (
+              <div
+                key={index}
+                className={cn(
+                  bgColor,
+                  "border",
+                  borderColor,
+                  "p-3 sm:p-4 transition-all duration-200 rounded-lg",
+                  "shadow-[0_1px_#00000014]"
+                )}>
+                <div className="flex justify-between items-start text-left">
+                  <h2
+                    className={cn(textColor, "text-base sm:text-med font-normal mb-1.5 text-left")}>
+                    {prompt.title}
+                  </h2>
                 </div>
-              ))}
-            </div>
+                <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm text-left")}>
+                  {prompt.description}
+                </p>
+                <div className="flex flex-wrap items-center gap-2 text-left">
+                  {prompt.categories.map((category, idx) => (
+                    <span
+                      key={idx}
+                      className={cn(
+                        buttonBgColor,
+                        mutedTextColor,
+                        "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
+                      )}>
+                      {category}
+                    </span>
+                  ))}
+                  <div className="flex items-center gap-3 ml-auto">
+                    <button
+                      onClick={() => handleLike(prompt._id)}
+                      className={cn(
+                        "flex items-center gap-1 transition-colors duration-200",
+                        likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
+                      )}>
+                      <Heart
+                        size={16}
+                        className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
+                      />
+                      <span className="text-xs">
+                        {(prompt.likes || 0) + (likedPrompts.has(prompt._id) ? 1 : 0)}
+                      </span>
+                    </button>
+                    {prompt.githubProfile && (
+                      <a
+                        href={
+                          prompt.githubProfile.startsWith("http")
+                            ? prompt.githubProfile
+                            : `https://github.com/${prompt.githubProfile.replace("@", "")}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          mutedTextColor,
+                          `hover:${textColor}`,
+                          "flex items-center gap-1 transition-colors duration-200 text-left"
+                        )}>
+                        <User size={16} />
+                        <span className="text-xs sm:text-sm">
+                          {getDomainFromUrl(prompt.githubProfile)}
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+                <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
