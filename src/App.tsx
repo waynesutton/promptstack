@@ -513,7 +513,7 @@ function App() {
                   "border",
                   borderColor,
                   "p-3 sm:p-4 transition-all duration-200 rounded-lg",
-                  "shadow-[0_1px_#00000014]"
+                  "shadow-[0_20px_34px_#0000000f,0_4px_10px_#0000000a,0_1px_4px_#00000008,0_1px_8px_#00000005]"
                 )}>
                 <div className="flex justify-between items-start text-left">
                   <h2
