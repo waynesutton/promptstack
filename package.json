@@ -24,6 +24,7 @@
     "@tiptap/starter-kit": "^2.11.3",
     "@types/react-syntax-highlighter": "^15.5.13",
     "clsx": "^2.1.1",
+    "convex": "^1.18.2",
     "framer-motion": "^11.0.8",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.344.0",

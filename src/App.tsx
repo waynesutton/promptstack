@@ -35,8 +35,11 @@ import { CodeBlock } from "./components/CodeBlock";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
 
 interface Prompt {
+  _id: string;
   title: string;
   description: string;
   prompt: string;
@@ -136,6 +139,39 @@ const PromptCard = ({
   copied: string | null;
   onCopy: (text: string) => void;
 }) => {
+  const ratePromptMutation = useMutation(api.prompts.ratePrompt);
+
+  const handleRating = async (rating: number) => {
+    try {
+      await ratePromptMutation({
+        promptId: prompt._id,
+        rating: rating === prompt.stars ? 0 : rating,
+      });
+    } catch (error) {
+      console.error("Error rating prompt:", error);
+    }
+  };
+
+  const renderStars = (count: number) => {
+    return (
+      <div className="flex items-center gap-1">
+        {[1, 5].map((rating) => (
+          <button key={rating} onClick={() => handleRating(rating)} className="focus:outline-none">
+            <Star
+              size={16}
+              className={`${
+                count === rating ? "fill-current text-yellow-400" : mutedTextColor
+              } cursor-pointer hover:text-yellow-400 transition-colors`}
+            />
+            <span className="sr-only">
+              {rating} star{rating > 1 ? "s" : ""}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="mt-4">
       <SandpackProvider
@@ -289,35 +325,14 @@ function App() {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMyPromptsOpen, setIsMyPromptsOpen] = useState(false);
 
-  const [prompts, setPrompts] = useState<Prompt[]>([
-    {
-      title: "Creative Story Generator",
-      description: "Generates a creative story based on given elements",
-      prompt: "Write a story that includes: [element1], [element2], and [element3]",
-      categories: ["chatgpt", "other"],
-      stars: 5,
-      githubProfile: "johndoe",
-      isPublic: true,
-    },
-    {
-      title: "Code Refactoring Assistant",
-      description: "Helps refactor code for better readability",
-      prompt: "Refactor this code to improve readability and maintainability: [code]",
-      categories: ["cursor", "GitHub Copilot"],
-      stars: 4,
-      githubProfile: "janedoe",
-      isPublic: true,
-    },
-    {
-      title: "Email Composer",
-      description: "Creates professional email templates",
-      prompt: "Write a professional email about: [topic]",
-      categories: ["bolt", "chatgpt"],
-      stars: 3,
-      githubProfile: "alexsmith",
-      isPublic: true,
-    },
-  ]);
+  const createPrompt = useMutation(api.prompts.createPrompt);
+  const searchResults = useQuery(api.prompts.searchPrompts, {
+    searchQuery: searchQuery || undefined,
+    categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+    starRating: selectedStarRating || undefined,
+  });
+
+  const prompts = searchResults || [];
 
   const cn = (...classes: (string | boolean | undefined)[]) => {
     return classes.filter(Boolean).join(" ");
@@ -349,9 +364,8 @@ function App() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    console.log("handleSubmit called");
 
     if (!newPrompt.title.trim() || !newPrompt.prompt.trim()) {
       alert("Please fill in all required fields (Title and Prompt)");
@@ -359,30 +373,32 @@ function App() {
     }
 
     const slug = generateSlug(newPrompt.title);
-    const newPromptWithSlug = {
-      ...newPrompt,
-      stars: 0,
-      slug,
-    };
 
-    const updatedPrompts = [...prompts, newPromptWithSlug];
-    console.log("Saving prompt:", newPromptWithSlug);
-    console.log("Updated prompts:", updatedPrompts);
+    try {
+      await createPrompt({
+        title: newPrompt.title,
+        description: newPrompt.description,
+        prompt: newPrompt.prompt,
+        categories: newPrompt.categories,
+        githubProfile: newPrompt.githubProfile,
+        isPublic: newPrompt.isPublic,
+        slug,
+      });
 
-    // Update state and localStorage
-    setPrompts(updatedPrompts);
-    localStorage.setItem("prompts", JSON.stringify(updatedPrompts));
-
-    setNewPrompt({
-      title: "",
-      description: "",
-      prompt: "",
-      categories: [],
-      githubProfile: "",
-      stars: 0,
-      isPublic: true,
-    });
-    setIsModalOpen(false);
+      setNewPrompt({
+        title: "",
+        description: "",
+        prompt: "",
+        categories: [],
+        githubProfile: "",
+        stars: 0,
+        isPublic: true,
+      });
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error creating prompt:", error);
+      alert("Failed to create prompt. Please try again.");
+    }
   };
 
   const toggleCategory = (category: string) => {
@@ -417,43 +433,23 @@ function App() {
     return Array(5)
       .fill(0)
       .map((_, index) => (
-        <Star
+        <button
           key={index}
-          size={16}
-          className={index < count ? "fill-current text-yellow-400" : mutedTextColor}
-        />
+          onClick={() => toggleStarRating(index + 1)}
+          className="focus:outline-none">
+          <Star
+            size={16}
+            className={`${
+              index < count ? "fill-current text-yellow-400" : mutedTextColor
+            } cursor-pointer hover:text-yellow-400 transition-colors`}
+          />
+        </button>
       ));
   };
-
-  const filteredPrompts = prompts.filter((prompt) => {
-    const matchesSearch =
-      prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prompt.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      prompt.prompt.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCategories =
-      selectedCategories.length === 0 ||
-      prompt.categories.some((category) => selectedCategories.includes(category));
-
-    const matchesStarRating = selectedStarRating === null || prompt.stars === selectedStarRating;
-
-    return matchesSearch && matchesCategories && matchesStarRating;
-  });
 
   useEffect(() => {
     setCount(prompts.length);
   }, [prompts.length]);
-
-  useEffect(() => {
-    const savedPrompts = localStorage.getItem("prompts");
-    if (savedPrompts) {
-      try {
-        setPrompts(JSON.parse(savedPrompts));
-      } catch (e) {
-        console.error("Error loading prompts:", e);
-      }
-    }
-  }, []);
 
   const bgColor = theme === "dark" ? "bg-[#0A0A0A]" : "bg-white";
   const textColor = theme === "dark" ? "text-white" : "text-black";
@@ -577,7 +573,7 @@ function App() {
           {/* sidebar ends here */}
           <div className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPrompts.map((prompt, index) => (
+              {prompts.map((prompt, index) => (
                 <div
                   key={index}
                   className={cn(

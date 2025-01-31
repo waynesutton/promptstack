@@ -34,10 +34,10 @@ function About() {
               <h1 className="text-3xl font-bold mb-6">PromptStack</h1>
 
               <p className="mb-4">
-                <strong>PromptStack</strong> is an <strong>open-source</strong> platform that
-                provides a searchable collection of AI prompts and code generation Cursor rules for
-                Bolt.new, Loveable, Windsurf, and Trae—designed to optimize developer workflows.
-                Built with{" "}
+                <strong>PromptStack</strong> is an <strong>open-source</strong> searchable
+                collection of AI prompts and code generation snippets for prompt engineering,
+                featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to
+                streamline developer workflows. Built with{" "}
                 <a
                   href="https://convex.link/promptstackgithub"
                   className={`${mutedTextColor} hover:${textColor}`}>
