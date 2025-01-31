@@ -140,17 +140,6 @@ export function Header({
               )}>
               About
             </Link>
-            {/* <a
-              href="https://convex.link/promptstack"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                textColor,
-                "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-              )}>
-              <ConvexIcon className="w-5 h-5" />
-              <span className="text-sm">convex</span>
-            </a> */}
             <a
               href="https://github.com/waynesutton/PromptStack"
               target="_blank"
@@ -162,16 +151,26 @@ export function Header({
               <Github size={16} />
               <span className="text-sm">open source</span>
             </a>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className={cn(
+                  "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
+                )}>
+                <Plus size={12} />
+                <span>Add Prompt</span>
+              </button>
 
-            {isSignedIn ? (
-              <UserButton afterSignOutUrl="/" />
-            ) : (
-              <SignInButton mode="modal">
-                <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
-                  <span className="text-[13px]">Sign in</span>
-                </button>
-              </SignInButton>
-            )}
+              {isSignedIn ? (
+                <UserButton afterSignOutUrl="/" />
+              ) : (
+                <SignInButton mode="modal">
+                  <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                    <span className="text-[13px]">Sign in</span>
+                  </button>
+                </SignInButton>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
