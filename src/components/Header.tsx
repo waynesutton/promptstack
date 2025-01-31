@@ -89,14 +89,17 @@ export function Header({
     <header className={cn(bgColor, "border-b", borderColor)}>
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center  gap-3">
             <a href="/">
               <PromptStackLogo className="#2A2A2A" />
             </a>
             <a href="/" className="hidden sm:block">
-              <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
-                <span className="font-normal">PromptStack</span> - AI Prompts and Code Generation
-                Directory for Prompt Engineering
+              <h1 className={cn(textColor, "font-inter text-[14px] leading-tight")}>
+                <span className="font-normal text-[18px]">PromptStack</span>
+                <br />
+                <span className="font-normal text-[12px]">
+                  AI Prompts and Code Generation Directory for Prompt Engineering
+                </span>
               </h1>
             </a>
           </div>
@@ -154,15 +157,15 @@ export function Header({
                 textColor,
                 "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
               )}>
-              <Github size={20} />
+              <Github size={16} />
               <span className="text-sm">open source</span>
             </a>
             {setIsModalOpen && (
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center gap-2 transition-colors duration-200 rounded-lg text-sm">
-                <Plus size={16} />
-                <span>Add Prompt</span>
+                <Plus size={14} />
+                <span className="text-[13px]">Add Prompt</span>
               </button>
             )}
             <button
@@ -179,7 +182,7 @@ export function Header({
               <button
                 onClick={() => setIsSignInOpen(true)}
                 className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
-                Sign in
+                <span className="text-[13px]">Sign in</span>
               </button>
             )}
           </div>
