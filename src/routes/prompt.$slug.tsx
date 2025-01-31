@@ -205,9 +205,6 @@ function PromptDetail() {
                   {category}
                 </span>
               ))}
-              <div className={cn(mutedTextColor, "flex items-center gap-1")}>
-                {renderStars(prompt.stars)}
-              </div>
               {prompt.githubProfile && (
                 <a
                   href={

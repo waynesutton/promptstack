@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.19.10",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@liveblocks/client": "^2.16.2",
     "@liveblocks/react": "^2.16.2",
+    "@mui/icons-material": "^6.4.2",
+    "@mui/material": "^6.4.2",
     "@tabler/icons-react": "^3.29.0",
     "@tanstack/react-query": "^5.28.4",
     "@tanstack/react-router": "^1.19.4",
