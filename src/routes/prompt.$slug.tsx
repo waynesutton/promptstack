@@ -23,6 +23,7 @@ import { Footer } from "../components/Footer";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useParams } from "@tanstack/react-router";
+import { CommentSection } from "../components/CommentSection";
 
 interface Prompt {
   title: string;
@@ -307,7 +308,7 @@ function PromptDetail() {
             </div>
 
             <div className="comments mt-8">
-              <h2>Comment</h2>
+              <CommentSection promptId={prompt._id} />
             </div>
           </div>
         </div>

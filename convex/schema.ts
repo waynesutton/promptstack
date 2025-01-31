@@ -19,4 +19,11 @@ export default defineSchema({
     rating: v.number(),
     createdAt: v.number(),
   }),
-}); 
+  comments: defineTable({
+    promptId: v.id("prompts"),
+    userId: v.string(),
+    userName: v.string(),
+    content: v.string(),
+    createdAt: v.number(),
+  }).index("by_prompt", ["promptId"]),
+});
