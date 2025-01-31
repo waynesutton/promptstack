@@ -136,16 +136,18 @@ export function Footer({ count = 0 }: FooterProps) {
                   </a>{" "}
                   is an open source project powered by{" "}
                   <a href="https://convex.dev" target="_blank" rel="noopener noreferrer">
-                    Convex.dev
+                    Convex.dev.
                   </a>
                 </p>
                 <span className={`hidden sm:inline ${mutedTextColor}`}> </span>
                 <p className={mutedTextColor}>
-                  A searchable collection of AI prompts and code generation snippets for prompt
-                  engineering.
+                  AI Prompts and Code Generation Directory for Prompt Engineering .
                 </p>
               </div>
             </div>
+            <p className="text-xs text-gray-500 mt-4">
+              Disclaimer: All trademarks belong to their respective owners.
+            </p>
           </div>
         </div>
       </footer>
