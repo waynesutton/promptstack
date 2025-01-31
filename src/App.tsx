@@ -445,6 +445,14 @@ function App() {
                 Scroll to bottom
               </button>
 
+              <button
+                disabled={true}
+                onClick={() => setIsMyPromptsOpen(true)}
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left opacity-50 cursor-not-allowed text-[0.875em] text-[#A3A3A3]">
+                <User size={16} />
+                My prompts
+              </button>
+
               <div>
                 <h3 className={cn(textColor, "text-sm font-medium mb-2")}>Categories</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
