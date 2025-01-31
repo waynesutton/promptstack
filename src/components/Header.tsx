@@ -227,7 +227,14 @@ export function Header({
                   <Github size={20} />
                   <span className="text-sm">open source</span>
                 </a>
-
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className={cn(
+                    "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
+                  )}>
+                  <Plus size={12} />
+                  <span>Add Prompt</span>
+                </button>
                 {isSignedIn ? (
                   <div className="w-fit">
                     <UserButton afterSignOutUrl="/" />
