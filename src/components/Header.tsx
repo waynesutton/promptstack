@@ -87,7 +87,7 @@ export function Header({
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <a href="/">
-              <PromptStackLogo className={mutedTextColor} />
+              <PromptStackLogo className="#2A2A2A" />
             </a>
             <a href="/">
               <h1 className={cn(textColor, "font-inter text-[1.00rem] leading-tight")}>
