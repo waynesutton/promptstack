@@ -66,7 +66,7 @@ export function Footer({ count = 0 }: FooterProps) {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="https://convex.dev"
+                      href="https://convex.link/promptstack"
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
@@ -135,7 +135,10 @@ export function Footer({ count = 0 }: FooterProps) {
                     PromptStack
                   </a>{" "}
                   is an open source project powered by{" "}
-                  <a href="https://convex.dev" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://convex.link/promptstack"
+                    target="_blank"
+                    rel="noopener noreferrer">
                     Convex.dev.
                   </a>
                 </p>
