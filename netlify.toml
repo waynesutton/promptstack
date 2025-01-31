@@ -1,6 +1,12 @@
 [build]
-  command = "npm i @rollup/rollup-linux-x64-gnu && npm run build"
+  command = "npm install && npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18" 
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--version"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
