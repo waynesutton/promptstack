@@ -1,0 +1,6 @@
+[build]
+  command = "npm i @rollup/rollup-linux-x64-gnu && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18" 
