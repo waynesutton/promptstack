@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Search, Sun, Moon, Plus, Github, Menu, X } from "lucide-react";
 import { useTheme } from "../ThemeContext";
+import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 
 interface HeaderProps {
   searchQuery?: string;
@@ -70,6 +71,7 @@ export function Header({
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { isSignedIn } = useUser();
 
   const bgColor =
     theme === "dark"
@@ -178,12 +180,14 @@ export function Header({
               )}>
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            {setIsSignInOpen && (
-              <button
-                onClick={() => setIsSignInOpen(true)}
-                className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
-                <span className="text-[13px]">Sign in</span>
-              </button>
+            {isSignedIn ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
+              <SignInButton mode="modal">
+                <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                  <span className="text-[13px]">Sign in</span>
+                </button>
+              </SignInButton>
             )}
           </div>
 
@@ -259,6 +263,17 @@ export function Header({
                   )}>
                   {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
                 </button>
+                {isSignedIn ? (
+                  <div className="w-fit">
+                    <UserButton afterSignOutUrl="/" />
+                  </div>
+                ) : (
+                  <SignInButton mode="modal">
+                    <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                      <span className="text-[13px]">Sign in</span>
+                    </button>
+                  </SignInButton>
+                )}
               </div>
             </div>
           </div>
