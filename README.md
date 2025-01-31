@@ -51,12 +51,13 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [ ] Allow prompts to be editable only by their creators.
 - [ ] Add "Prompt Threads" for multi-step prompts.
 - [ ] Add a "prompt feedback / comments" section to each prompt page
-- [ ] All private prompts should be visible to the creator only.
-- [ ] Allow for public prompts to be visible to all users.
-- [ ] Setup sign-in with Clerk
+- [✅] All private prompts should be visible to the creator only.
+- [✅] Allow for public prompts to be visible to all users.
+- [ ] Setup sign-in with Clerk - fix only in developer mode
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
-- [ ] Only allow prompt feedback or comments if user is logged in
+- [✅] Only allow prompt feedback or comments if user is logged in
+- [ ] use [Minimal Tiptap](https://shadcn-minimal-tiptap.vercel.app/) for prompt feedback / comments
 
 ---
 
