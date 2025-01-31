@@ -23,6 +23,7 @@ import {
   MessageSquare,
   Share,
   Expand,
+  Heart,
 } from "lucide-react";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useTheme } from "./ThemeContext";
@@ -45,6 +46,7 @@ interface Prompt {
   prompt: string;
   categories: string[];
   stars: number;
+  likes?: number;
   githubProfile?: string;
   isPublic: boolean;
   slug?: string;
@@ -132,6 +134,20 @@ const PromptCard = ({
   onCopy: (text: string) => void;
 }) => {
   const ratePromptMutation = useMutation(api.prompts.ratePrompt);
+  const likePromptMutation = useMutation(api.prompts.likePrompt);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLike = async () => {
+    if (isLiked) return;
+    try {
+      await likePromptMutation({
+        promptId: prompt._id,
+      });
+      setIsLiked(true);
+    } catch (error) {
+      console.error("Error liking prompt:", error);
+    }
+  };
 
   return (
     <div className="mt-4">
@@ -284,6 +300,8 @@ function App() {
   });
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMyPromptsOpen, setIsMyPromptsOpen] = useState(false);
+  const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
+  const likePromptMutation = useMutation(api.prompts.likePrompt);
 
   const createPrompt = useMutation(api.prompts.createPrompt);
   const searchResults = useQuery(api.prompts.searchPrompts, {
@@ -390,6 +408,19 @@ function App() {
   const borderColor = theme === "dark" ? "border-[#1F1F1F]" : "border-gray-200";
   const buttonBgColor = theme === "dark" ? "bg-[#222222]" : "bg-gray-100";
   const buttonHoverBgColor = theme === "dark" ? "hover:bg-[#333333]" : "hover:bg-gray-200";
+
+  const handleLike = async (promptId: string) => {
+    if (likedPrompts.has(promptId)) return;
+
+    try {
+      await likePromptMutation({
+        promptId,
+      });
+      setLikedPrompts((prev) => new Set([...prev, promptId]));
+    } catch (error) {
+      console.error("Error liking prompt:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF]">
@@ -512,26 +543,42 @@ function App() {
                         {category}
                       </span>
                     ))}
-                    {prompt.githubProfile && (
-                      <a
-                        href={
-                          prompt.githubProfile.startsWith("http")
-                            ? prompt.githubProfile
-                            : `https://github.com/${prompt.githubProfile.replace("@", "")}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <div className="flex items-center gap-3 ml-auto">
+                      <button
+                        onClick={() => handleLike(prompt._id)}
                         className={cn(
-                          mutedTextColor,
-                          `hover:${textColor}`,
-                          "flex items-center gap-1 transition-colors duration-200 text-left"
+                          "flex items-center gap-1 transition-colors duration-200",
+                          likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
                         )}>
-                        <User size={16} />
-                        <span className="text-xs sm:text-sm">
-                          {getDomainFromUrl(prompt.githubProfile)}
+                        <Heart
+                          size={16}
+                          className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
+                        />
+                        <span className="text-xs">
+                          {(prompt.likes || 0) + (likedPrompts.has(prompt._id) ? 1 : 0)}
                         </span>
-                      </a>
-                    )}
+                      </button>
+                      {prompt.githubProfile && (
+                        <a
+                          href={
+                            prompt.githubProfile.startsWith("http")
+                              ? prompt.githubProfile
+                              : `https://github.com/${prompt.githubProfile.replace("@", "")}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cn(
+                            mutedTextColor,
+                            `hover:${textColor}`,
+                            "flex items-center gap-1 transition-colors duration-200 text-left"
+                          )}>
+                          <User size={16} />
+                          <span className="text-xs sm:text-sm">
+                            {getDomainFromUrl(prompt.githubProfile)}
+                          </span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                   <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
                 </div>
