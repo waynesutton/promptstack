@@ -14,7 +14,6 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 ## Links
 
 - [Website](https://promptstack.dev)
--
 
 # Features
 
@@ -26,13 +25,6 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - **Readme Support**: Find and submit README examples for AI and code-gen projects.
 - **.Cursorrules**: Find and submit Cursor rules for AI and code-gen projects.
 - **SEO Optimized**: AI tool lists, prompt engineering, and metadata for better discoverability.
-
-1. Main Components Needed:
-
-- Database tables: users, prompts, ratings, categories
-- Public APIs
-- Internal AI
-- Context loading
 
 ---
 
@@ -72,27 +64,24 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 
 ---
 
-## Technology Stack
+## Stack
 
 **PromptStack** is powered by:
 
-- **[Convex.dev](https://convex.link/promptstackgithub)**  
-  Convex.dev provides a serverless database and backend that makes building reactive applications easy. It supports real-time updates, ensuring a seamless user experience.
+**[Convex.dev](https://convex.link/promptstackgithub)**  
+ Convex.dev provides a serverless database and backend that makes building reactive applications easy. It supports real-time updates, ensuring a seamless user experience.
 
-  - Learn more about Convex:
-    - [Understanding Convex](https://docs.convex.dev/understanding/)
-    - [Best Practices](https://docs.convex.dev/understanding/best-practices/)
-    - [TypeScript Support](https://docs.convex.dev/understanding/best-practices/typescript)
+- Learn more about Convex:
+  - [Understanding Convex](https://docs.convex.dev/understanding/)
+  - [Best Practices](https://docs.convex.dev/understanding/best-practices/)
+  - [TypeScript Support](https://docs.convex.dev/understanding/best-practices/typescript)
 
-- ***
-
-## Stack
+---
 
 - [Next.js](https://nextjs.org/) - React framework for production
 - [React](https://react.dev/) - JavaScript library for building user interfaces
 - [TypeScript](https://www.typescriptlang.org/) - JavaScript with syntax for types
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
-- [Convex](https://convex.link/promptstackgithub) - Backend development platform
 - [Clerk](https://clerk.com/) - Authentication and user management
 - [Bun](https://bun.sh/) - JavaScript runtime & package manager
 
