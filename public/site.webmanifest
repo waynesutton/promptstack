@@ -1,20 +1,20 @@
 {
   "name": "PromptStack",
   "short_name": "PromptStack",
-  "description": "A searchable collection of AI prompts and code-gen rules to enhance your workflow",
+  "description": "A searchable collection of AI prompts and code generation snippets for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.",
   "icons": [
     {
-      "src": "/public/favicon-16x16.png",
+      "src": "/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/public/favicon-32x32.png",
+      "src": "/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/public/apple-touch-icon.png",
+      "src": "/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     }
