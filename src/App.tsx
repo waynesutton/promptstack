@@ -429,8 +429,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF]">
-      <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
+    <div className="min-h-screen">
+      <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBF5F0] to-[#FFFFFF]">
         <Header
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -438,7 +438,10 @@ function App() {
           setIsSignInOpen={setIsSignInOpen}
         />
       </div>
-      <div className="flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
+      <div className="relative flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
+        <div className="absolute inset-0 -z-10 h-full w-full bg-[#FBF5F0] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[510px] w-[510px] rounded-full bg-[#ffffff] opacity-90 blur-[100px]"></div>
+        </div>
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">
             <div className="space-y-4">
