@@ -96,11 +96,11 @@ export function Header({
               <PromptStackLogo className="#2A2A2A" />
             </a>
             <a href="/" className="hidden sm:block">
-              <h1 className={cn(textColor, "font-inter text-[14px] leading-tight")}>
+              <h1 className={cn(textColor, "font-inter text-[16px] leading-tight")}>
                 <span className="font-normal text-[18px]">PromptStack</span>
                 <br />
-                <span className="font-normal text-[12px]">
-                  AI Prompts and Code Generation Directory for Prompt Engineering
+                <span className="font-normal text-[16px]">
+                  {/* AI Prompts and Code Generation Directory for Prompt Engineering */}
                 </span>
               </h1>
             </a>

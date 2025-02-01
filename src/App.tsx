@@ -438,7 +438,7 @@ function App() {
           setIsSignInOpen={setIsSignInOpen}
         />
       </div>
-      <div className="flex flex-col lg:flex-row gap-6 max-w-[1920px] mx-auto px-4 sm:px-6 py-8">
+      <div className="flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">
             <div className="space-y-4">
