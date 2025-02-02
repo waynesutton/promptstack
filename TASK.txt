@@ -5,7 +5,7 @@ This document serves as some special instructions for building the appp promptst
 - Build a prompt directory
 - each new prompt creates a new prompt card and link that can be shared separately
 - Support user creation
--  **Searchable Directory**: Quickly find AI prompts and code gen rules tailored to your needs. 
+-  **Searchable Directory**: Quickly find AI prompts and code generation rules tailored to your needs. 
 - **Prompt Rating System**: Rate and discover top prompts in the directory.
 - **Private & Public Prompts**: Option to keep prompts private or share them publicly.
 - **Category Organization**: Prompts are organized into clear, functional categories.
