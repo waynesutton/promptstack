@@ -1,6 +1,6 @@
-# PromptStack - AI Prompts and Code Generation Directory for Prompt Engineering
+# PromptStack - AI Prompts and code generation rules for Prompt Engineering
 
-**[PromptStack](https://promptstack.dev)** is an **open-source** a searchable collection of AI prompts and code generation snippets for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.. Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
+**[PromptStack](https://promptstack.dev)** is an **open-source** a searchable collection of AI prompts and code generation rules for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.. Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
 rules to enhance your workflow for developers.
 
 Built with [Convex.dev](https://docs.convex.dev/) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
@@ -51,12 +51,12 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [ ] Allow prompts to be editable only by their creators.
 - [ ] Add "Prompt Threads" for multi-step prompts.
 - [ ] Add a "prompt feedback / comments" section to each prompt page
-- [✅] All private prompts should be visible to the creator only.
-- [✅] Allow for public prompts to be visible to all users.
+- ✅ All private prompts should be visible to the creator only.
+- ✅ Allow for public prompts to be visible to all users.
 - [ ] Setup sign-in with Clerk - fix only in developer mode
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
-- [✅] Only allow prompt feedback or comments if user is logged in
+- ✅ Only allow prompt feedback or comments if user is logged in
 - [ ] use [Minimal Tiptap](https://shadcn-minimal-tiptap.vercel.app/) for prompt feedback / comments
 
 ---

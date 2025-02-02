@@ -26,5 +26,6 @@ export default defineSchema({
     userId: v.string(),
     userName: v.string(),
     createdAt: v.number(),
+    parentId: v.optional(v.id("comments")),
   }).index("by_prompt", ["promptId"]),
 });

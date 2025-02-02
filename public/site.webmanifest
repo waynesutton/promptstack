@@ -1,7 +1,7 @@
 {
   "name": "PromptStack",
   "short_name": "PromptStack",
-  "description": "A searchable collection of AI prompts and code generation snippets for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.",
+  "description": "A searchable collection of AI prompts and code generation rules for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.",
   "icons": [
     {
       "src": "/favicon-16x16.png",

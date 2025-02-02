@@ -144,7 +144,7 @@ export function Footer({ count = 0 }: FooterProps) {
                 </p>
                 <span className={`hidden sm:inline ${mutedTextColor}`}> </span>
                 <p className={mutedTextColor}>
-                  AI Prompts and Code Generation Directory for Prompt Engineering .
+                  AI Prompts and Code Generation Rules for Prompt Engineering .
                 </p>
               </div>
             </div>

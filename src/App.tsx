@@ -79,6 +79,7 @@ const CATEGORIES = [
   "Functional",
   "Github Gopilot",
   "Go",
+  "Guidelines Doc",
   "HTMX",
   "JavaScript",
   "Jest",
@@ -97,11 +98,13 @@ const CATEGORIES = [
   "React",
   "Readme",
   "Replit",
+  "Requirements Doc",
   "Ruby on Rails",
   "Rust",
   "Shadcn UI",
   "ShipFast",
   "Solidity",
+  "Structure Doc",
   "Supabase",
   "SvelteKit",
   "SwiftUI",
@@ -541,8 +544,9 @@ function App() {
 
         <div className="flex-1">
           <div>
-            {" "}
-            <h1>test</h1>
+            <h1 className="py-0 mb-8 text-center font-display text-2xl font-medium text-neutral-900 sm:text-3xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
+              AI Prompts and Code Gen Rules for Prompt Engineering
+            </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {(showPrivatePrompts ? privatePrompts : prompts).map((prompt, index) => (
@@ -750,7 +754,7 @@ function App() {
                     textColor,
                     "w-full p-3 placeholder-[#525252] h-32 rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
-                  placeholder="Enter your prompt text or code gen rules or code examples"
+                  placeholder="Enter your prompt text or code generation rules or code examples"
                   required
                 />
               </div>
