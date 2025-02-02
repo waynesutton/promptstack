@@ -13,8 +13,9 @@ import {
   Github,
   Search,
   Bug,
+  Trash2,
 } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { CodeEditor } from "../components/CodeEditor";
 import { CodeBlock } from "../components/CodeBlock";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
@@ -26,8 +27,11 @@ import { api } from "../../convex/_generated/api";
 import { useParams } from "@tanstack/react-router";
 import { CommentSection } from "../components/CommentSection";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useUser } from "@clerk/clerk-react";
+import { useMutation } from "convex/react";
 
 interface Prompt {
+  _id: string;
   title: string;
   description: string;
   prompt: string;
@@ -36,6 +40,7 @@ interface Prompt {
   githubProfile?: string;
   isPublic: boolean;
   slug?: string;
+  userId: string;
 }
 
 const PromptStackLogo = ({ className }: { className?: string }) => (
@@ -111,8 +116,22 @@ function PromptDetail() {
   const [copied, setCopied] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [count, setCount] = useState(0);
+  const { isSignedIn, user } = useUser();
   const { slug } = Route.useParams();
   const prompt = useQuery(api.prompts.getPromptBySlug, { slug });
+  const deletePrompt = useMutation(api.prompts.deletePrompt);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (prompt && user) {
+      console.log({
+        isSignedIn,
+        userId: user.id,
+        promptUserId: prompt.userId,
+        canDelete: isSignedIn && user.id === prompt.userId,
+      });
+    }
+  }, [isSignedIn, user, prompt]);
 
   if (!prompt) return <div>Loading...</div>;
 
@@ -159,6 +178,24 @@ function PromptDetail() {
         />
       ));
   };
+
+  const handleDeletePrompt = async (promptId: string) => {
+    if (!isSignedIn || !user || user.id !== prompt.userId) {
+      console.error("Not authorized to delete this prompt");
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to delete this prompt?")) {
+      try {
+        await deletePrompt({ id: promptId });
+        navigate({ to: "/" });
+      } catch (error) {
+        console.error("Error deleting prompt:", error);
+      }
+    }
+  };
+
+  const canDelete = isSignedIn && user?.id === prompt?.userId;
 
   return (
     <div className="min-h-screen">
@@ -316,6 +353,17 @@ function PromptDetail() {
               </SandpackProvider>
             </div>
             <div className="flex items-center gap-2 pt-[10px]">
+              {isSignedIn && user && prompt && prompt.userId === user.id && (
+                <button
+                  onClick={() => handleDeletePrompt(prompt._id)}
+                  className={cn(
+                    mutedTextColor,
+                    "hover:text-black transition-colors flex items-center gap-1"
+                  )}>
+                  <Trash2 size={14} />
+                  <span className="text-xs">Delete</span>
+                </button>
+              )}
               <a
                 href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request"
                 target="_blank"

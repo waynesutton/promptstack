@@ -172,4 +172,18 @@ export const getPrivatePrompts = query({
       _id: prompt._id,
     }));
   },
+});
+
+export const deletePrompt = mutation({
+  args: { id: v.id("prompts") },
+  handler: async (ctx, { id }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const prompt = await ctx.db.get(id);
+    if (!prompt) throw new Error("Prompt not found");
+    if (prompt.userId !== identity.subject) throw new Error("Not authorized");
+
+    await ctx.db.delete(id);
+  },
 }); 
