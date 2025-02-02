@@ -44,6 +44,7 @@ import { Footer } from "./components/Footer";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { SignInButton, useAuth, useUser } from "@clerk/clerk-react";
+import { Switch } from "./components/ui/switch";
 
 interface Prompt {
   _id: string;
@@ -321,6 +322,7 @@ function App() {
   const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
   const likePromptMutation = useMutation(api.prompts.likePrompt);
   const { isSignedIn } = useUser();
+  const [sortByLikes, setSortByLikes] = useState(false);
 
   const createPrompt = useMutation(api.prompts.createPrompt);
   const searchResults = useQuery(api.prompts.searchPrompts, {
@@ -332,6 +334,11 @@ function App() {
   const privatePromptsCount = privatePrompts?.length || 0;
 
   const prompts = searchResults || [];
+
+  const sortedPrompts = useMemo(() => {
+    if (!sortByLikes) return prompts;
+    return [...prompts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+  }, [prompts, sortByLikes]);
 
   const cn = (...classes: (string | boolean | undefined)[]) => {
     return classes.filter(Boolean).join(" ");
@@ -461,14 +468,33 @@ function App() {
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">
             <div className="space-y-4">
-              <button
-                onClick={() =>
-                  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })
-                }
-                className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
-                <ChevronDown size={16} />
-                Scroll to bottom
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() =>
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })
+                  }
+                  className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+                  <ChevronDown size={16} />
+                  Scroll to bottom
+                </button>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={sortByLikes}
+                  onCheckedChange={setSortByLikes}
+                  className="data-[state=checked]:bg-[#1a1a1a]"
+                />
+                <label className={cn(mutedTextColor, "text-sm")}>
+                  sort by{" "}
+                  <span className="text-sm">
+                    <img
+                      src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTI0Ljc2MiAzOC44YzExLjQ3Ni0xMC42MjYgMTUuMTEtMTQuNDQyIDE3LjUyNy0xOS4wMTZDNDMuNDUgMTcuNTg5IDQ0IDE1LjU1NCA0NCAxMy40NzkgNDQgOC4xMiAzOS45NjQgNCAzNC44IDRjLTIuMDMgMC00LjA3My42NzYtNS44MjIgMS45MThhNS43MzUgNS43MzUgMCAwIDAtLjM1OS4yODhjLS4wOTYuMDgyLS4xOTguMTcyLS4zMDYuMjdhMjIuMDUyIDIyLjA1MiAwIDAgMC0xLjExIDEuMDg4Yy0xLjc0NiAxLjc4OC00LjY1IDEuODA5LTYuNDUzLS4wNDhhMjEuNTE0IDIxLjUxNCAwIDAgMC0xLjA5NS0xLjA2NmMtLjEyLS4xMDgtLjIzMy0uMjA3LS4zMzktLjI5NmE1Ljg0MiA1Ljg0MiAwIDAgMC0uMzI1LS4yNThDMTcuMjY5IDQuNjc0IDE1LjIyNSA0IDEzLjIgNCA4LjAzNiA0IDQgOC4xMjEgNCAxMy40NzljMCAyLjA2Ny41NDYgNC4wOTIgMS42OTYgNi4yNzcgMi40MSA0LjU4IDYuMDIgOC4zNzYgMTcuNTM2IDE5LjA2M2wuNzU4LjY5OS43NzItLjcxOFpNMzQuOCAwQzQyLjE5MiAwIDQ4IDUuOTMgNDggMTMuNDc5YzAgOS4yNjMtOC4xNiAxNi44MTEtMjAuNTIgMjguMjU2bC0xLjcgMS41OGMtLjk3My45MDQtMi41NzcuOTE5LTMuNTYuMDEybC0xLjctMS41NjhDOC4xNiAzMC4yOSAwIDIyLjc0MiAwIDEzLjQ3OSAwIDUuOTMgNS44MDggMCAxMy4yIDBjMi45MjUgMCA1Ljc2Ny45NzQgOC4xMDcgMi42MzUgMS4wMjYuNzM0IDIuMzQ5IDIuMTMzIDIuMzQ5IDIuMTMzLjE5LjE5NS41MDQuMTg3LjY4NyAwIDAgMCAxLjMyNC0xLjM5OSAyLjMwOC0yLjEwM0MyOS4wMzMuOTc0IDMxLjg3NSAwIDM0LjggMFoiIGZpbGwtcnVsZT0ibm9uemVybyIgZmlsbD0iIzZiNzI4MCIgY2xhc3M9ImZpbGwtMDAwMDAwIj48L3BhdGg+PC9zdmc+"
+                      alt="heart icon"
+                      className="inline w-4 h-4"
+                    />
+                  </span>
+                </label>
+              </div>
 
               <button
                 onClick={() => {
@@ -567,7 +593,7 @@ function App() {
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-            {(showPrivatePrompts ? privatePrompts : prompts).map((prompt, index) => (
+            {(showPrivatePrompts ? privatePrompts : sortedPrompts).map((prompt, index) => (
               <div
                 key={index}
                 className={cn(
