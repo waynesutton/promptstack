@@ -453,16 +453,6 @@ function App() {
     }
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    window.history.pushState({}, "", "/addnew");
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    window.history.pushState({}, "", "/");
-  };
-
   return (
     <div className="min-h-screen">
       <div className="sticky top-0 z-50">
@@ -580,7 +570,7 @@ function App() {
               </div>
 
               <button
-                onClick={handleOpenModal}
+                onClick={() => setIsModalOpen(true)}
                 className={cn(
                   "w-full px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm mt-4"
                 )}>
@@ -699,10 +689,10 @@ function App() {
             )}>
             <div className="flex justify-between items-center mb-6">
               <h2 className="font-['Inter',sans-serif] text-[24px] leading-[32px] text-[#1A202C]">
-                Add New Prompt
+                Add New Prompt or Rules
               </h2>
               <button
-                onClick={handleCloseModal}
+                onClick={() => setIsModalOpen(false)}
                 className={cn(mutedTextColor, `hover:${textColor}`)}>
                 <X size={24} />
               </button>

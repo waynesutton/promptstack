@@ -13,7 +13,7 @@ interface HeaderProps {
 
 const PromptStackLogo = ({ className }: { className?: string }) => (
   <img
-    src="data:image/png;base64,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"
+    src="data:image/svg+xml;charset=utf8,%3Csvg width='217' height='198' viewBox='0 0 217 198' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='217' height='198' rx='39.2558' fill='black'/%3E%3Cpath d='M158.895 24H58.4737C39.9867 24 25 38.9867 25 57.4737V141.158C25 159.645 39.9867 174.632 58.4737 174.632H158.895C177.382 174.632 192.368 159.645 192.368 141.158V57.4737C192.368 38.9867 177.382 24 158.895 24Z' stroke='white' stroke-width='16.7368' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M66.8418 74.2109L83.5786 90.9478L66.8418 107.685' stroke='white' stroke-width='16.7368' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M108.684 107.684H125.42' stroke='white' stroke-width='16.7368' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
     alt="PromptStack Logo"
     width={32}
     height={32}
@@ -55,7 +55,8 @@ export function Header({
   const { isSignedIn } = useUser();
   const router = useRouter();
   const currentPath = router.state.location.pathname;
-  const showAddPrompt = currentPath === "/";
+  const showSearch = currentPath === "/";
+  const useModal = currentPath === "/";
 
   const bgColor =
     theme === "dark"
@@ -92,7 +93,7 @@ export function Header({
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4">
-            {setSearchQuery && (
+            {setSearchQuery && showSearch && (
               <div className="relative w-64">
                 <Search
                   className={cn(
@@ -136,17 +137,24 @@ export function Header({
               <span className="text-sm">open source</span>
             </a>
             <div className="flex items-center gap-4">
-              {showAddPrompt && (
+              {useModal ? (
                 <button
-                  onClick={() =>
-                    setIsModalOpen?.(true) && window.history.pushState({}, "", "/addnew")
-                  }
+                  onClick={() => setIsModalOpen?.(true)}
                   className={cn(
                     "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
                   )}>
                   <Plus size={12} />
                   <span>Add Prompt</span>
                 </button>
+              ) : (
+                <Link
+                  to="/addnew"
+                  className={cn(
+                    "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
+                  )}>
+                  <Plus size={12} />
+                  <span>Add Prompt</span>
+                </Link>
               )}
 
               {isSignedIn ? (
@@ -174,7 +182,7 @@ export function Header({
         {isMobileMenuOpen && (
           <div className="md:hidden pt-4 pb-3 border-t border-gray-200">
             <div className="space-y-4">
-              {setSearchQuery && (
+              {setSearchQuery && showSearch && (
                 <div className="relative">
                   <Search
                     className={cn(
@@ -218,17 +226,24 @@ export function Header({
                   <Github size={20} />
                   <span className="text-sm">open source</span>
                 </a>
-                {showAddPrompt && (
+                {useModal ? (
                   <button
-                    onClick={() =>
-                      setIsModalOpen?.(true) && window.history.pushState({}, "", "/addnew")
-                    }
+                    onClick={() => setIsModalOpen?.(true)}
                     className={cn(
                       "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
                     )}>
                     <Plus size={12} />
                     <span>Add Prompt</span>
                   </button>
+                ) : (
+                  <Link
+                    to="/addnew"
+                    className={cn(
+                      "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
+                    )}>
+                    <Plus size={12} />
+                    <span>Add Prompt</span>
+                  </Link>
                 )}
                 {isSignedIn ? (
                   <div className="w-fit">

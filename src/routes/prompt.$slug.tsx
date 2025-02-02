@@ -14,6 +14,7 @@ import {
   Search,
   Bug,
   Trash2,
+  Lock,
 } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { CodeEditor } from "../components/CodeEditor";
@@ -239,10 +240,15 @@ function PromptDetail() {
           </nav>
 
           <div className={cn(bgColor, "border", borderColor, "p-3 sm:p-4 rounded-lg")}>
-            <div className="flex justify-between items-start">
-              <h2 className={cn(textColor, "text-base sm:text-lg font-semibold mb-1.5")}>
-                {prompt.title}
-              </h2>
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-2">
+                {!prompt.isPublic && isSignedIn && (
+                  <Lock size={14} className={cn(mutedTextColor)} />
+                )}
+                <h2 className="font-['Inter',sans-serif] text-[24px] leading-[32px] text-[#1A202C]">
+                  {prompt.title}
+                </h2>
+              </div>
             </div>
             <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm")}>{prompt.description}</p>
             <div className="flex flex-wrap items-center gap-2 text-left">
