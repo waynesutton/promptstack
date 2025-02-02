@@ -820,7 +820,7 @@ function App() {
           <div className={cn(bgColor, "p-4 rounded-lg max-w-sm w-full border", borderColor)}>
             <div className="flex justify-between items-center mb-2">
               <h2 className={cn(textColor, "text-sm font-normal")}>
-                Sign in to create private prompts.
+                Sign in to create, edit, and delete your own prompts.
               </h2>
               <button
                 onClick={() => setIsSignInOpen(false)}
