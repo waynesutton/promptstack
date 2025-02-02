@@ -39,15 +39,15 @@ export function CommentSection({ promptId }: CommentSectionProps) {
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Add a comment..."
+            placeholder="What do you think about this prompt?"
             className="w-full p-2 border rounded-lg resize-none"
             rows={3}
           />
           <button
             onClick={handleSubmit}
             disabled={!comment.trim()}
-            className={`px-4 py-2 bg-[#2a2a2a] text-[#fff] rounded-lg hover:bg-[#2A2A2A]  transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}>
-            Post
+            className={`px-4 py-2 bg-[#FAF2E9] text-[#2A2A2A] rounded-sm hover:bg-[#FAF2E9]  transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed`}>
+            Comment
           </button>
         </form>
       ) : (
