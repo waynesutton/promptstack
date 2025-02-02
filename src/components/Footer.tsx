@@ -61,7 +61,7 @@ export function Footer({ count = 0 }: FooterProps) {
                   </li>
                 </ul>
               </div>
-              <div>
+              {/* <div>
                 <h4 className={`font-normal ${textColor} mb-4`}>Stack</h4>
                 <ul className="space-y-2">
                   <li>
@@ -83,7 +83,7 @@ export function Footer({ count = 0 }: FooterProps) {
                     </a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               <div>
                 <h4 className={`font-normal ${textColor} mb-4`}>Resources</h4>
                 <ul className="space-y-2">

@@ -155,7 +155,7 @@ export function CommentSection({ promptId }: CommentSectionProps) {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-normal font-normal">Prompt Feedback</h2>
+      <h2 className="text-normal font-normal">Comment</h2>
 
       <div className="space-y-2">
         <MinimalTiptapEditor

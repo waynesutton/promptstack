@@ -18,7 +18,7 @@ export function MinimalTiptapEditor({
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "What do you think about this prompt?",
+        placeholder: "What do you think?",
         emptyEditorClass: "is-editor-empty",
       }),
     ],
@@ -50,7 +50,7 @@ export function MinimalTiptapEditor({
       <style>
         {`
           .ProseMirror p.is-editor-empty:first-child::before {
-            content: "What do you think about this prompt?";
+            content: "What do you think?";
             float: left;
             color: #adb5bd;
             pointer-events: none;
