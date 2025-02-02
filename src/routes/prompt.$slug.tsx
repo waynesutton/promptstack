@@ -12,6 +12,7 @@ import {
   Moon,
   Github,
   Search,
+  Bug,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { CodeEditor } from "../components/CodeEditor";
@@ -24,7 +25,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useParams } from "@tanstack/react-router";
 import { CommentSection } from "../components/CommentSection";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 interface Prompt {
   title: string;
@@ -161,10 +162,16 @@ function PromptDetail() {
 
   return (
     <div className="min-h-screen">
-      <Helmet>
-        <title>{prompt.title} - PromptStack</title>
-        <meta name="description" content={prompt.description} />
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>{prompt.title} - PromptStack</title>
+          <meta name="description" content={prompt.description} />
+          <meta property="og:title" content={`${prompt.title} - PromptStack`} />
+          <meta property="og:description" content={prompt.description} />
+          <meta name="twitter:title" content={`${prompt.title} - PromptStack`} />
+          <meta name="twitter:description" content={prompt.description} />
+        </Helmet>
+      </HelmetProvider>
 
       <div className="sticky top-0 z-50">
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -308,7 +315,17 @@ function PromptDetail() {
                 </SandpackLayout>
               </SandpackProvider>
             </div>
-
+            <div className="flex items-center gap-2 pt-[10px]">
+              <a
+                href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request"
+                target="_blank"
+                rel="noopener noreferrer">
+                <Bug size={14} className={cn(mutedTextColor)} />
+              </a>
+              <p className={cn(mutedTextColor, "text-xs")}>
+                {prompt.isPublic ? "Report bugs or spam" : "Report"}
+              </p>
+            </div>
             <div className="comments mt-8">
               <CommentSection promptId={prompt._id} />
             </div>
