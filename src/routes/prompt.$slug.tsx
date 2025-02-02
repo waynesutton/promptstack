@@ -38,32 +38,11 @@ interface Prompt {
 }
 
 const PromptStackLogo = ({ className }: { className?: string }) => (
-  <svg
-    width="32"
-    height="32"
-    viewBox="0 0 218 191"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}>
-    <path
-      d="M42 80L67.4286 105.429L42 130.857"
-      stroke="currentColor"
-      strokeWidth="16.43"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M81 131H167"
-      stroke="currentColor"
-      strokeWidth="16.43"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M197.562 0H20.4375C8.85625 0 0 8.85625 0 20.4375V170.312C0 181.894 8.85625 190.75 20.4375 190.75H197.562C209.144 190.75 218 181.894 218 170.312V20.4375C218 8.85625 209.144 0 197.562 0ZM204.375 177.125H13.625V40.875H204.375V177.125Z"
-      fill="currentColor"
-    />
-  </svg>
+  <img
+    src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjE3IiBoZWlnaHQ9IjE5OCIgdmlld0JveD0iMCAwIDIxNyAxOTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMTciIGhlaWdodD0iMTk4IiByeD0iMzkuMjU1OCIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTE1OC44OTUgMjRINTguNDczN0MzOS45ODY3IDI0IDI1IDM4Ljk4NjcgMjUgNTcuNDczN1YxNDEuMTU4QzI1IDE1OS42NDUgMzkuOTg2NyAxNzQuNjMyIDU4LjQ3MzcgMTc0LjYzMkgxNTguODk1QzE3Ny4zODIgMTc0LjYzMiAxOTIuMzY4IDE1OS42NDUgMTkyLjM2OCAxNDEuMTU4VjU3LjQ3MzdDMTkyLjM2OCAzOC45ODY3IDE3Ny4zODIgMjQgMTU4Ljg5NSAyNFoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMTYuNzM2OCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik02Ni44NDE4IDc0LjIxMDlMODMuNTc4NiA5MC45NDc4TDY2Ljg0MTggMTA3LjY4NSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNi43MzY4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTEwOC42ODQgMTA3LjY4NEgxMjUuNDIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMTYuNzM2OCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo="
+    className={className}
+    alt="PromptStack Logo"
+  />
 );
 
 export const Route = createFileRoute("/prompt/$slug")({
