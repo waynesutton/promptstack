@@ -190,7 +190,7 @@ function PromptDetail() {
           <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[810px] w-[810px] rounded-full bg-[#ffffff] opacity-60 blur-[100px]"></div>
         </div>
 
-        <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-8">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
           <div className={cn(bgColor, "border", borderColor, "p-3 sm:p-4 rounded-lg")}>
             <div className="flex justify-between items-start">
               <h2 className={cn(textColor, "text-base sm:text-lg font-semibold mb-1.5")}>
@@ -272,7 +272,7 @@ function PromptDetail() {
                   },
                 }}>
                 <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
-                  <span className="text-[#6C6C6C] text-[12px] font-mono">prompt.txt</span>
+                  <span className="text-[#6C6C6C] text-[0px] font-mono">prompt.txt</span>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => {

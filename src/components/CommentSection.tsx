@@ -53,7 +53,7 @@ export function CommentSection({ promptId }: CommentSectionProps) {
       ) : (
         <SignInButton mode="modal">
           <button className="text-[#6C6C6C] hover:text-[#2A2A2A] transition-colors duration-200">
-            Sign in to leave feedback
+            Sign in to leave a comment
           </button>
         </SignInButton>
       )}
