@@ -24,6 +24,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useParams } from "@tanstack/react-router";
 import { CommentSection } from "../components/CommentSection";
+import { Helmet } from "react-helmet";
 
 interface Prompt {
   title: string;
@@ -181,6 +182,11 @@ function PromptDetail() {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>{prompt.title} - PromptStack</title>
+        <meta name="description" content={prompt.description} />
+      </Helmet>
+
       <div className="sticky top-0 z-50">
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
@@ -191,6 +197,19 @@ function PromptDetail() {
         </div>
 
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
+          <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+            <Link to="/" className="hover:text-black transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <Link
+              to="/prompt/$slug"
+              params={{ slug: prompt.slug || generateSlug(prompt.title) }}
+              className="text-black hover:text-gray-800 transition-colors">
+              {prompt.title}
+            </Link>
+          </nav>
+
           <div className={cn(bgColor, "border", borderColor, "p-3 sm:p-4 rounded-lg")}>
             <div className="flex justify-between items-start">
               <h2 className={cn(textColor, "text-base sm:text-lg font-semibold mb-1.5")}>
@@ -317,7 +336,6 @@ function PromptDetail() {
           </div>
         </div>
       </div>
-
       <Footer count={count} />
     </div>
   );
