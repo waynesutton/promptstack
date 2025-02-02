@@ -847,7 +847,9 @@ function App() {
                   </button>
                 </div>
                 {!isSignedIn ? (
-                  <p className={cn(mutedTextColor, "text-sm")}>Sign in to set prompt visibility</p>
+                  <p className={cn(mutedTextColor, "text-sm")}>
+                    Sign in to set prompt visibility or delete your prompts.
+                  </p>
                 ) : (
                   <p className={cn(mutedTextColor, "text-sm")}>
                     {newPrompt.isPublic
@@ -874,7 +876,7 @@ function App() {
           <div className={cn(bgColor, "p-4 rounded-lg max-w-sm w-full border", borderColor)}>
             <div className="flex justify-between items-center mb-2">
               <h2 className={cn(textColor, "text-sm font-normal")}>
-                Sign in to create, edit, and delete your own prompts.
+                Sign in to create private prompts or delete your own prompts.
               </h2>
               <button
                 onClick={() => setIsSignInOpen(false)}
