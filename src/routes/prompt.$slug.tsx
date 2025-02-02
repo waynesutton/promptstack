@@ -189,7 +189,7 @@ function PromptDetail() {
 
     if (window.confirm("Are you sure you want to delete this prompt?")) {
       try {
-        await deletePrompt({ id: promptId });
+        await deletePrompt({ promptId });
         navigate({ to: "/" });
       } catch (error) {
         console.error("Error deleting prompt:", error);
