@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "../ThemeContext";
 import { Command, ArrowLeft, Book, Sun, Moon, Copy, FileText } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+//import { Link } from "@tanstack/react-router";
 import React, { useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";

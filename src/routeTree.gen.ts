@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as PromptGuideImport } from './routes/prompt-guide'
 import { Route as DocsImport } from './routes/docs'
+import { Route as AddnewImport } from './routes/addnew'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as PromptSlugImport } from './routes/prompt.$slug'
@@ -29,6 +30,12 @@ const PromptGuideRoute = PromptGuideImport.update({
 const DocsRoute = DocsImport.update({
   id: '/docs',
   path: '/docs',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AddnewRoute = AddnewImport.update({
+  id: '/addnew',
+  path: '/addnew',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/addnew': {
+      id: '/addnew'
+      path: '/addnew'
+      fullPath: '/addnew'
+      preLoaderRoute: typeof AddnewImport
+      parentRoute: typeof rootRoute
+    }
     '/docs': {
       id: '/docs'
       path: '/docs'
@@ -110,6 +124,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/addnew': typeof AddnewRoute
   '/docs': typeof DocsRoute
   '/prompt-guide': typeof PromptGuideRoute
   '/edit-prompt/$id': typeof EditPromptIdRoute
@@ -119,6 +134,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/addnew': typeof AddnewRoute
   '/docs': typeof DocsRoute
   '/prompt-guide': typeof PromptGuideRoute
   '/edit-prompt/$id': typeof EditPromptIdRoute
@@ -129,6 +145,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/addnew': typeof AddnewRoute
   '/docs': typeof DocsRoute
   '/prompt-guide': typeof PromptGuideRoute
   '/edit-prompt/$id': typeof EditPromptIdRoute
@@ -140,6 +157,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/addnew'
     | '/docs'
     | '/prompt-guide'
     | '/edit-prompt/$id'
@@ -148,6 +166,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/addnew'
     | '/docs'
     | '/prompt-guide'
     | '/edit-prompt/$id'
@@ -156,6 +175,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/addnew'
     | '/docs'
     | '/prompt-guide'
     | '/edit-prompt/$id'
@@ -166,6 +186,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AddnewRoute: typeof AddnewRoute
   DocsRoute: typeof DocsRoute
   PromptGuideRoute: typeof PromptGuideRoute
   EditPromptIdRoute: typeof EditPromptIdRoute
@@ -175,6 +196,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AddnewRoute: AddnewRoute,
   DocsRoute: DocsRoute,
   PromptGuideRoute: PromptGuideRoute,
   EditPromptIdRoute: EditPromptIdRoute,
@@ -193,6 +215,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/addnew",
         "/docs",
         "/prompt-guide",
         "/edit-prompt/$id",
@@ -204,6 +227,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/addnew": {
+      "filePath": "addnew.tsx"
     },
     "/docs": {
       "filePath": "docs.tsx"
