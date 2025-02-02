@@ -1,4 +1,4 @@
-# PromptStack - AI Prompts and Code Generation Directory for Prompt Engineering
+# PromptStack - Open Source - AI Prompts and code generation rules for Prompt Engineering
 
 **[PromptStack](https://promptstack.dev)** is an **open-source** searchable collection of AI prompts and code generation rules for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.
 
