@@ -31,13 +31,23 @@ function About() {
         <div className="max-w-3xl">
           <div className={`${textColor} font-inter space-y-8`}>
             <div>
-              <h1 className="text-3xl font-bold mb-6">PromptStack</h1>
+              <h4 className="text-xl font-500 mb-6">PromptStack</h4>
 
-              <p className="mb-4">
-                <strong>PromptStack</strong> is an <strong>open-source</strong> searchable
-                collection of AI prompts and code generation snippets for prompt engineering,
-                featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to
-                streamline developer workflows. Built with{" "}
+              <p className="text-base mb-8">
+                PromptStack is an open-source tool that helps developers manage and version control
+                their AI prompts. It treats prompts as code, allowing teams to collaborate, test,
+                and iterate on prompts using familiar Git workflows. The system lets you organize
+                prompts into reusable components, track changes over time, and test different
+                variations to optimize performance. You can run prompts against various AI models
+                (like GPT-4, Claude, etc.) and compare results. It's particularly useful for teams
+                building AI applications who need a systematic way to maintain and improve their
+                prompt engineering efforts.
+              </p>
+
+              <p className="text-base mb-4">
+                PromptStack works with Anthropic Claude, OpenAI GPTCursor,GitHub Copilot, Codeium,
+                and other AI tools. It's an open-source platform for discovering and sharing
+                prompts, built with{" "}
                 <a
                   href="https://convex.link/promptstackgithub"
                   className={`${mutedTextColor} hover:${textColor}`}>
@@ -52,59 +62,55 @@ function About() {
                 for client-side routing.
               </p>
 
-              <p className="mb-8">
-                PromptStack is a community-driven platform for developers to discover, share, and
-                manage AI prompts and code generation rules. The goal of PromptStack is to help
-                developers leverage AI tools more effectively by providing a curated collection of
-                prompts that enhance productivity and code quality.
-              </p>
-
-              <h2 className="text-2xl font-bold mb-4">Features</h2>
+              <h4 className="text-xl font-500 mb-6">Features</h4>
               <ul className="list-disc pl-6 mb-8 space-y-2">
-                <li>
+                <li className="text-base">
                   Searchable Directory: Quickly find AI prompts and code-gen rules tailored to your
                   needs.
                 </li>
-                <li>Prompt Rating System: Rate and discover top prompts in the directory.</li>
-                <li>
+                <li className="text-base">
+                  Prompt Rating System: Rate and discover top prompts in the directory.
+                </li>
+                <li className="text-base">
                   Category Organization: Prompts are organized into clear, functional categories.
                 </li>
-                <li>
+                <li className="text-base">
                   GitHub Integration: Automatically link GitHub or social profiles submitted with
                   prompts.
                 </li>
-                <li>Carbon Copy View: View and copy prompts in a Carbon-style editor window.</li>
-                <li>
+                <li className="text-base">
+                  Carbon Copy View: View and copy prompts in a Carbon-style editor window.
+                </li>
+                <li className="text-base">
                   Readme Support: Find and submit README examples for AI and code-gen projects.
                 </li>
-                <li>.Cursorrules: Find and submit Cursor rules for AI and code-gen projects.</li>
-                <li>
+                <li className="text-base">
+                  .Cursorrules: Find and submit Cursor rules for AI and code-gen projects.
+                </li>
+                <li className="text-base">
                   SEO Optimized: AI tool lists, prompt engineering, and metadata for better
                   discoverability.
                 </li>
               </ul>
 
-              <h2 className="text-2xl font-bold mb-4">Technology Stack</h2>
+              <h4 className="text-xl font-500 mb-6">Tech Stack</h4>
               <ul className="list-disc pl-6 mb-8 space-y-2">
-                <li>Next.js - React framework for production</li>
-                <li>React - JavaScript library for building user interfaces</li>
-                <li>TypeScript - JavaScript with syntax for types</li>
-                <li>Tailwind CSS - CSS framework</li>
-                <li>Convex - Backend development platform</li>
-                <li>Clerk - Authentication and user management</li>
-                <li>Bun - JavaScript runtime & package manager</li>
-              </ul>
-
-              <h2 className="text-2xl font-bold mb-4">Development Roadmap</h2>
-              <ul className="list-disc pl-6 mb-8 space-y-2">
-                <li>Allow prompts to be editable only by their creators</li>
-                <li>Add "Prompt Threads" for multi-step prompts</li>
-                <li>Add a "prompt feedback / comments" section to each prompt page</li>
-                <li>All private prompts should be visible to the creator only</li>
-                <li>Allow for public prompts to be visible to all users</li>
-                <li>Setup sign-in with Clerk</li>
-                <li>Add for private team prompts</li>
-                <li>Add for public team prompts</li>
+                <li className="text-base">Next.js - React framework for production</li>
+                <li className="text-base">
+                  React - JavaScript library for building user interfaces
+                </li>
+                <li className="text-base">TypeScript - JavaScript with syntax for types</li>
+                <li className="text-base">Tailwind CSS - CSS framework</li>
+                <li className="text-base">
+                  <a
+                    href="https://convex.link/promptstackgithub"
+                    className={`${mutedTextColor} hover:${textColor}`}>
+                    Convex
+                  </a>{" "}
+                  - Backend development platform
+                </li>
+                <li className="text-base">Clerk - Authentication and user management</li>
+                <li className="text-base">Bun - JavaScript runtime & package manager</li>
               </ul>
             </div>
           </div>

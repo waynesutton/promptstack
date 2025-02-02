@@ -180,13 +180,17 @@ function PromptDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#F5F4EF] to-[#FFFFFF]">
-      <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
+    <div className="min-h-screen">
+      <div className="sticky top-0 z-50">
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
 
-      <div className={cn("min-h-screen", bgColor)}>
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-8">
+      <div className="relative min-h-screen">
+        <div className="absolute inset-0 -z-10 h-full w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[810px] w-[810px] rounded-full bg-[#ffffff] opacity-60 blur-[100px]"></div>
+        </div>
+
+        <div className="max-w-[1000px] mx-auto px-4 sm:px-6 py-8">
           <div className={cn(bgColor, "border", borderColor, "p-3 sm:p-4 rounded-lg")}>
             <div className="flex justify-between items-start">
               <h2 className={cn(textColor, "text-base sm:text-lg font-semibold mb-1.5")}>

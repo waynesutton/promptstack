@@ -60,7 +60,7 @@ export function Header({
       : "bg-gradient-to-b from-[#ffffff] to-[#ffffff]";
   const textColor = theme === "dark" ? "text-white" : "text-black";
   const mutedTextColor = theme === "dark" ? "text-[#A3A3A3]" : "text-gray-500";
-  const borderColor = theme === "dark" ? "border-[#1F1F1F]" : "border-gray-200";
+  const borderColor = theme === "dark" ? "border-[#FAF2E9]" : "border-gray-200";
   const buttonBgColor = theme === "dark" ? "bg-[#222222]" : "bg-gray-100";
   const buttonHoverBgColor = theme === "dark" ? "hover:bg-[#333333]" : "hover:bg-gray-200";
 
@@ -69,7 +69,7 @@ export function Header({
   };
 
   return (
-    <header className={cn(bgColor, borderColor, "bg-gradient-to-b from-[#ffffff] to-[#FBF5F0]")}>
+    <header className="relative h-auto w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center  gap-3">
@@ -155,6 +155,9 @@ export function Header({
           </div>
 
           {/* Mobile Menu Button */}
+          <span className="md:hidden font-normal text-[18px]">
+            <a href="/">PromptStack</a>
+          </span>
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2">
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
