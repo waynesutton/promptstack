@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useTheme } from "./ThemeContext";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { CodeEditor } from "./components/CodeEditor";
 import "./fonts.css";
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -323,6 +323,8 @@ function App() {
   const likePromptMutation = useMutation(api.prompts.likePrompt);
   const { isSignedIn } = useUser();
   const [sortByLikes, setSortByLikes] = useState(false);
+  const navigate = useNavigate();
+  const router = useRouter();
 
   const createPrompt = useMutation(api.prompts.createPrompt);
   const searchResults = useQuery(api.prompts.searchPrompts, {
@@ -451,6 +453,16 @@ function App() {
     }
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    window.history.pushState({}, "", "/addnew");
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    window.history.pushState({}, "", "/");
+  };
+
   return (
     <div className="min-h-screen">
       <div className="sticky top-0 z-50">
@@ -568,7 +580,7 @@ function App() {
               </div>
 
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleOpenModal}
                 className={cn(
                   "w-full px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm mt-4"
                 )}>
@@ -690,7 +702,7 @@ function App() {
                 Add New Prompt
               </h2>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={handleCloseModal}
                 className={cn(mutedTextColor, `hover:${textColor}`)}>
                 <X size={24} />
               </button>

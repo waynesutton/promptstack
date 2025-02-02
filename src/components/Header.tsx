@@ -138,7 +138,9 @@ export function Header({
             <div className="flex items-center gap-4">
               {showAddPrompt && (
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() =>
+                    setIsModalOpen?.(true) && window.history.pushState({}, "", "/addnew")
+                  }
                   className={cn(
                     "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
                   )}>
@@ -218,7 +220,9 @@ export function Header({
                 </a>
                 {showAddPrompt && (
                   <button
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() =>
+                      setIsModalOpen?.(true) && window.history.pushState({}, "", "/addnew")
+                    }
                     className={cn(
                       "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
                     )}>
