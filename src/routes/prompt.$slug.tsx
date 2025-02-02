@@ -207,6 +207,7 @@ function PromptDetail() {
           <meta name="description" content={prompt.description} />
           <meta property="og:title" content={`${prompt.title} - PromptStack`} />
           <meta property="og:description" content={prompt.description} />
+          <meta property="og:image" content="https://promptstack.vercel.app/og-image.jpg" />
           <meta name="twitter:title" content={`${prompt.title} - PromptStack`} />
           <meta name="twitter:description" content={prompt.description} />
         </Helmet>
@@ -234,6 +235,7 @@ function PromptDetail() {
             <Link
               to="/prompt/$slug"
               params={{ slug: prompt.slug || generateSlug(prompt.title) }}
+              search={{}}
               className="text-black hover:text-gray-800 transition-colors">
               {prompt.title}
             </Link>
