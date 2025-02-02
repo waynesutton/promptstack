@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { Search, Sun, Moon, Plus, Github, Menu, X } from "lucide-react";
 import { useTheme } from "../ThemeContext";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
@@ -53,6 +53,9 @@ export function Header({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { isSignedIn } = useUser();
+  const router = useRouter();
+  const currentPath = router.state.location.pathname;
+  const showAddPrompt = currentPath === "/";
 
   const bgColor =
     theme === "dark"
@@ -133,14 +136,16 @@ export function Header({
               <span className="text-sm">open source</span>
             </a>
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className={cn(
-                  "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
-                )}>
-                <Plus size={12} />
-                <span>Add Prompt</span>
-              </button>
+              {showAddPrompt && (
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className={cn(
+                    "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
+                  )}>
+                  <Plus size={12} />
+                  <span>Add Prompt</span>
+                </button>
+              )}
 
               {isSignedIn ? (
                 <UserButton afterSignOutUrl="/" />
@@ -211,14 +216,16 @@ export function Header({
                   <Github size={20} />
                   <span className="text-sm">open source</span>
                 </a>
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className={cn(
-                    "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
-                  )}>
-                  <Plus size={12} />
-                  <span>Add Prompt</span>
-                </button>
+                {showAddPrompt && (
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className={cn(
+                      "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
+                    )}>
+                    <Plus size={12} />
+                    <span>Add Prompt</span>
+                  </button>
+                )}
                 {isSignedIn ? (
                   <div className="w-fit">
                     <UserButton afterSignOutUrl="/" />

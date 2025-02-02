@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "../ThemeContext";
 import { Command, ArrowLeft, Book, Sun, Moon, Copy, FileText } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import React from "react";
+import React, { useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 
@@ -12,6 +12,7 @@ export const Route = createFileRoute("/about")({
 
 function About() {
   const { theme, toggleTheme } = useTheme();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const bgColor =
     theme === "dark" ? "bg-[#0A0A0A]" : "bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]";
@@ -24,7 +25,7 @@ function About() {
   return (
     <div className={`min-h-screen ${bgColor}`}>
       <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]">
-        <Header />
+        <Header setIsModalOpen={setIsModalOpen} />
       </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">

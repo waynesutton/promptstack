@@ -121,6 +121,7 @@ function PromptDetail() {
   const prompt = useQuery(api.prompts.getPromptBySlug, { slug });
   const deletePrompt = useMutation(api.prompts.deletePrompt);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (prompt && user) {
@@ -211,7 +212,11 @@ function PromptDetail() {
       </HelmetProvider>
 
       <div className="sticky top-0 z-50">
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setIsModalOpen={setIsModalOpen}
+        />
       </div>
 
       <div className="relative min-h-screen">

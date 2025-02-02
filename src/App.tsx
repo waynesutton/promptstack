@@ -26,6 +26,9 @@ import {
   Heart,
   MessageCircleCode,
   Bug,
+  SquareArrowOutUpRight,
+  Trash2,
+  Trash,
 } from "lucide-react";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useTheme } from "./ThemeContext";
@@ -755,6 +758,14 @@ function App() {
                   ))}
                 </div>
               </div>
+              <p className={cn(mutedTextColor, "text-xs")}>
+                {" "}
+                <span className="text-xs">
+                  <a href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request">
+                    Click here to suggest a new category here.
+                  </a>
+                </span>
+              </p>
               <div>
                 <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                   Prompt<span className="text-[#EF442D]">* (required)</span>
@@ -769,7 +780,7 @@ function App() {
                     textColor,
                     "w-full p-3 placeholder-[#525252] h-32 rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
                   )}
-                  placeholder="Enter your prompt text or code generation rules or code examples"
+                  placeholder="Enter your prompt text or code gen rules or code examples"
                   required
                 />
               </div>
