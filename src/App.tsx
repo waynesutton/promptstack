@@ -24,6 +24,7 @@ import {
   Share,
   Expand,
   Heart,
+  MessageCircleCode,
 } from "lucide-react";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useTheme } from "./ThemeContext";
@@ -190,9 +191,17 @@ const PromptCard = ({
             ],
           },
         }}>
-        <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
-          <span className="text-[#6C6C6C] text-[12px] font-mono">prompt.txt</span>
+        <div className="flex items-center px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
+          <span className="text-[#6C6C6C] text-[12px] font-mono"></span>
           <div className="flex items-center gap-1">
+            <Link
+              to="/prompt/$slug"
+              params={{ slug: prompt.slug || generateSlug(prompt.title) }}
+              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+              <MessageCircleCode size={14} />
+              <span className="text-[12px] font-mono">Comment</span>
+            </Link>
+
             <Link
               to="/prompt/$slug"
               params={{ slug: prompt.slug || generateSlug(prompt.title) }}
@@ -430,7 +439,7 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <div className="sticky top-0 z-50 bg-gradient-to-b from-[#FBF5F0] to-[#FFFFFF]">
+      <div className="sticky top-0 z-50">
         <Header
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -439,8 +448,8 @@ function App() {
         />
       </div>
       <div className="relative flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-[#FBF5F0] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[510px] w-[510px] rounded-full bg-[#ffffff] opacity-90 blur-[100px]"></div>
+        <div className="absolute inset-0 -z-10 h-full w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[810px] w-[810px] rounded-full bg-[#ffffff] opacity-60 blur-[100px]"></div>
         </div>
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">
@@ -529,7 +538,12 @@ function App() {
             </div>
           </div>
         </div>
+
         <div className="flex-1">
+          <div>
+            {" "}
+            <h1>test</h1>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {(showPrivatePrompts ? privatePrompts : prompts).map((prompt, index) => (
               <div

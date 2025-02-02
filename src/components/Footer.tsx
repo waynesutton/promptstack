@@ -36,7 +36,7 @@ export function Footer({ count = 0 }: FooterProps) {
   return (
     <>
       <footer
-        className={`${bgColor}  bg-gradient-to-b from-[#FBF5F0] to-[#ffffff] py-6 sm:py-8 mt-auto`}>
+        className={`${bgColor}  bg-gradient-to-b from-[#F9EFE6] to-[#ffffff] py-6 sm:py-8 mt-auto`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col space-y-8">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
