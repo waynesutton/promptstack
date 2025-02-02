@@ -25,6 +25,7 @@ import {
   Expand,
   Heart,
   MessageCircleCode,
+  Bug,
 } from "lucide-react";
 import { motion, useSpring, useTransform, MotionValue } from "framer-motion";
 import { useTheme } from "./ThemeContext";
@@ -802,7 +803,7 @@ function App() {
                         : ["border-" + borderColor, mutedTextColor].join(" "),
                       !isSignedIn && "opacity-50 cursor-not-allowed"
                     )}>
-                    <Lock size={16} />
+                    <Lock size={14} className={cn(mutedTextColor)} />
                     <span>Private</span>
                   </button>
                 </div>

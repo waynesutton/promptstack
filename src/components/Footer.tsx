@@ -74,7 +74,7 @@ export function Footer({ count = 0 }: FooterProps) {
                   </li>
                   <li>
                     <a
-                      href="https://github.com/waynesutton/PromptStack/discussions"
+                      href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request"
                       className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
                       Support
                     </a>
