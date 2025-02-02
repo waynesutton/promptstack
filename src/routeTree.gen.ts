@@ -16,6 +16,7 @@ import { Route as DocsImport } from './routes/docs'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as PromptSlugImport } from './routes/prompt.$slug'
+import { Route as EditPromptIdImport } from './routes/edit-prompt.$id'
 
 // Create/Update Routes
 
@@ -46,6 +47,12 @@ const IndexRoute = IndexImport.update({
 const PromptSlugRoute = PromptSlugImport.update({
   id: '/prompt/$slug',
   path: '/prompt/$slug',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EditPromptIdRoute = EditPromptIdImport.update({
+  id: '/edit-prompt/$id',
+  path: '/edit-prompt/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,6 +88,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PromptGuideImport
       parentRoute: typeof rootRoute
     }
+    '/edit-prompt/$id': {
+      id: '/edit-prompt/$id'
+      path: '/edit-prompt/$id'
+      fullPath: '/edit-prompt/$id'
+      preLoaderRoute: typeof EditPromptIdImport
+      parentRoute: typeof rootRoute
+    }
     '/prompt/$slug': {
       id: '/prompt/$slug'
       path: '/prompt/$slug'
@@ -98,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/docs': typeof DocsRoute
   '/prompt-guide': typeof PromptGuideRoute
+  '/edit-prompt/$id': typeof EditPromptIdRoute
   '/prompt/$slug': typeof PromptSlugRoute
 }
 
@@ -106,6 +121,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/docs': typeof DocsRoute
   '/prompt-guide': typeof PromptGuideRoute
+  '/edit-prompt/$id': typeof EditPromptIdRoute
   '/prompt/$slug': typeof PromptSlugRoute
 }
 
@@ -115,15 +131,35 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/docs': typeof DocsRoute
   '/prompt-guide': typeof PromptGuideRoute
+  '/edit-prompt/$id': typeof EditPromptIdRoute
   '/prompt/$slug': typeof PromptSlugRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/docs' | '/prompt-guide' | '/prompt/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/docs'
+    | '/prompt-guide'
+    | '/edit-prompt/$id'
+    | '/prompt/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/docs' | '/prompt-guide' | '/prompt/$slug'
-  id: '__root__' | '/' | '/about' | '/docs' | '/prompt-guide' | '/prompt/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/docs'
+    | '/prompt-guide'
+    | '/edit-prompt/$id'
+    | '/prompt/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/docs'
+    | '/prompt-guide'
+    | '/edit-prompt/$id'
+    | '/prompt/$slug'
   fileRoutesById: FileRoutesById
 }
 
@@ -132,6 +168,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   DocsRoute: typeof DocsRoute
   PromptGuideRoute: typeof PromptGuideRoute
+  EditPromptIdRoute: typeof EditPromptIdRoute
   PromptSlugRoute: typeof PromptSlugRoute
 }
 
@@ -140,6 +177,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   DocsRoute: DocsRoute,
   PromptGuideRoute: PromptGuideRoute,
+  EditPromptIdRoute: EditPromptIdRoute,
   PromptSlugRoute: PromptSlugRoute,
 }
 
@@ -157,6 +195,7 @@ export const routeTree = rootRoute
         "/about",
         "/docs",
         "/prompt-guide",
+        "/edit-prompt/$id",
         "/prompt/$slug"
       ]
     },
@@ -171,6 +210,9 @@ export const routeTree = rootRoute
     },
     "/prompt-guide": {
       "filePath": "prompt-guide.tsx"
+    },
+    "/edit-prompt/$id": {
+      "filePath": "edit-prompt.$id.tsx"
     },
     "/prompt/$slug": {
       "filePath": "prompt.$slug.tsx"
