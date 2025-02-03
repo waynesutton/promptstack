@@ -115,12 +115,7 @@ function AddNew() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !newPrompt.title ||
-      !newPrompt.description ||
-      !newPrompt.prompt ||
-      !newPrompt.categories.length
-    ) {
+    if (!newPrompt.title || !newPrompt.prompt || !newPrompt.categories.length) {
       return;
     }
 
