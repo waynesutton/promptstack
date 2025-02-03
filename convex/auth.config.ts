@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://present-glowworm-75.clerk.accounts.dev",
+      domain: "https://clerk.promptstack.dev",
       applicationID: "convex",
     },
   ],
