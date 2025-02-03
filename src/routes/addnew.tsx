@@ -130,12 +130,15 @@ function AddNew() {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
 
-      const { userId, ...promptData } = {
-        ...newPrompt,
+      const promptId = await createPrompt({
+        title: newPrompt.title,
+        description: newPrompt.description,
+        prompt: newPrompt.prompt,
+        categories: newPrompt.categories,
+        githubProfile: newPrompt.githubProfile,
+        isPublic: newPrompt.isPublic,
         slug,
-      };
-
-      const promptId = await createPrompt(promptData);
+      });
 
       if (promptId) {
         navigate({ to: "/prompt/$slug", params: { slug } });
