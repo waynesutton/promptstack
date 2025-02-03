@@ -54,6 +54,8 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - ✅ Only allow prompt feedback or comments if user is logged in
 - ✅ use [Minimal Tiptap](https://shadcn-minimal-tiptap.vercel.app/) for prompt feedback / comments
 - [ ] Add @mentions to prompt feedback / comments
+- [ ] Allow logged in users to like prompts and view liked prompts
+- [ ] Add AI prompt redo on prompt pages
 - [ ] Allow prompts to be editable only by their creators if they are logged in
 - [ ] Add "Prompt Threads" for multi-step prompts.
 - [ ] Add for private team prompts
