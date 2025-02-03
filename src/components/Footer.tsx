@@ -74,7 +74,7 @@ export function Footer({ count = 0 }: FooterProps) {
                   </li>
                   <li>
                     <a
-                      href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request"
+                      href="https://github.com/waynesutton/PromptStack/discussions"
                       className={`${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
                       Support
                     </a>
@@ -112,8 +112,8 @@ export function Footer({ count = 0 }: FooterProps) {
                     rel="noopener noreferrer"
                     className={`flex items-center ${mutedTextColor} hover:${textColor} transition-colors duration-200 text-[0.8rem] font-normal`}>
                     <img
-                      src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzE0MV83MzcpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNi4wMzIyIDMuMzc2MzZDMTYuODA3MiAzLjU4MzggMTcuNDE2MiA0LjE5Mjc5IDE3LjYyMzYgNC45Njc3M0MxNy45OTg1IDYuMzcwOTIgMTggOS4zMDAyOSAxOCA5LjMwMDI5QzE4IDkuMzAwMjkgMTggMTIuMjI5NyAxNy42MjM2IDEzLjYzMjlDMTcuNDE2MiAxNC40MDc4IDE2LjgwNzIgMTUuMDE2OCAxNi4wMzIyIDE1LjIyNDJDMTQuNjI5MSAxNS42MDA2IDguOTk5OTcgMTUuNjAwNiA4Ljk5OTk3IDE1LjYwMDZDOC45OTk5NyAxNS42MDA2IDMuMzcwOTIgMTUuNjAwNiAxLjk2NzczIDE1LjIyNDJDMS4xOTI3OSAxNS4wMTY4IDAuNTgzOCAxNC40MDc4IDAuMzc2MzU4IDEzLjYzMjlDMCAxMi4yMjk3IDAgOS4zMDAyOSAwIDkuMzAwMjlDMCA5LjMwMDI5IDAgNi4zNzA5MiAwLjM3NjM1OCA0Ljk2NzczQzAuNTgzOCA0LjE5Mjc5IDEuMTkyNzkgMy41ODM4IDEuOTY3NzMgMy4zNzYzNkMzLjM3MDkyIDMgOC45OTk5NyAzIDguOTk5OTcgM0M4Ljk5OTk3IDMgMTQuNjI5MSAzIDE2LjAzMjIgMy4zNzYzNlpNMTEuODc0NyA5LjMwMDU3TDcuMTk4MzUgMTIuMDAwMlY2LjYwMDg1TDExLjg3NDcgOS4zMDA1N1oiIGZpbGw9IiM4QjhCOEUiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF8xNDFfNzM3Ij4KPHJlY3Qgd2lkdGg9IjE4IiBoZWlnaHQ9IjEyLjYwMDYiIGZpbGw9IndoaXRlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDMpIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg=="
-                      alt=""
+                      src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIzLjMgNy4zYzAtLjItLjMtMS44LTEtMi41LS45LTEtMS45LTEuMS0yLjQtMS4xaC0uMWMtMy4xLS4yLTcuNy0uMi03LjgtLjIgMCAwLTQuNyAwLTcuOC4yaC0uMWMtLjUgMC0xLjUuMS0yLjQgMS4xLS43LjgtMSAyLjQtMSAyLjYgMCAuMS0uMiAxLjktLjIgMy44djEuN2MwIDEuOS4yIDMuNy4yIDMuOCAwIC4yLjMgMS44IDEgMi41LjguOSAxLjggMSAyLjQgMS4xaC4zYzEuOC4yIDcuMy4yIDcuNS4yIDAgMCA0LjcgMCA3LjgtLjJoLjFjLjUtLjEgMS41LS4yIDIuNC0xLjEuNy0uOCAxLTIuNCAxLTIuNiAwLS4xLjItMS45LjItMy44di0xLjdjLjEtMS44LS4xLTMuNy0uMS0zLjh6bS03LjQgNC45LTYgMy4yYy0uMSAwLS4xLjEtLjIuMXMtLjIgMC0uMi0uMWMtLjEtLjEtLjItLjItLjItLjRWOC41YzAtLjIuMS0uMy4yLS40cy4zLS4xLjUgMGw2IDMuMmMuMi4xLjMuMi4zLjRzLS4yLjQtLjQuNXoiIGZpbGw9IiM2YjcyODAiIGNsYXNzPSJmaWxsLTAwMDAwMCI+PC9wYXRoPjwvc3ZnPg=="
+                      alt="Convex YouTube"
                       className="mr-2 w-[18px] h-[18px]"
                     />
                     YouTube
@@ -185,13 +185,13 @@ export function Footer({ count = 0 }: FooterProps) {
                 </p>
                 <span className={`hidden sm:inline ${mutedTextColor}`}> </span>
                 <p className={mutedTextColor}>
-                  AI Prompts and Code Generation Rules for Prompt Engineering .
+                  AI Prompts and Code Generation Rules for Prompt Engineering.{" "}
+                  <span className="ml-[20px]">
+                    Disclaimer: All trademarks belong to their respective owners.
+                  </span>
                 </p>
               </div>
             </div>
-            <p className="text-xs text-gray-500 mt-4">
-              Disclaimer: All trademarks belong to their respective owners.
-            </p>
           </div>
         </div>
       </footer>
