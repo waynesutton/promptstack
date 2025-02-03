@@ -14,13 +14,13 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 # Features
 
 - **Searchable Directory**: Quickly find AI prompts and code-gen rules tailored to your needs.
-- **Prompt Rating System**: Rate and discover top prompts in the directory.
+- **Prompt Love**: Like and sort top prompts in the directory.
 - **Category Organization**: Prompts are organized into clear, functional categories.
 - **GitHub Integration**: Automatically link GitHub or social profiles submitted with prompts.
 - **Carbon Copy View**: View and copy prompts in a Carbon-style editor window.
 - **Readme Support**: Find and submit README examples for AI and code-gen projects.
 - **.Cursorrules**: Find and submit Cursor rules for AI and code-gen projects.
-- **SEO Optimized**: AI tool lists, prompt engineering, and metadata for better discoverability.
+- **Prompt Link Sharing**: Easily share prompts or cursor rules with others.
 
 ---
 
@@ -44,7 +44,6 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 ### Customize Your Experience
 
 - Filter by "My Prompts" to view only your submissions.
-- Rate and share prompts using the share icon available on each prompt card.
 
 ### Development Roadmap
 
@@ -54,10 +53,10 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
   ✅ Allow for public prompts to be visible to all users.
 - ✅ Only allow prompt feedback or comments if user is logged in
 - ✅ use [Minimal Tiptap](https://shadcn-minimal-tiptap.vercel.app/) for prompt feedback / comments
+- [ ] Allow prompts to be editable only by their creators if they are logged
 - [ ] Add "Prompt Threads" for multi-step prompts.
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
-- [ ] Allow prompts to be editable only by their creators.
 
 ---
 
@@ -81,6 +80,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [Tailwind CSS](https://tailwindcss.com/) - CSS framework
 - [Clerk](https://clerk.com/) - Authentication and user management
 - [Bun](https://bun.sh/) - JavaScript runtime & package manager
+- [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) - Client-side routing
 
 ## Getting Started
 
