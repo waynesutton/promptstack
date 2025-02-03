@@ -440,14 +440,23 @@ function App() {
   const buttonHoverBgColor = theme === "dark" ? "hover:bg-[#333333]" : "hover:bg-gray-200";
 
   const handleLike = async (promptId: string) => {
-    if (likedPrompts.has(promptId)) return;
+    if (likedPrompts.has(promptId)) {
+      console.log("Already liked");
+      return;
+    }
 
     try {
+      setLikedPrompts((prev) => new Set([...prev, promptId]));
+
       await likePromptMutation({
         promptId,
       });
-      setLikedPrompts((prev) => new Set([...prev, promptId]));
     } catch (error) {
+      setLikedPrompts((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(promptId);
+        return newSet;
+      });
       console.error("Error liking prompt:", error);
     }
   };
