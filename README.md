@@ -48,7 +48,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 
 ### Development Roadmap
 
-- [ ] Setup sign-in with Clerk
+- ✅ Setup sign-in with Clerk
 - ✅ Add a "prompt feedback / comments" section to each prompt page
 - ✅ All private prompts should be visible to the creator only.
   ✅ Allow for public prompts to be visible to all users.
