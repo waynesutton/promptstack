@@ -53,7 +53,8 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
   ✅ Allow for public prompts to be visible to all users.
 - ✅ Only allow prompt feedback or comments if user is logged in
 - ✅ use [Minimal Tiptap](https://shadcn-minimal-tiptap.vercel.app/) for prompt feedback / comments
-- [ ] Allow prompts to be editable only by their creators if they are logged
+- [ ] Add @mentions to prompt feedback / comments
+- [ ] Allow prompts to be editable only by their creators if they are logged in
 - [ ] Add "Prompt Threads" for multi-step prompts.
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
