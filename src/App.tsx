@@ -473,7 +473,7 @@ function App() {
       </div>
       <div className="relative flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
         <div className="absolute inset-0 -z-10 h-full w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[810px] w-[810px] rounded-full bg-[#ffffff] opacity-60 blur-[100px]"></div>
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[910px] w-[910px] rounded-full bg-[#ffffff] opacity-100 blur-[100px]"></div>
         </div>
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">
@@ -598,8 +598,9 @@ function App() {
 
         <div className="flex-1">
           <div>
-            <h1 className="py-0 mb-8 text-center font-display text-2xl font-medium text-neutral-900 sm:text-3xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
-              AI Prompts and Code Gen Rules for Prompt Engineering
+            <h1 className="py-0 mb-8 text-center font-display text-2xl font-medium text-neutral-900 sm:text-2xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
+              AI Prompts and Code Gen Rules for{" "}
+              <span className="line-through">Prompt Engineering</span> / Vibe Coding
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">

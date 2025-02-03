@@ -32,23 +32,18 @@ function About() {
         <div className="max-w-3xl">
           <div className={`${textColor} font-inter space-y-8`}>
             <div>
-              <h4 className="text-xl font-500 mb-6">PromptStack</h4>
+              <h4 className="text-lg font-500 mb-6">PromptStack</h4>
 
               <p className="text-base mb-8">
-                PromptStack is an open-source tool that helps developers manage and version control
-                their AI prompts. It treats prompts as code, allowing teams to collaborate, test,
-                and iterate on prompts using familiar Git workflows. The system lets you organize
-                prompts into reusable components, track changes over time, and test different
-                variations to optimize performance. You can run prompts against various AI models
-                (like GPT-4, Claude, etc.) and compare results. It's particularly useful for teams
-                building AI applications who need a systematic way to maintain and improve their
-                prompt engineering efforts.
+                PromptStack is an open-source platform for developers to share, submit, and discuss
+                AI prompts and code generation rules. It provides a space to collaborate on prompts
+                and rules for tools like Cursor, Bolt.new, Loveable, Windsurf, Trae, Creatr, and
+                Convex, helping developers streamline their workflows when building full-stack
+                applications.
               </p>
 
               <p className="text-base mb-4">
-                PromptStack works with Anthropic Claude, OpenAI GPTCursor,GitHub Copilot, Codeium,
-                and other AI tools. It's an open-source platform for discovering and sharing
-                prompts, built with{" "}
+                It's an open-source platform for discovering and sharing AI prompts, built with{" "}
                 <a
                   href="https://convex.link/promptstackgithub"
                   className={`${mutedTextColor} hover:${textColor}`}>
@@ -63,14 +58,13 @@ function About() {
                 for client-side routing.
               </p>
 
-              <h4 className="text-xl font-500 mb-6">Features</h4>
+              <h4 className="text-lg font-500 mb-6">Features</h4>
               <ul className="list-disc pl-6 mb-8 space-y-2">
                 <li className="text-base">
-                  Searchable Directory: Quickly find AI prompts and code-gen rules tailored to your
-                  needs.
+                  Searchable Directory: Quickly find AI prompts and code-gen rules.
                 </li>
                 <li className="text-base">
-                  Prompt Rating System: Rate and discover top prompts in the directory.
+                  Prompt Love: Like and sort top prompts in the directory.
                 </li>
                 <li className="text-base">
                   Category Organization: Prompts are organized into clear, functional categories.
@@ -83,18 +77,14 @@ function About() {
                   Carbon Copy View: View and copy prompts in a Carbon-style editor window.
                 </li>
                 <li className="text-base">
-                  Readme Support: Find and submit README examples for AI and code-gen projects.
-                </li>
-                <li className="text-base">
                   .Cursorrules: Find and submit Cursor rules for AI and code-gen projects.
                 </li>
                 <li className="text-base">
-                  SEO Optimized: AI tool lists, prompt engineering, and metadata for better
-                  discoverability.
+                  Prompt Link Sharing: Easily share prompts or cursor rules with others.
                 </li>
               </ul>
 
-              <h4 className="text-xl font-500 mb-6">Tech Stack</h4>
+              <h4 className="text-lg font-500 mb-6">Tech Stack</h4>
               <ul className="list-disc pl-6 mb-8 space-y-2">
                 <li className="text-base">Next.js - React framework for production</li>
                 <li className="text-base">
