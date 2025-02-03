@@ -35,11 +35,15 @@ function About() {
               <h4 className="text-lg font-500 mb-6">PromptStack</h4>
 
               <p className="text-base mb-8">
-                PromptStack is an open-source platform for developers to share, submit, and discuss
-                AI prompts and code generation rules. It provides a space to collaborate on prompts
-                and rules for tools like Cursor, Bolt.new, Loveable, Windsurf, Trae, Creatr, and
-                Convex, helping developers streamline their workflows when building full-stack
-                applications.
+                <a
+                  href="https://promptstack.dev"
+                  className={`${mutedTextColor} hover:${textColor}`}>
+                  PromptStack
+                </a>{" "}
+                is an open-source platform for developers to share, submit, and discuss AI prompts
+                and code generation rules. It provides a space to collaborate on prompts and rules
+                for tools like Cursor, Bolt.new, Loveable, Windsurf, Trae, Creatr, and Convex,
+                helping developers streamline their workflows when building full-stack applications.
               </p>
 
               <p className="text-base mb-4">
