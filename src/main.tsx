@@ -44,7 +44,7 @@ if (!rootElement.innerHTML) {
   const root = createRoot(rootElement);
   root.render(
     <StrictMode>
-      <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
+      <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
         <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
           <ThemeProvider>
             <QueryClientProvider client={queryClient}>
