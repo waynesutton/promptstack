@@ -229,7 +229,7 @@ function PromptDetail() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
             <Link to="/" className="hover:text-black transition-colors">
-              Home
+              home
             </Link>
             <span>/</span>
             <Link
