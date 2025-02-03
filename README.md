@@ -81,6 +81,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [Clerk](https://clerk.com/) - Authentication and user management
 - [Bun](https://bun.sh/) - JavaScript runtime & package manager
 - [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) - Client-side routing
+- [Netlify](https://netlify.com) - For Hosting
 
 ## Getting Started
 
