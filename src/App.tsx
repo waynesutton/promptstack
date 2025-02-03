@@ -473,7 +473,7 @@ function App() {
       </div>
       <div className="relative flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
         <div className="absolute inset-0 -z-10 h-full w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[910px] w-[910px] rounded-full bg-[#ffffff] opacity-100 blur-[100px]"></div>
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[910px] w-[910px] rounded-full bg-[#F9EFE6] opacity-100 blur-[100px]"></div>
         </div>
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">

@@ -73,7 +73,7 @@ export function Header({
   };
 
   return (
-    <header className="relative h-auto w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+    <header className="relative h-auto w-full bg-gradient-to-b from-[#fff] to-[#F9EFE6]">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center  gap-3">
