@@ -378,14 +378,15 @@ function PromptDetail() {
                 </button>
               )}
               <a
-                href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request"
+                href={`https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Prompt%20Spam&body=This%20discussion%20is%20about%20a%20potential%20spam%20prompt.%0A%0AReported from: ${encodeURIComponent(window.location.href)}`}
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+                className="flex items-center gap-1">
                 <Bug size={14} className={cn(mutedTextColor)} />
+                <span className={cn(mutedTextColor, "text-xs")}>
+                  {prompt.isPublic ? "Report bugs or spam" : "Report"}
+                </span>
               </a>
-              <p className={cn(mutedTextColor, "text-xs")}>
-                {prompt.isPublic ? "Report bugs or spam" : "Report"}
-              </p>
             </div>
             <div className="comments mt-8">
               <CommentSection promptId={prompt._id} />
