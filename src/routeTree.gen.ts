@@ -15,6 +15,7 @@ import { Route as PromptGuideImport } from './routes/prompt-guide'
 import { Route as DocsImport } from './routes/docs'
 import { Route as AddnewImport } from './routes/addnew'
 import { Route as AboutImport } from './routes/about'
+import { Route as R404Import } from './routes/404'
 import { Route as IndexImport } from './routes/index'
 import { Route as PromptSlugImport } from './routes/prompt.$slug'
 import { Route as EditPromptIdImport } from './routes/edit-prompt.$id'
@@ -45,6 +46,12 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const R404Route = R404Import.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -72,6 +79,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404Import
       parentRoute: typeof rootRoute
     }
     '/about': {
@@ -123,6 +137,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/addnew': typeof AddnewRoute
   '/docs': typeof DocsRoute
@@ -133,6 +148,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/addnew': typeof AddnewRoute
   '/docs': typeof DocsRoute
@@ -144,6 +160,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/404': typeof R404Route
   '/about': typeof AboutRoute
   '/addnew': typeof AddnewRoute
   '/docs': typeof DocsRoute
@@ -156,6 +173,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/404'
     | '/about'
     | '/addnew'
     | '/docs'
@@ -165,6 +183,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/404'
     | '/about'
     | '/addnew'
     | '/docs'
@@ -174,6 +193,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/404'
     | '/about'
     | '/addnew'
     | '/docs'
@@ -185,6 +205,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R404Route: typeof R404Route
   AboutRoute: typeof AboutRoute
   AddnewRoute: typeof AddnewRoute
   DocsRoute: typeof DocsRoute
@@ -195,6 +216,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R404Route: R404Route,
   AboutRoute: AboutRoute,
   AddnewRoute: AddnewRoute,
   DocsRoute: DocsRoute,
@@ -214,6 +236,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/404",
         "/about",
         "/addnew",
         "/docs",
@@ -224,6 +247,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/404": {
+      "filePath": "404.tsx"
     },
     "/about": {
       "filePath": "about.tsx"
