@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { cn } from "../lib/utils";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
 
 interface CodeBlockProps {
@@ -12,7 +11,6 @@ interface CodeBlockProps {
 
 export function CodeBlock({
   code,
-  language = "typescript",
   showLineNumbers = true,
   onCopy,
 }: CodeBlockProps) {
@@ -35,7 +33,8 @@ export function CodeBlock({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="relative font-mono text-sm bg-[#1A1A1A] rounded-lg overflow-hidden">
+      className="relative font-mono text-sm bg-[#1A1A1A] rounded-lg overflow-hidden"
+    >
       <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
         <div className="flex space-x-1.5">
           <div className="w-2 h-2 rounded-full bg-[#FF5F56]"></div>
@@ -44,7 +43,8 @@ export function CodeBlock({
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-[#6C6C6C] hover:text-white transition-colors">
+          className="flex items-center gap-1.5 text-[#6C6C6C] hover:text-white transition-colors"
+        >
           {copied ? (
             <>
               <IconCheck size={12} />
@@ -68,7 +68,9 @@ export function CodeBlock({
                   {i + 1}
                 </span>
               )}
-              <span className="table-cell break-words whitespace-pre-wrap">{line}</span>
+              <span className="table-cell break-words whitespace-pre-wrap">
+                {line}
+              </span>
             </div>
           ))}
         </pre>

@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://clerk.promptstack.dev",
+      domain: process.env.CONVEX_SITE_URL,
       applicationID: "convex",
     },
   ],

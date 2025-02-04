@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "strict": true,
-    "esModuleInterop": true,
-    "jsx": "preserve"
-  }
-}
