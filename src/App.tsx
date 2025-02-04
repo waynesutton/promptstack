@@ -200,6 +200,9 @@ function App() {
   const [copied, setCopied] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState(
+    CATEGORIES.map((category) => ({ name: category, count: 0 }))
+  );
   const [count, setCount] = useState(0);
   const [newPrompt, setNewPrompt] = useState({
     title: "",
@@ -214,6 +217,7 @@ function App() {
   const [isMyPromptsOpen, setIsMyPromptsOpen] = useState(false);
   const [showPrivatePrompts, setShowPrivatePrompts] = useState(false);
   const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
+  const [categoriesInitialized, setCategoriesInitialized] = useState(false);
   const likePromptMutation = useMutation(api.prompts.likePrompt);
   const unlikePromptMutation = useMutation(api.prompts.unlikePrompt);
   const { isSignedIn } = useUser();
@@ -224,6 +228,20 @@ function App() {
     searchQuery: searchQuery || undefined,
     categories: selectedCategories.length > 0 ? selectedCategories : undefined,
   });
+
+  useEffect(() => {
+    if (categoriesInitialized || !searchResults) return;
+    setCategoriesInitialized(true);
+    setCategories(
+      CATEGORIES.map((category) => ({
+        name: category,
+        count:
+          searchResults?.filter((prompt) =>
+            prompt.categories.includes(category)
+          ).length || 0,
+      }))
+    );
+  }, [searchResults]);
 
   const privatePrompts = useQuery(api.prompts.getPrivatePrompts) || [];
   const privatePromptsCount = privatePrompts?.length || 0;
@@ -321,11 +339,6 @@ function App() {
         ? prev.filter((c) => c !== category)
         : [...prev, category]
     );
-  };
-
-  const getCategoryCount = (category: string) => {
-    return prompts.filter((prompt) => prompt.categories.includes(category))
-      .length;
   };
 
   useEffect(() => {
@@ -449,12 +462,12 @@ function App() {
                   Categories
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
-                  {CATEGORIES.map((category) => (
+                  {categories.map((category) => (
                     <button
-                      key={category}
-                      onClick={() => toggleFilterCategory(category)}
+                      key={category.name}
+                      onClick={() => toggleFilterCategory(category.name)}
                       className={cn(
-                        selectedCategories.includes(category)
+                        selectedCategories.includes(category.name)
                           ? "bg-[#1a1a1a] text-white"
                           : cn(
                               mutedTextColor,
@@ -465,8 +478,8 @@ function App() {
                       )}
                     >
                       <span className="flex items-center gap-2">
-                        {(category === "Cursor" ||
-                          category === ".cursorrules") && (
+                        {(category.name === "Cursor" ||
+                          category.name === ".cursorrules") && (
                           <img
                             src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNjQgNjQiPjxwYXRoIGQ9Ik01My44IDE3LjkgMzMgOS42Yy0uNy0uMy0xLjUtLjMtMi4yIDBsLTIwLjYgOC4yYy0uOC4zLTEuMiAxLTEuMiAxLjh2MjQuN2MwIC44LjUgMS41IDEuMiAxLjhMMzEgNTQuNGMuNC4xLjcuMiAxLjEuMlYyOC44YzAtLjguNS0xLjUgMS4yLTEuOGwyMS4zLTguNWMtLjItLjMtLjUtLjUtLjgtLjZ6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJNNTUgMTkuN2MwLS40LS4yLS45LS40LTEuMkwzMy4zIDI3Yy0uOC4zLTEuMiAxLTEuMiAxLjh2MjUuOGMuNCAwIC43LS4xIDEuMS0uMmwyMC42LTguMmMuOC0uMyAxLjItMSAxLjItMS44VjE5Ljd6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJtNTAuNCAyMC4yLTE4LjMgNy4zVjUxTTEyLjkgMjAuNWwxOS4yIDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGNsYXNzPSJzdHJva2UtZmZmZmZmIj48L3BhdGg+PC9zdmc+"
                             width="24"
@@ -474,7 +487,7 @@ function App() {
                             alt="Cursor icon"
                           />
                         )}
-                        {category === "Convex" && (
+                        {category.name === "Convex" && (
                           <img
                             src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODU1IiBoZWlnaHQ9Ijg2MSIgdmlld0JveD0iMCAwIDg1NSA4NjEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01MzkuOTI0IDY3OC4xMTRDNjY3LjE1MSA2NjQuMjI2IDc4Ny4wOTQgNTk3LjYwMiA4NTMuMTM1IDQ4Ni40QzgyMS44NjMgNzYxLjQ0MyA1MTUuODM4IDkzNS4yODcgMjY2LjA0NiA4MjguNTUzQzI0My4wMjkgODE4Ljc0NCAyMjMuMjE3IDgwMi40MjggMjA5LjYyIDc4MS40NUMxNTMuNDg1IDY5NC44MTkgMTM1LjAzMiA1ODQuNTg4IDE2MS41NDYgNDg0LjU1NUMyMzcuMjk5IDYxMy4wNDQgMzkxLjMzMSA2OTEuODA4IDUzOS45MjQgNjc4LjExNFoiIGZpbGw9IiM2QjcyODAiLz4KPHBhdGggZD0iTTE1Ni44ODUgNDAzLjg0OUMxMDUuMzE0IDUyMC45NzUgMTAzLjA4IDY1OC4xMDggMTY2LjMwNSA3NzAuOTYxQy01Ni4xOTU5IDYwNi40NCAtNTMuNzY3OSAyNTQuMzgxIDE2My41ODYgOTEuNTExNEMxODMuNjkgNzYuNDU3OCAyMDcuNTgxIDY3LjUyMjggMjMyLjYzOCA2Ni4xNjMxQzMzNS42ODIgNjAuODIxNSA0NDAuMzc3IDk5Ljk2MDggNTEzLjggMTcyLjg5OEMzNjQuNjI0IDE3NC4zNTUgMjE5LjMzMyAyNjguMjY5IDE1Ni44ODUgNDAzLjg0OVoiIGZpbGw9IiM2QjcyODAiLz4KPHBhdGggZD0iTTU4NS43NTYgMjA4LjkzMkM1MTAuNDg4IDEwNS43OTEgMzkyLjY4MiAzNS41NzM1IDI2My42MDkgMzMuNDM2OEM1MTMuMTEgLTc3Ljg2MjQgODIwLjAwOCAxMDIuNTg2IDg1My40MTggMzY5LjM3NEM4NTYuNTI1IDM5NC4xNCA4NTIuNDQ2IDQxOS4zOTEgODQxLjI3OCA0NDEuNzI4Qzc5NC42NiA1MzQuNzY5IDcwOC4yMjQgNjA2LjkyOSA2MDcuMjE5IDYzMy42MzdDNjgxLjIyNCA0OTguNzM3IDY3Mi4wOTUgMzMzLjkyNSA1ODUuNzU2IDIwOC45MzJaIiBmaWxsPSIjNkI3MjgwIi8+Cjwvc3ZnPgo="
                             width="16"
@@ -482,17 +495,17 @@ function App() {
                             alt="Convex icon"
                           />
                         )}
-                        <span className="truncate">{category}</span>
+                        <span className="truncate">{category.name}</span>
                       </span>
                       <span
                         className={cn(
-                          selectedCategories.includes(category)
+                          selectedCategories.includes(category.name)
                             ? "text-gray-400"
                             : "text-[#525252]",
                           "text-sm ml-2"
                         )}
                       >
-                        {getCategoryCount(category)}
+                        {category.count}
                       </span>
                     </button>
                   ))}
