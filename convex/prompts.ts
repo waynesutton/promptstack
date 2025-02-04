@@ -42,9 +42,9 @@ export const searchPrompts = query({
     const userId = identity?.subject;
 
     let query = ctx.db.query("prompts");
-    
+
     if (userId) {
-      query = query.filter(q => 
+      query = query.filter((q) =>
         q.or(
           q.eq(q.field("isPublic"), true),
           q.and(
@@ -54,13 +54,13 @@ export const searchPrompts = query({
         )
       );
     } else {
-      query = query.filter(q => q.eq(q.field("isPublic"), true));
+      query = query.filter((q) => q.eq(q.field("isPublic"), true));
     }
 
     let prompts = await query.collect();
 
     // Map the prompts to include their IDs
-    prompts = prompts.map(prompt => ({
+    prompts = prompts.map((prompt) => ({
       ...prompt,
       _id: prompt._id,
     }));
@@ -77,7 +77,9 @@ export const searchPrompts = query({
 
     if (args.categories && args.categories.length > 0) {
       prompts = prompts.filter((prompt) =>
-        prompt.categories.some((category) => args.categories?.includes(category))
+        prompt.categories.some((category) =>
+          args.categories?.includes(category)
+        )
       );
     }
 
@@ -96,9 +98,9 @@ export const getPromptBySlug = query({
       .query("prompts")
       .filter((q) => q.eq(q.field("slug"), slug))
       .collect();
-    
+
     if (!prompts.length) return null;
-    
+
     return {
       ...prompts[0],
       _id: prompts[0]._id,
@@ -134,8 +136,8 @@ export const ratePrompt = mutation({
       ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length;
 
     // Update prompt with new rating
-    await ctx.db.patch(args.promptId, { 
-      stars: Math.round(averageRating) 
+    await ctx.db.patch(args.promptId, {
+      stars: Math.round(averageRating),
     });
   },
 });
@@ -147,9 +149,23 @@ export const likePrompt = mutation({
   handler: async (ctx, args) => {
     const prompt = await ctx.db.get(args.promptId);
     if (!prompt) throw new Error("Prompt not found");
-    
-    await ctx.db.patch(args.promptId, { 
-      likes: (prompt.likes || 0) + 1 
+
+    await ctx.db.patch(args.promptId, {
+      likes: (prompt.likes || 0) + 1,
+    });
+  },
+});
+
+export const unlikePrompt = mutation({
+  args: {
+    promptId: v.id("prompts"),
+  },
+  handler: async (ctx, args) => {
+    const prompt = await ctx.db.get(args.promptId);
+    if (!prompt) throw new Error("Prompt not found");
+
+    await ctx.db.patch(args.promptId, {
+      likes: (prompt.likes || 0) - 1,
     });
   },
 });
@@ -161,13 +177,15 @@ export const getPrivatePrompts = query({
 
     const prompts = await ctx.db
       .query("prompts")
-      .filter(q => q.and(
-        q.eq(q.field("userId"), identity.subject),
-        q.eq(q.field("isPublic"), false)
-      ))
+      .filter((q) =>
+        q.and(
+          q.eq(q.field("userId"), identity.subject),
+          q.eq(q.field("isPublic"), false)
+        )
+      )
       .collect();
 
-    return prompts.map(prompt => ({
+    return prompts.map((prompt) => ({
       ...prompt,
       _id: prompt._id,
     }));
@@ -186,4 +204,4 @@ export const deletePrompt = mutation({
 
     await ctx.db.delete(id);
   },
-}); 
+});
