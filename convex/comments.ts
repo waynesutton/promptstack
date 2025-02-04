@@ -1,6 +1,5 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import { Id } from "./_generated/dataModel";
 
 export const getComments = query({
   args: { promptId: v.id("prompts") },
@@ -43,10 +42,10 @@ export const deleteComment = mutation({
   handler: async (ctx, { commentId }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not authenticated");
-    
+
     const comment = await ctx.db.get(commentId);
     if (!comment) throw new Error("Comment not found");
-    
+
     if (comment.userId !== identity.subject) {
       throw new Error("Not authorized to delete this comment");
     }

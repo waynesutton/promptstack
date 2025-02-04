@@ -1,4 +1,3 @@
-import { Ghost } from "lucide-react";
 import { useNavigate, createFileRoute } from "@tanstack/react-router";
 
 import { Header } from "../components/Header";
@@ -36,14 +35,16 @@ function NotFoundPage() {
             Looks like you've found a page that doesn't exist
           </h2>
           <p className="text-gray-400 mb-8">
-            Don't worry, even the best explorers sometimes wander into uncharted territory.
+            Don't worry, even the best explorers sometimes wander into uncharted
+            territory.
           </p>
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => navigate({ to: "/" })}
-              className="px-6 py-3 bg-[#2a2a2a] text-white rounded-lg font-medium hover:bg-[#2a2a2a] transition-colors duration-200">
+              className="px-6 py-3 bg-[#2a2a2a] text-white rounded-lg font-medium hover:bg-[#2a2a2a] transition-colors duration-200"
+            >
               Home
             </button>
           </div>
