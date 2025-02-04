@@ -6,15 +6,17 @@ import { MinimalTiptapEditor } from "./minimal-tiptap";
 import { Content, generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { MessageSquare, X, Trash2 } from "lucide-react";
+import { Doc, Id } from "../../convex/_generated/dataModel";
 
 interface CommentSectionProps {
-  promptId: string;
+  promptId: Id<"prompts">;
 }
 
 interface ThreadedComment {
-  _id: string;
+  _id: Id<"comments">;
   content: string;
   userName: string;
+  userId: string;
   createdAt: number;
   replies?: ThreadedComment[];
 }
@@ -22,7 +24,7 @@ interface ThreadedComment {
 export function CommentSection({ promptId }: CommentSectionProps) {
   const { user, isSignedIn } = useUser();
   const [comment, setComment] = useState<Content>();
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyingTo, setReplyingTo] = useState<Id<"comments"> | null>(null);
   const [replyContent, setReplyContent] = useState<Content>();
   const comments = useQuery(api.comments.getComments, { promptId });
   const addComment = useMutation(api.comments.addComment);
@@ -32,12 +34,16 @@ export function CommentSection({ promptId }: CommentSectionProps) {
     try {
       const parsedContent = JSON.parse(content);
       return generateHTML(parsedContent, [StarterKit]);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       return content;
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent, contentToSubmit?: Content) => {
+  const handleSubmit = async (
+    e: React.FormEvent,
+    contentToSubmit?: Content
+  ) => {
     e.preventDefault();
     const contentToSend = contentToSubmit || comment;
     if (!contentToSend || !isSignedIn) return;
@@ -61,7 +67,7 @@ export function CommentSection({ promptId }: CommentSectionProps) {
     }
   };
 
-  const handleDeleteComment = async (commentId: string) => {
+  const handleDeleteComment = async (commentId: Id<"comments">) => {
     try {
       await deleteComment({ commentId });
     } catch (error) {
@@ -70,7 +76,7 @@ export function CommentSection({ promptId }: CommentSectionProps) {
     }
   };
 
-  const organizeComments = (comments: any[]): ThreadedComment[] => {
+  const organizeComments = (comments: Doc<"comments">[]): ThreadedComment[] => {
     const commentMap = new Map();
     const roots: ThreadedComment[] = [];
 
@@ -92,8 +98,16 @@ export function CommentSection({ promptId }: CommentSectionProps) {
     return roots;
   };
 
-  const CommentThread = ({ comment, depth = 0 }: { comment: ThreadedComment; depth?: number }) => (
-    <div className={`border border-[#F9F0E7] rounded-lg p-4 ${depth > 0 ? "ml-8" : ""}`}>
+  const CommentThread = ({
+    comment,
+    depth = 0,
+  }: {
+    comment: ThreadedComment;
+    depth?: number;
+  }) => (
+    <div
+      className={`border border-[#F9F0E7] rounded-lg p-4 ${depth > 0 ? "ml-8" : ""}`}
+    >
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="font-medium">{comment.userName}</span>
@@ -104,7 +118,8 @@ export function CommentSection({ promptId }: CommentSectionProps) {
         {isSignedIn && user.id === comment.userId && (
           <button
             onClick={() => handleDeleteComment(comment._id)}
-            className="text-gray-500 hover:text-black">
+            className="text-gray-500 hover:text-black"
+          >
             <Trash2 size={14} />
           </button>
         )}
@@ -118,7 +133,8 @@ export function CommentSection({ promptId }: CommentSectionProps) {
       {isSignedIn && (
         <button
           onClick={() => setReplyingTo(comment._id)}
-          className="text-sm text-gray-500 mt-2 flex items-center gap-1 hover:text-black">
+          className="text-sm text-gray-500 mt-2 flex items-center gap-1 hover:text-black"
+        >
           <MessageSquare size={14} />
           Reply
         </button>
@@ -126,21 +142,28 @@ export function CommentSection({ promptId }: CommentSectionProps) {
       {replyingTo === comment._id && (
         <div className="mt-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-500">Replying to {comment.userName}</span>
+            <span className="text-sm text-gray-500">
+              Replying to {comment.userName}
+            </span>
             <button
               onClick={() => {
                 setReplyingTo(null);
                 setReplyContent(undefined);
               }}
-              className="text-gray-500 hover:text-black">
+              className="text-gray-500 hover:text-black"
+            >
               <X size={14} />
             </button>
           </div>
-          <MinimalTiptapEditor content={replyContent} onChange={setReplyContent} />
+          <MinimalTiptapEditor
+            content={replyContent}
+            onChange={setReplyContent}
+          />
           <button
             onClick={(e) => handleSubmit(e, replyContent)}
             disabled={!replyContent}
-            className="px-4 py-2 bg-[#F9F0E7] text-[#000000] rounded-med hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-200 disabled:opacity-100 disabled:cursor-not-allowed mt-2">
+            className="px-4 py-2 bg-[#F9F0E7] text-[#000000] rounded-med hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-200 disabled:opacity-100 disabled:cursor-not-allowed mt-2"
+          >
             Reply
           </button>
         </div>
@@ -168,7 +191,8 @@ export function CommentSection({ promptId }: CommentSectionProps) {
           <button
             onClick={(e) => handleSubmit(e)}
             disabled={!comment}
-            className={`px-4 py-2 bg-[#F9F0E7] text-[#000000] rounded-med hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-200 disabled:opacity-100 disabled:cursor-not-allowed`}>
+            className={`px-4 py-2 bg-[#F9F0E7] text-[#000000] rounded-med hover:bg-[#000000] hover:text-[#ffffff] transition-colors duration-200 disabled:opacity-100 disabled:cursor-not-allowed`}
+          >
             Comment
           </button>
         ) : (
