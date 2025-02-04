@@ -1,11 +1,5 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "18.20.6"
-  NPM_FLAGS = "--version"
-  CONVEX_DEPLOY_KEY = " prod:prestigious-woodpecker-186|eyJ2MiI6IjcxNjBmZmQ2NjA0ZDRkN2E4ZjdiNTI5ZmIxMDFkYmVmIn0="
+  command = "bunx convex deploy --cmd 'bun run build'"
 
 [[redirects]]
   from = "/*"
