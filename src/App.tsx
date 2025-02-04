@@ -215,6 +215,7 @@ function App() {
   const [showPrivatePrompts, setShowPrivatePrompts] = useState(false);
   const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
   const likePromptMutation = useMutation(api.prompts.likePrompt);
+  const unlikePromptMutation = useMutation(api.prompts.unlikePrompt);
   const { isSignedIn } = useUser();
   const [sortByLikes, setSortByLikes] = useState(false);
 
@@ -339,7 +340,14 @@ function App() {
 
   const handleLike = async (promptId: Id<"prompts">) => {
     if (likedPrompts.has(promptId)) {
-      console.log("Already liked");
+      await unlikePromptMutation({
+        promptId,
+      });
+      setLikedPrompts((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(promptId);
+        return newSet;
+      });
       return;
     }
 
@@ -585,10 +593,7 @@ function App() {
                             likedPrompts.has(prompt._id) ? "fill-current" : ""
                           }
                         />
-                        <span className="text-xs">
-                          {(prompt.likes || 0) +
-                            (likedPrompts.has(prompt._id) ? 1 : 0)}
-                        </span>
+                        <span className="text-xs">{prompt.likes || 0}</span>
                       </button>
                       {prompt.githubProfile && (
                         <a
