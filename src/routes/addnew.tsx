@@ -72,6 +72,7 @@ const CATEGORIES = [
   "Vue",
   "Wails.io",
   "Windsurf",
+  "YouTube",
 ] as const;
 
 export const Route = createFileRoute("/addnew")({
@@ -93,9 +94,7 @@ function AddNew() {
   });
 
   const bgColor =
-    theme === "dark"
-      ? "bg-[#0A0A0A]"
-      : "bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]";
+    theme === "dark" ? "bg-[#0A0A0A]" : "bg-gradient-to-b from-[#FBFBFB] to-[#FFFFFF]";
   const textColor = theme === "dark" ? "text-white" : "text-black";
   const mutedTextColor = theme === "dark" ? "text-[#A3A3A3]" : "text-gray-500";
   const borderColor = theme === "dark" ? "border-[#1F1F1F]" : "border-gray-200";
@@ -165,9 +164,7 @@ function AddNew() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                className={cn(mutedTextColor, "block text-sm font-medium mb-1")}
-              >
+              <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                 Title<span className="text-[#EF442D]">* (required)</span>
               </label>
               <input
@@ -192,9 +189,7 @@ function AddNew() {
               />
             </div>
             <div>
-              <label
-                className={cn(mutedTextColor, "block text-sm font-medium mb-1")}
-              >
+              <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                 Description (optional)
               </label>
               <input
@@ -202,8 +197,7 @@ function AddNew() {
                 value={newPrompt.description}
                 onChange={(e) => {
                   const text = e.target.value;
-                  if (text.length <= 138)
-                    setNewPrompt({ ...newPrompt, description: text });
+                  if (text.length <= 138) setNewPrompt({ ...newPrompt, description: text });
                 }}
                 maxLength={120}
                 className={cn(
@@ -217,17 +211,13 @@ function AddNew() {
               />
             </div>
             <div>
-              <label
-                className={cn(mutedTextColor, "block text-sm font-medium mb-1")}
-              >
+              <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                 GitHub or Social Profile (optional)
               </label>
               <input
                 type="text"
                 value={newPrompt.githubProfile}
-                onChange={(e) =>
-                  setNewPrompt({ ...newPrompt, githubProfile: e.target.value })
-                }
+                onChange={(e) => setNewPrompt({ ...newPrompt, githubProfile: e.target.value })}
                 className={cn(
                   bgColor,
                   "border",
@@ -239,11 +229,9 @@ function AddNew() {
               />
             </div>
             <div>
-              <label
-                className={cn(mutedTextColor, "block text-sm font-medium mb-1")}
-              >
-                Categories<span className="text-[#EF442D]">* (required)</span>{" "}
-                (A max of 4. Select all that apply)
+              <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
+                Categories<span className="text-[#EF442D]">* (required)</span> (A max of 4. Select
+                all that apply)
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
                 {CATEGORIES.map((category) => (
@@ -254,14 +242,11 @@ function AddNew() {
                     className={cn(
                       newPrompt.categories.includes(category)
                         ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
-                        : [
-                            "border-" + borderColor,
-                            mutedTextColor,
-                            "hover:border-[#A3A3A3]",
-                          ].join(" "),
+                        : ["border-" + borderColor, mutedTextColor, "hover:border-[#A3A3A3]"].join(
+                            " "
+                          ),
                       "p-1.5 border rounded-lg transition-colors duration-200 text-xs focus:outline-none focus:ring-1 focus:ring-black"
-                    )}
-                  >
+                    )}>
                     {category}
                   </button>
                 ))}
@@ -276,16 +261,12 @@ function AddNew() {
               </span>
             </p>
             <div>
-              <label
-                className={cn(mutedTextColor, "block text-sm font-medium mb-1")}
-              >
+              <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                 Prompt<span className="text-[#EF442D]">* (required)</span>
               </label>
               <textarea
                 value={newPrompt.prompt}
-                onChange={(e) =>
-                  setNewPrompt({ ...newPrompt, prompt: e.target.value })
-                }
+                onChange={(e) => setNewPrompt({ ...newPrompt, prompt: e.target.value })}
                 className={cn(
                   bgColor,
                   "border",
@@ -298,51 +279,39 @@ function AddNew() {
               />
             </div>
             <div className="flex flex-col gap-4">
-              <label
-                className={cn(mutedTextColor, "block text-sm font-medium")}
-              >
-                Visibility
-              </label>
+              <label className={cn(mutedTextColor, "block text-sm font-medium")}>Visibility</label>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   disabled={!isSignedIn}
-                  onClick={() =>
-                    setNewPrompt((prev) => ({ ...prev, isPublic: true }))
-                  }
+                  onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: true }))}
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
                     newPrompt.isPublic
                       ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
                       : ["border-" + borderColor, mutedTextColor].join(" "),
                     !isSignedIn && "opacity-50 cursor-not-allowed"
-                  )}
-                >
+                  )}>
                   <Globe size={16} />
                   <span>Public</span>
                 </button>
                 <button
                   type="button"
                   disabled={!isSignedIn}
-                  onClick={() =>
-                    setNewPrompt((prev) => ({ ...prev, isPublic: false }))
-                  }
+                  onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: false }))}
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
                     !newPrompt.isPublic
                       ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
                       : ["border-" + borderColor, mutedTextColor].join(" "),
                     !isSignedIn && "opacity-50 cursor-not-allowed"
-                  )}
-                >
+                  )}>
                   <Lock size={14} className={cn(mutedTextColor)} />
                   <span>Private</span>
                 </button>
               </div>
               {!isSignedIn ? (
-                <p className={cn(mutedTextColor, "text-sm")}>
-                  Sign in to set prompt visibility
-                </p>
+                <p className={cn(mutedTextColor, "text-sm")}>Sign in to set prompt visibility</p>
               ) : (
                 <p className={cn(mutedTextColor, "text-sm")}>
                   {newPrompt.isPublic
@@ -354,8 +323,7 @@ function AddNew() {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-6 py-3 flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg"
-              >
+                className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-6 py-3 flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg">
                 <Sparkles size={20} />
                 Submit Prompt
               </button>
