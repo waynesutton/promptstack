@@ -16,11 +16,7 @@ import {
 import { useTheme } from "./ThemeContext";
 import { Link } from "@tanstack/react-router";
 import "./fonts.css";
-import {
-  SandpackProvider,
-  SandpackLayout,
-  SandpackCodeEditor,
-} from "@codesandbox/sandpack-react";
+import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useMutation, useQuery } from "convex/react";
@@ -105,6 +101,7 @@ const CATEGORIES = [
   "Vue",
   "Wails.io",
   "Windsurf",
+  "YouTube",
 ] as const;
 
 const generateSlug = (title: string) => {
@@ -136,8 +133,7 @@ const PromptCard = ({
         options={{
           visibleFiles: ["/prompt.txt"],
           activeFile: "/prompt.txt",
-        }}
-      >
+        }}>
         <div className="flex items-center px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
           <span className="text-[#6C6C6C] text-[12px] font-mono"></span>
           <div className="flex items-center gap-1">
@@ -148,8 +144,7 @@ const PromptCard = ({
                 ...prev,
                 slug: prompt.slug || generateSlug(prompt.title),
               })}
-              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200"
-            >
+              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
               <MessageCircleCode size={14} />
               <span className="text-[12px] font-mono">Comment</span>
             </Link>
@@ -157,15 +152,13 @@ const PromptCard = ({
             <Link
               to="/prompt/$slug"
               params={{ slug: prompt.slug || generateSlug(prompt.title) }}
-              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200"
-            >
+              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
               <Expand size={14} />
               <span className="text-[12px] font-mono">Expand</span>
             </Link>
             <button
               onClick={() => onCopy(prompt.prompt)}
-              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200"
-            >
+              className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
               {copied === prompt.prompt ? (
                 <span className="text-[12px] font-mono">Copied!</span>
               ) : (
@@ -235,10 +228,7 @@ function App() {
     setCategories(
       CATEGORIES.map((category) => ({
         name: category,
-        count:
-          searchResults?.filter((prompt) =>
-            prompt.categories.includes(category)
-          ).length || 0,
+        count: searchResults?.filter((prompt) => prompt.categories.includes(category)).length || 0,
       }))
     );
   }, [searchResults]);
@@ -335,9 +325,7 @@ function App() {
 
   const toggleFilterCategory = (category: string) => {
     setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
+      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
     );
   };
 
@@ -405,8 +393,7 @@ function App() {
                       behavior: "smooth",
                     })
                   }
-                  className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
-                >
+                  className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
                   <ChevronDown size={16} />
                   Scroll to bottom
                 </button>
@@ -444,12 +431,9 @@ function App() {
                     ? `${mutedTextColor} hover:${textColor} transition-colors duration-200`
                     : "opacity-50 cursor-not-allowed",
                   "text-[0.875em]"
-                )}
-              >
+                )}>
                 <User size={16} />
-                <span>
-                  {showPrivatePrompts ? "Show All Prompts" : "My Prompts"}
-                </span>
+                <span>{showPrivatePrompts ? "Show All Prompts" : "My Prompts"}</span>
                 {privatePromptsCount > 0 && (
                   <span className="ml-auto text-xs bg-[#2A2A2A] text-white px-1.5 py-0.5 rounded">
                     {privatePromptsCount}
@@ -458,9 +442,7 @@ function App() {
               </button>
 
               <div>
-                <h3 className={cn(textColor, "text-sm font-medium mb-2")}>
-                  Categories
-                </h3>
+                <h3 className={cn(textColor, "text-sm font-medium mb-2")}>Categories</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
                   {categories.map((category) => (
                     <button
@@ -469,17 +451,11 @@ function App() {
                       className={cn(
                         selectedCategories.includes(category.name)
                           ? "bg-[#1a1a1a] text-white"
-                          : cn(
-                              mutedTextColor,
-                              `hover:${buttonBgColor}`,
-                              `hover:${textColor}`
-                            ),
+                          : cn(mutedTextColor, `hover:${buttonBgColor}`, `hover:${textColor}`),
                         "flex items-center justify-between px-2.5 py-1.5 text-left transition-colors duration-200 rounded-md text-[0.875em]"
-                      )}
-                    >
+                      )}>
                       <span className="flex items-center gap-2">
-                        {(category.name === "Cursor" ||
-                          category.name === ".cursorrules") && (
+                        {(category.name === "Cursor" || category.name === ".cursorrules") && (
                           <img
                             src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNjQgNjQiPjxwYXRoIGQ9Ik01My44IDE3LjkgMzMgOS42Yy0uNy0uMy0xLjUtLjMtMi4yIDBsLTIwLjYgOC4yYy0uOC4zLTEuMiAxLTEuMiAxLjh2MjQuN2MwIC44LjUgMS41IDEuMiAxLjhMMzEgNTQuNGMuNC4xLjcuMiAxLjEuMlYyOC44YzAtLjguNS0xLjUgMS4yLTEuOGwyMS4zLTguNWMtLjItLjMtLjUtLjUtLjgtLjZ6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJNNTUgMTkuN2MwLS40LS4yLS45LS40LTEuMkwzMy4zIDI3Yy0uOC4zLTEuMiAxLTEuMiAxLjh2MjUuOGMuNCAwIC43LS4xIDEuMS0uMmwyMC42LTguMmMuOC0uMyAxLjItMSAxLjItMS44VjE5Ljd6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJtNTAuNCAyMC4yLTE4LjMgNy4zVjUxTTEyLjkgMjAuNWwxOS4yIDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGNsYXNzPSJzdHJva2UtZmZmZmZmIj48L3BhdGg+PC9zdmc+"
                             width="24"
@@ -503,8 +479,7 @@ function App() {
                             ? "text-gray-400"
                             : "text-[#525252]",
                           "text-sm ml-2"
-                        )}
-                      >
+                        )}>
                         {category.count}
                       </span>
                     </button>
@@ -516,16 +491,14 @@ function App() {
                 onClick={() => setIsModalOpen(true)}
                 className={cn(
                   "w-full px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm mt-4"
-                )}
-              >
+                )}>
                 <Plus size={16} />
                 <span>Add Prompt</span>
               </button>
 
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
-              >
+                className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
                 <ChevronUp size={16} />
                 Scroll to top
               </button>
@@ -537,108 +510,87 @@ function App() {
           <div>
             <h1 className="py-0 mb-8 text-center font-display text-2xl font-medium text-neutral-900 sm:text-2xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
               AI Prompts and Code Gen Rules for{" "}
-              <span className="line-through">Prompt Engineering</span> / Vibe
-              Coding
+              <span className="line-through">Prompt Engineering</span> / Vibe Coding
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-            {(showPrivatePrompts ? privatePrompts : sortedPrompts).map(
-              (prompt, index) => (
-                <div
-                  key={index}
-                  className={cn(
-                    bgColor,
-                    "border",
-                    borderColor,
-                    "p-3 sm:p-4 transition-all duration-200 rounded-lg",
-                    "shadow-[0_20px_34px_#0000000f,0_4px_10px_#0000000a,0_1px_4px_#00000008,0_1px_8px_#00000005]"
-                  )}
-                >
-                  <div className="flex justify-between items-start text-left">
-                    <div className="flex items-center gap-2">
-                      {!prompt.isPublic && isSignedIn && (
-                        <Lock size={14} className={cn(mutedTextColor)} />
-                      )}
-                      <h2
-                        className={cn(
-                          textColor,
-                          "text-base sm:text-med font-normal mb-1.5 text-left"
-                        )}
-                      >
-                        {prompt.title}
-                      </h2>
-                    </div>
-                  </div>
-                  <p
-                    className={cn(
-                      mutedTextColor,
-                      "mb-3 text-xs sm:text-sm text-left"
+            {(showPrivatePrompts ? privatePrompts : sortedPrompts).map((prompt, index) => (
+              <div
+                key={index}
+                className={cn(
+                  bgColor,
+                  "border",
+                  borderColor,
+                  "p-3 sm:p-4 transition-all duration-200 rounded-lg",
+                  "shadow-[0_20px_34px_#0000000f,0_4px_10px_#0000000a,0_1px_4px_#00000008,0_1px_8px_#00000005]"
+                )}>
+                <div className="flex justify-between items-start text-left">
+                  <div className="flex items-center gap-2">
+                    {!prompt.isPublic && isSignedIn && (
+                      <Lock size={14} className={cn(mutedTextColor)} />
                     )}
-                  >
-                    {prompt.description}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2 text-left">
-                    {prompt.categories.map((category, idx) => (
-                      <span
-                        key={idx}
-                        className={cn(
-                          buttonBgColor,
-                          mutedTextColor,
-                          "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
-                        )}
-                      >
-                        {category}
-                      </span>
-                    ))}
-                    <div className="flex items-center gap-3 ml-auto">
-                      <button
-                        onClick={() => handleLike(prompt._id)}
-                        className={cn(
-                          "flex items-center gap-1 transition-colors duration-200",
-                          likedPrompts.has(prompt._id)
-                            ? "text-[#2a2a2a]"
-                            : mutedTextColor
-                        )}
-                      >
-                        <Heart
-                          size={16}
-                          className={
-                            likedPrompts.has(prompt._id) ? "fill-current" : ""
-                          }
-                        />
-                        <span className="text-xs">{prompt.likes || 0}</span>
-                      </button>
-                      {prompt.githubProfile && (
-                        <a
-                          href={
-                            prompt.githubProfile.startsWith("http")
-                              ? prompt.githubProfile
-                              : `https://github.com/${prompt.githubProfile.replace("@", "")}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cn(
-                            mutedTextColor,
-                            `hover:${textColor}`,
-                            "flex items-center gap-1 transition-colors duration-200 text-left"
-                          )}
-                        >
-                          <User size={16} />
-                          <span className="text-xs sm:text-sm">
-                            {getDomainFromUrl(prompt.githubProfile)}
-                          </span>
-                        </a>
-                      )}
-                    </div>
+                    <h2
+                      className={cn(
+                        textColor,
+                        "text-base sm:text-med font-normal mb-1.5 text-left"
+                      )}>
+                      {prompt.title}
+                    </h2>
                   </div>
-                  <PromptCard
-                    prompt={prompt}
-                    copied={copied}
-                    onCopy={copyToClipboard}
-                  />
                 </div>
-              )
-            )}
+                <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm text-left")}>
+                  {prompt.description}
+                </p>
+                <div className="flex flex-wrap items-center gap-2 text-left">
+                  {prompt.categories.map((category, idx) => (
+                    <span
+                      key={idx}
+                      className={cn(
+                        buttonBgColor,
+                        mutedTextColor,
+                        "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
+                      )}>
+                      {category}
+                    </span>
+                  ))}
+                  <div className="flex items-center gap-3 ml-auto">
+                    <button
+                      onClick={() => handleLike(prompt._id)}
+                      className={cn(
+                        "flex items-center gap-1 transition-colors duration-200",
+                        likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
+                      )}>
+                      <Heart
+                        size={16}
+                        className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
+                      />
+                      <span className="text-xs">{prompt.likes || 0}</span>
+                    </button>
+                    {prompt.githubProfile && (
+                      <a
+                        href={
+                          prompt.githubProfile.startsWith("http")
+                            ? prompt.githubProfile
+                            : `https://github.com/${prompt.githubProfile.replace("@", "")}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          mutedTextColor,
+                          `hover:${textColor}`,
+                          "flex items-center gap-1 transition-colors duration-200 text-left"
+                        )}>
+                        <User size={16} />
+                        <span className="text-xs sm:text-sm">
+                          {getDomainFromUrl(prompt.githubProfile)}
+                        </span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+                <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -651,27 +603,20 @@ function App() {
               "p-4 sm:p-6 max-w-2xl w-full border",
               borderColor,
               "rounded-lg max-h-[90vh] overflow-y-auto"
-            )}
-          >
+            )}>
             <div className="flex justify-between items-center mb-6">
               <h2 className="font-['Inter',sans-serif] text-[24px] leading-[32px] text-[#1A202C]">
                 Add New Prompt or Rules
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className={cn(mutedTextColor, `hover:${textColor}`)}
-              >
+                className={cn(mutedTextColor, `hover:${textColor}`)}>
                 <X size={24} />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label
-                  className={cn(
-                    mutedTextColor,
-                    "block text-sm font-medium mb-1"
-                  )}
-                >
+                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                   Title<span className="text-[#EF442D]">* (required)</span>
                 </label>
                 <input
@@ -696,12 +641,7 @@ function App() {
                 />
               </div>
               <div>
-                <label
-                  className={cn(
-                    mutedTextColor,
-                    "block text-sm font-medium mb-1"
-                  )}
-                >
+                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                   Description (optional)
                 </label>
                 <input
@@ -709,8 +649,7 @@ function App() {
                   value={newPrompt.description}
                   onChange={(e) => {
                     const text = e.target.value;
-                    if (text.length <= 138)
-                      setNewPrompt({ ...newPrompt, description: text });
+                    if (text.length <= 138) setNewPrompt({ ...newPrompt, description: text });
                   }}
                   maxLength={120}
                   className={cn(
@@ -724,12 +663,7 @@ function App() {
                 />
               </div>
               <div>
-                <label
-                  className={cn(
-                    mutedTextColor,
-                    "block text-sm font-medium mb-1"
-                  )}
-                >
+                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                   GitHub or Social Profile (optional)
                 </label>
                 <input
@@ -752,14 +686,9 @@ function App() {
                 />
               </div>
               <div>
-                <label
-                  className={cn(
-                    mutedTextColor,
-                    "block text-sm font-medium mb-1"
-                  )}
-                >
-                  Categories<span className="text-[#EF442D]">* (required)</span>{" "}
-                  (A max of 4. Select all that apply)
+                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
+                  Categories<span className="text-[#EF442D]">* (required)</span> (A max of 4. Select
+                  all that apply)
                 </label>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
                   {CATEGORIES.map((category) => (
@@ -776,8 +705,7 @@ function App() {
                               "hover:border-[#A3A3A3]",
                             ].join(" "),
                         "p-1.5 border rounded-lg transition-colors duration-200 text-xs focus:outline-none focus:ring-1 focus:ring-black"
-                      )}
-                    >
+                      )}>
                       {category}
                     </button>
                   ))}
@@ -792,19 +720,12 @@ function App() {
                 </span>
               </p>
               <div>
-                <label
-                  className={cn(
-                    mutedTextColor,
-                    "block text-sm font-medium mb-1"
-                  )}
-                >
+                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
                   Prompt<span className="text-[#EF442D]">* (required)</span>
                 </label>
                 <textarea
                   value={newPrompt.prompt}
-                  onChange={(e) =>
-                    setNewPrompt({ ...newPrompt, prompt: e.target.value })
-                  }
+                  onChange={(e) => setNewPrompt({ ...newPrompt, prompt: e.target.value })}
                   className={cn(
                     bgColor,
                     "border",
@@ -817,43 +738,35 @@ function App() {
                 />
               </div>
               <div className="flex flex-col gap-4">
-                <label
-                  className={cn(mutedTextColor, "block text-sm font-medium")}
-                >
+                <label className={cn(mutedTextColor, "block text-sm font-medium")}>
                   Visibility
                 </label>
                 <div className="flex items-center gap-3">
                   <button
                     type="button"
                     disabled={!isSignedIn}
-                    onClick={() =>
-                      setNewPrompt((prev) => ({ ...prev, isPublic: true }))
-                    }
+                    onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: true }))}
                     className={cn(
                       "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
                       newPrompt.isPublic
                         ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
                         : ["border-" + borderColor, mutedTextColor].join(" "),
                       !isSignedIn && "opacity-50 cursor-not-allowed"
-                    )}
-                  >
+                    )}>
                     <Globe size={16} />
                     <span>Public</span>
                   </button>
                   <button
                     type="button"
                     disabled={!isSignedIn}
-                    onClick={() =>
-                      setNewPrompt((prev) => ({ ...prev, isPublic: false }))
-                    }
+                    onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: false }))}
                     className={cn(
                       "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
                       !newPrompt.isPublic
                         ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
                         : ["border-" + borderColor, mutedTextColor].join(" "),
                       !isSignedIn && "opacity-50 cursor-not-allowed"
-                    )}
-                  >
+                    )}>
                     <Lock size={14} className={cn(mutedTextColor)} />
                     <span>Private</span>
                   </button>
@@ -873,8 +786,7 @@ function App() {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-6 py-3 flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg"
-                >
+                  className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-6 py-3 flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg">
                   <Sparkles size={20} />
                   Submit Prompt
                 </button>
@@ -886,24 +798,14 @@ function App() {
 
       {isSignInOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div
-            className={cn(
-              bgColor,
-              "p-4 rounded-lg max-w-sm w-full border",
-              borderColor
-            )}
-          >
+          <div className={cn(bgColor, "p-4 rounded-lg max-w-sm w-full border", borderColor)}>
             <div className="flex justify-between items-center mb-2">
               <h2 className={cn(textColor, "text-sm font-normal")}>
                 Sign in to create private prompts or delete your own prompts.
               </h2>
               <button
                 onClick={() => setIsSignInOpen(false)}
-                className={cn(
-                  mutedTextColor,
-                  "hover:text-white transition-colors"
-                )}
-              >
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
                 <X size={20} />
               </button>
             </div>
@@ -919,19 +821,14 @@ function App() {
               "p-6 rounded-lg max-w-4xl w-full border",
               borderColor,
               "max-h-[90vh] overflow-y-auto"
-            )}
-          >
+            )}>
             <div className="flex justify-between items-center mb-4">
               <h2 className={cn(textColor, "text-lg font-medium")}>
                 {isSignedIn ? "My Private Prompts" : "Sign In Required"}
               </h2>
               <button
                 onClick={() => setIsMyPromptsOpen(false)}
-                className={cn(
-                  mutedTextColor,
-                  "hover:text-white transition-colors"
-                )}
-              >
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
                 <X size={20} />
               </button>
             </div>
@@ -954,21 +851,13 @@ function App() {
                       "border",
                       borderColor,
                       "p-3 sm:p-4 transition-all duration-200 rounded-lg"
-                    )}
-                  >
+                    )}>
                     <div className="flex justify-between items-start">
-                      <h2
-                        className={cn(
-                          textColor,
-                          "text-base sm:text-lg font-semibold mb-1.5"
-                        )}
-                      >
+                      <h2 className={cn(textColor, "text-base sm:text-lg font-semibold mb-1.5")}>
                         {prompt.title}
                       </h2>
                     </div>
-                    <p
-                      className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm")}
-                    >
+                    <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm")}>
                       {prompt.description}
                     </p>
                     <div className="flex flex-wrap items-center gap-2">
@@ -979,24 +868,19 @@ function App() {
                             buttonBgColor,
                             mutedTextColor,
                             "inline-block px-2 py-1 text-xs sm:text-sm rounded-md"
-                          )}
-                        >
+                          )}>
                           {category}
                         </span>
                       ))}
                     </div>
-                    <PromptCard
-                      prompt={prompt}
-                      copied={copied}
-                      onCopy={copyToClipboard}
-                    />
+                    <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
                   </div>
                 ))}
               </div>
             ) : (
               <p className={cn(mutedTextColor, "text-center py-8")}>
-                You don't have any private prompts yet. Create one by setting
-                visibility to private when adding a new prompt.
+                You don't have any private prompts yet. Create one by setting visibility to private
+                when adding a new prompt.
               </p>
             )}
           </div>
