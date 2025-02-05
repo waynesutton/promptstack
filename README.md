@@ -60,6 +60,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [ ] Add "Prompt Threads" for multi-step prompts.
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
+- [ ]
 
 ---
 
