@@ -1,6 +1,7 @@
 [build]
   command = "npx convex deploy && npm run build"
   publish = "dist"
+  environment = { VITE_CONVEX_URL = "https://prestigious-woodpecker-186.convex.cloud" }
 
 [[redirects]]
   from = "/*"
