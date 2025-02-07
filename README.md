@@ -107,7 +107,7 @@ We welcome contributions from the community! Feel free to submit a pull request 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 
----
+--
 
 
 ```
