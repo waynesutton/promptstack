@@ -1,5 +1,5 @@
 [build]
-  command = "bunx convex deploy && bun run build"
+  command = "npx convex deploy && npm run build"
   publish = "dist"
 
 [[redirects]]
