@@ -89,7 +89,7 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 
 ## Getting Started
 
-### Installation
+## Installation
 
 Clone the repository and install dependencies:
 

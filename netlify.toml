@@ -1,5 +1,5 @@
 [build]
-  command = "bunx convex deploy --cmd 'bun run build'"
+  command = "npx convex deploy --cmd 'npm run build''"
 
 [[redirects]]
   from = "/*"
