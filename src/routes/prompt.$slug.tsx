@@ -3,11 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "../ThemeContext";
 import { Share, Copy, User, Bug, Trash2, Lock } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import {
-  SandpackProvider,
-  SandpackLayout,
-  SandpackCodeEditor,
-} from "@codesandbox/sandpack-react";
+import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { useQuery } from "convex/react";
@@ -100,14 +96,8 @@ function PromptDetail() {
           <meta name="description" content={prompt.description} />
           <meta property="og:title" content={`${prompt.title} - PromptStack`} />
           <meta property="og:description" content={prompt.description} />
-          <meta
-            property="og:image"
-            content="https://promptstack.vercel.app/og-image.jpg"
-          />
-          <meta
-            name="twitter:title"
-            content={`${prompt.title} - PromptStack`}
-          />
+          <meta property="og:image" content="https://promptstack.vercel.app/og-image.jpg" />
+          <meta name="twitter:title" content={`${prompt.title} - PromptStack`} />
           <meta name="twitter:description" content={prompt.description} />
         </Helmet>
       </HelmetProvider>
@@ -131,20 +121,12 @@ function PromptDetail() {
               to="/prompt/$slug"
               params={{ slug: prompt.slug }}
               search={{}}
-              className="text-black hover:text-gray-800 transition-colors"
-            >
+              className="text-black hover:text-gray-800 transition-colors">
               {prompt.title}
             </Link>
           </nav>
 
-          <div
-            className={cn(
-              bgColor,
-              "border",
-              borderColor,
-              "p-3 sm:p-4 rounded-lg"
-            )}
-          >
+          <div className={cn(bgColor, "border", borderColor, "p-3 sm:p-4 rounded-lg")}>
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-2">
                 {!prompt.isPublic && isSignedIn && (
@@ -155,9 +137,7 @@ function PromptDetail() {
                 </h2>
               </div>
             </div>
-            <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm")}>
-              {prompt.description}
-            </p>
+            <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm")}>{prompt.description}</p>
             <div className="flex flex-wrap items-center gap-2 text-left">
               {prompt.categories.map((category, idx) => (
                 <span
@@ -166,8 +146,7 @@ function PromptDetail() {
                     buttonBgColor,
                     mutedTextColor,
                     "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
-                  )}
-                >
+                  )}>
                   {category}
                 </span>
               ))}
@@ -184,8 +163,7 @@ function PromptDetail() {
                     mutedTextColor,
                     `hover:${textColor}`,
                     "flex items-center gap-1 transition-colors duration-200 text-left"
-                  )}
-                >
+                  )}>
                   <User size={16} />
                   <span className="text-xs sm:text-sm text-left">
                     {getDomainFromUrl(prompt.githubProfile)}
@@ -204,12 +182,9 @@ function PromptDetail() {
                 options={{
                   visibleFiles: ["/prompt.txt"],
                   activeFile: "/prompt.txt",
-                }}
-              >
+                }}>
                 <div className="flex items-center justify-between px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
-                  <span className="text-[#6C6C6C] text-[0px] font-mono">
-                    prompt.txt
-                  </span>
+                  <span className="text-[#6C6C6C] text-[0px] font-mono">prompt.txt</span>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => {
@@ -217,15 +192,13 @@ function PromptDetail() {
                         navigator.clipboard.writeText(url);
                         alert("URL copied to clipboard!");
                       }}
-                      className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200"
-                    >
+                      className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
                       <Share size={14} />
                       <span className="text-[12px] font-mono">Share</span>
                     </button>
                     <button
                       onClick={() => copyToClipboard(prompt.prompt)}
-                      className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200"
-                    >
+                      className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
                       {copied === prompt.prompt ? (
                         <span className="text-[12px] font-mono">Copied!</span>
                       ) : (
@@ -250,14 +223,13 @@ function PromptDetail() {
               </SandpackProvider>
             </div>
             <div className="flex items-center gap-2 pt-[10px]">
-              {isSignedIn && user && prompt && prompt.userId === user.id && (
+              {isSignedIn && user && prompt && user.id === prompt.userId && (
                 <button
                   onClick={() => handleDeletePrompt(prompt._id)}
                   className={cn(
                     mutedTextColor,
                     "hover:text-black transition-colors flex items-center gap-1"
-                  )}
-                >
+                  )}>
                   <Trash2 size={14} />
                   <span className="text-xs">Delete</span>
                 </button>
@@ -266,8 +238,7 @@ function PromptDetail() {
                 href={`https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Prompt%20Spam&body=This%20discussion%20is%20about%20a%20potential%20spam%20prompt.%0A%0AReported from: ${encodeURIComponent(window.location.href)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1"
-              >
+                className="flex items-center gap-1">
                 <Bug size={14} className={cn(mutedTextColor)} />
                 <span className={cn(mutedTextColor, "text-xs")}>
                   {prompt.isPublic ? "Report bugs or spam" : "Report"}
