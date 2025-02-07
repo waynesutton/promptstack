@@ -7,7 +7,7 @@
     "dev": "npm-run-all --parallel dev:frontend dev:backend",
     "dev:frontend": "vite",
     "dev:backend": "convex dev --tail-logs",
-    "build": "bunx convex deploy && vite build",
+    "build": "npm run tsc && vite build --config vite.config.ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },
