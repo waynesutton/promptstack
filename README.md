@@ -57,7 +57,9 @@ Whether you're using Cursor, Bolt.new, , lovable, windsurf, trae, GitHub Copilot
 - [ ] Allow logged in users to like prompts and view liked prompts
 - [ ] Add AI prompt redo on prompt pages
 - [ ] Allow prompts to be editable only by their creators if they are logged in
-- [ ] Add "Prompt Threads" for multi-step prompts.
+- [ ] Add "Prompt Threads" for multi-step prompts
+- [ ] Add ability to follow prompts
+- [ ] Add resend ability for notifications if a prompt has been liked or commented on or followed
 - [ ] Add for private team prompts
 - [ ] Add for public team prompts
 - [ ] fix private prompts not being visible to the creator
