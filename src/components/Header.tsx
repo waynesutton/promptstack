@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Search, Plus, Github, Menu, X } from "lucide-react";
 import { useTheme } from "../ThemeContext";
-import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/clerk-react";
 
 interface HeaderProps {
   searchQuery?: string;
@@ -21,11 +21,7 @@ const PromptStackLogo = ({ className }: { className?: string }) => (
   />
 );
 
-export function Header({
-  searchQuery,
-  setSearchQuery,
-  setIsModalOpen,
-}: HeaderProps) {
+export function Header({ searchQuery, setSearchQuery, setIsModalOpen }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme } = useTheme();
   const { isSignedIn } = useUser();
@@ -55,12 +51,7 @@ export function Header({
               <PromptStackLogo className="#2A2A2A" />
             </a>
             <a href="/" className="hidden sm:block">
-              <h1
-                className={cn(
-                  textColor,
-                  "font-inter text-[16px] leading-tight"
-                )}
-              >
+              <h1 className={cn(textColor, "font-inter text-[16px] leading-tight")}>
                 <span className="font-normal text-[18px]">PromptStack</span>
                 <br />
                 <span className="font-normal text-[16px]">
@@ -101,8 +92,7 @@ export function Header({
               className={cn(
                 textColor,
                 "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
-              )}
-            >
+              )}>
               About
             </Link>
             <a
@@ -112,8 +102,7 @@ export function Header({
               className={cn(
                 textColor,
                 "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-              )}
-            >
+              )}>
               <Github size={16} />
               <span className="text-sm">open source</span>
             </a>
@@ -123,8 +112,7 @@ export function Header({
                   onClick={() => setIsModalOpen?.(true)}
                   className={cn(
                     "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
-                  )}
-                >
+                  )}>
                   <Plus size={12} />
                   <span>Add Prompt</span>
                 </button>
@@ -133,21 +121,29 @@ export function Header({
                   to="/addnew"
                   className={cn(
                     "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
-                  )}
-                >
+                  )}>
                   <Plus size={12} />
                   <span>Add Prompt</span>
                 </Link>
               )}
 
               {isSignedIn ? (
-                <UserButton afterSignOutUrl="/" />
+                <div className="w-fit">
+                  <UserButton afterSignOutUrl="/" />
+                </div>
               ) : (
-                <SignInButton mode="modal">
-                  <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
-                    <span className="text-[13px]">Sign in</span>
-                  </button>
-                </SignInButton>
+                <div className="flex items-center gap-2">
+                  <SignInButton mode="modal">
+                    <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                      <span className="text-[13px]">Log in</span>
+                    </button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                      <span className="text-[13px]">Sign up</span>
+                    </button>
+                  </SignUpButton>
+                </div>
               )}
             </div>
           </div>
@@ -156,10 +152,7 @@ export function Header({
           <span className="md:hidden font-normal text-[18px]">
             <a href="/">PromptStack</a>
           </span>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2"
-          >
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2">
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -198,8 +191,7 @@ export function Header({
                   className={cn(
                     textColor,
                     "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
-                  )}
-                >
+                  )}>
                   About
                 </Link>
                 <a
@@ -209,8 +201,7 @@ export function Header({
                   className={cn(
                     textColor,
                     "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-                  )}
-                >
+                  )}>
                   <Github size={20} />
                   <span className="text-sm">open source</span>
                 </a>
@@ -219,8 +210,7 @@ export function Header({
                     onClick={() => setIsModalOpen?.(true)}
                     className={cn(
                       "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
-                    )}
-                  >
+                    )}>
                     <Plus size={12} />
                     <span>Add Prompt</span>
                   </button>
@@ -229,8 +219,7 @@ export function Header({
                     to="/addnew"
                     className={cn(
                       "w-160px px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg text-sm"
-                    )}
-                  >
+                    )}>
                     <Plus size={12} />
                     <span>Add Prompt</span>
                   </Link>
@@ -240,11 +229,18 @@ export function Header({
                     <UserButton afterSignOutUrl="/" />
                   </div>
                 ) : (
-                  <SignInButton mode="modal">
-                    <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
-                      <span className="text-[13px]">Sign in</span>
-                    </button>
-                  </SignInButton>
+                  <div className="flex items-center gap-2">
+                    <SignInButton mode="modal">
+                      <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                        <span className="text-[13px]">Log in</span>
+                      </button>
+                    </SignInButton>
+                    <SignUpButton mode="modal">
+                      <button className="px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white transition-colors duration-200 text-sm rounded-lg">
+                        <span className="text-[13px]">Sign up</span>
+                      </button>
+                    </SignUpButton>
+                  </div>
                 )}
               </div>
             </div>
