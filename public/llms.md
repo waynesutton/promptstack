@@ -1,10 +1,10 @@
-# PromptStack - Open Source - AI Prompts and code generation rules for Prompt Engineering
+# Prompt Stack - Open Source - AI Prompts and code generation rules for Prompt Engineering
 
-**[PromptStack](https://promptstack.dev)** is an **open-source** searchable collection of AI prompts and code generation rules for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.
+**[Prompt Stack](https://promptstack.dev)** is an **open-source** searchable collection of AI prompts and code generation rules for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.
 
 Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
 
-PromptStack is a community-driven platform for developers to discover, share, and manage AI prompts and code generation rules.
+Prompt Stack is a community-driven platform for developers to discover, share, and manage AI prompts and code generation rules.
 
 ## Goal
 
