@@ -69,6 +69,7 @@ const CATEGORIES = [
   "Laravel",
   "Loveable",
   "MagicUI",
+  "MCP",
   "NextJS",
   "Novo Elements",
   "NuxtJS",
