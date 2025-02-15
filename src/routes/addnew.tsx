@@ -16,8 +16,6 @@ const CATEGORIES = [
   "AutoHotkey",
   "Backend",
   "Bolt.new",
-  "C#",
-  "C++",
   "ChatGPT",
   "Codeium",
   "Convex",

@@ -509,8 +509,8 @@ function App() {
 
         <div className="flex-1">
           <div>
-            <h1 className="py-0 mb-8 text-center font-display text-2xl font-medium text-neutral-900 sm:text-2xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
-              AI Prompts and Code Gen Rules for{" "}
+            <h1 className="py-0 mb-8 text-left font-display text-xl font-medium text-neutral-900 sm:text-xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
+              AI Prompts, Cursor Rules and MCP Server Directory for{" "}
               <span className="line-through">Prompt Engineering</span> / Vibe Coding
             </h1>
           </div>
