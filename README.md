@@ -1,4 +1,4 @@
-# PromptStack - AI Prompts and code generation rules for Prompt Engineering
+# PromptStack - AI Prompts, Cursor Rules and MCP Server Directory for Prompt Engineering / Vibe Coding
 
 **[PromptStack](https://promptstack.dev)** is an **open-source** a searchable collection of AI prompts and code generation rules for prompt engineering, featuring Cursor rules, Bolt.new, Loveable, Windsurf, and Trae; designed to streamline developer workflows.. Built with [Convex.dev](https://convex.link/promptstackgithub) as the database and [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) for client-side routing.
 rules to enhance your workflow for developers.
