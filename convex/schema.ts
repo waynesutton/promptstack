@@ -28,4 +28,9 @@ export default defineSchema({
     createdAt: v.number(),
     parentId: v.optional(v.id("comments")),
   }).index("by_prompt", ["promptId"]),
+  customCategories: defineTable({
+    name: v.string(),
+    userId: v.string(),
+    createdAt: v.number(),
+  }).index("by_user", ["userId"]),
 });

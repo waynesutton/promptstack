@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 import { Search, Plus, Github, Menu, X } from "lucide-react";
-import { useTheme } from "../ThemeContext";
+import { useTheme, APP_BACKGROUND_COLOR } from "../ThemeContext";
 import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/clerk-react";
 
 interface HeaderProps {
@@ -30,10 +30,7 @@ export function Header({ searchQuery, setSearchQuery, setIsModalOpen }: HeaderPr
   const showSearch = currentPath === "/";
   const useModal = currentPath === "/";
 
-  const bgColor =
-    theme === "dark"
-      ? "bg-gradient-to-b from-[#ffffff] to-[#ffffff]"
-      : "bg-gradient-to-b from-[#ffffff] to-[#ffffff]";
+  const bgColor = APP_BACKGROUND_COLOR;
   const textColor = theme === "dark" ? "text-white" : "text-black";
   const mutedTextColor = theme === "dark" ? "text-[#A3A3A3]" : "text-gray-500";
   const borderColor = theme === "dark" ? "border-[#FAF2E9]" : "border-gray-200";
@@ -43,7 +40,7 @@ export function Header({ searchQuery, setSearchQuery, setIsModalOpen }: HeaderPr
   };
 
   return (
-    <header className="relative h-auto w-full bg-gradient-to-b from-[#fff] to-[#F9EFE6]">
+    <header className={`relative h-auto w-full ${bgColor}`}>
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center  gap-3">
@@ -87,25 +84,7 @@ export function Header({ searchQuery, setSearchQuery, setIsModalOpen }: HeaderPr
                 />
               </div>
             )}
-            <Link
-              to="/about"
-              className={cn(
-                textColor,
-                "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 text-sm font-medium"
-              )}>
-              About
-            </Link>
-            <a
-              href="https://github.com/waynesutton/PromptStack"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                textColor,
-                "hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 flex items-center gap-2"
-              )}>
-              <Github size={16} />
-              <span className="text-sm">open source</span>
-            </a>
+
             <div className="flex items-center gap-4">
               {useModal ? (
                 <button

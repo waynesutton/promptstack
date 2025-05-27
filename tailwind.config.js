@@ -1,10 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-import defaultTheme from 'tailwindcss/defaultTheme'
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        "app-bg": "#F9EEE6",
+      },
       fontSize: {
         sm: "0.80rem",
       },
@@ -17,7 +20,7 @@ export default {
         "2xl": "1536px",
       },
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
       typography: {
         DEFAULT: {

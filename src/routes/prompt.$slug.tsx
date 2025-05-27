@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "../ThemeContext";
-import { Share, Copy, User, Bug, Trash2, Lock } from "lucide-react";
+import { Share, Copy, User, Bug, Trash2, Lock, SquarePen, LockKeyhole, X } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
+import { NotFound } from "../components/NotFound";
+import { PromptForm } from "../components/PromptForm";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { CommentSection } from "../components/CommentSection";
@@ -22,10 +24,16 @@ function PromptDetail() {
   const { theme } = useTheme();
   const [copied, setCopied] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingPrompt, setEditingPrompt] = useState<any>(null);
+  const [isVisibilityModalOpen, setIsVisibilityModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isSignedIn, user } = useUser();
   const { slug } = Route.useParams();
   const prompt = useQuery(api.prompts.getPromptBySlug, { slug });
   const deletePrompt = useMutation(api.prompts.deletePrompt);
+  const toggleVisibilityMutation = useMutation(api.prompts.togglePromptVisibility);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +47,11 @@ function PromptDetail() {
     }
   }, [isSignedIn, user, prompt]);
 
-  if (!prompt) return <div>Loading...</div>;
+  // Show loading state while query is still loading
+  if (prompt === undefined) return <div>Loading...</div>;
+
+  // Show 404 if prompt doesn't exist or user doesn't have access
+  if (prompt === null) return <NotFound />;
 
   const bgColor = theme === "dark" ? "bg-[#0A0A0A]" : "bg-white";
   const textColor = theme === "dark" ? "text-white" : "text-black";
@@ -78,13 +90,44 @@ function PromptDetail() {
       return;
     }
 
-    if (window.confirm("Are you sure you want to delete this prompt?")) {
-      try {
-        await deletePrompt({ id: promptId });
-        navigate({ to: "/" });
-      } catch (error) {
-        console.error("Error deleting prompt:", error);
-      }
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeletePrompt = async () => {
+    if (!prompt) return;
+
+    try {
+      await deletePrompt({ id: prompt._id });
+      navigate({ to: "/" });
+    } catch (error) {
+      console.error("Error deleting prompt:", error);
+    }
+  };
+
+  const handleEditPrompt = () => {
+    setEditingPrompt(prompt);
+    setIsEditModalOpen(true);
+  };
+
+  const handleToggleVisibility = () => {
+    setIsVisibilityModalOpen(true);
+  };
+
+  const confirmToggleVisibility = async () => {
+    if (!prompt || !isSignedIn || !user || user.id !== prompt.userId) {
+      console.error("Not authorized to change visibility");
+      return;
+    }
+
+    try {
+      await toggleVisibilityMutation({
+        id: prompt._id as Id<"prompts">,
+        isPublic: !prompt.isPublic,
+      });
+      setIsVisibilityModalOpen(false);
+    } catch (error) {
+      console.error("Error toggling visibility:", error);
+      alert("Failed to update prompt visibility. Please try again.");
     }
   };
 
@@ -130,8 +173,11 @@ function PromptDetail() {
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-2">
                 {!prompt.isPublic && isSignedIn && (
-                  <Lock size={14} className={cn(mutedTextColor)} />
+                  <div className="bg-black px-1.5 py-1.5 rounded">
+                    <Lock size={14} className="text-white" />
+                  </div>
                 )}
+
                 <h2 className="font-['Inter',sans-serif] text-[24px] leading-[32px] text-[#1A202C]">
                   {prompt.title}
                 </h2>
@@ -187,15 +233,32 @@ function PromptDetail() {
                   <span className="text-[#6C6C6C] text-[0px] font-mono">prompt.txt</span>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => {
-                        const url = window.location.href;
-                        navigator.clipboard.writeText(url);
-                        alert("URL copied to clipboard!");
-                      }}
+                      onClick={() => setIsShareModalOpen(true)}
                       className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
                       <Share size={14} />
                       <span className="text-[12px] font-mono">Share</span>
                     </button>
+
+                    {isSignedIn && user && prompt && user.id === prompt.userId && (
+                      <>
+                        <button
+                          onClick={handleEditPrompt}
+                          className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+                          <SquarePen size={14} />
+                          <span className="text-[12px] font-mono">Edit</span>
+                        </button>
+
+                        <button
+                          onClick={handleToggleVisibility}
+                          className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+                          {prompt.isPublic ? <Lock size={14} /> : <LockKeyhole size={14} />}
+                          <span className="text-[12px] font-mono">
+                            {prompt.isPublic ? "Private" : "Public"}
+                          </span>
+                        </button>
+                      </>
+                    )}
+
                     <button
                       onClick={() => copyToClipboard(prompt.prompt)}
                       className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
@@ -251,6 +314,151 @@ function PromptDetail() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && prompt && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className={cn(bgColor, "p-6 rounded-lg max-w-md w-full border", borderColor)}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={cn(textColor, "text-lg font-medium")}>Delete Prompt</h2>
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
+                <X size={20} />
+              </button>
+            </div>
+            <p className={cn(mutedTextColor, "mb-6 text-sm")}>
+              Are you sure you want to delete this prompt? This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setIsDeleteModalOpen(false)}
+                className={cn(
+                  "flex-1 px-4 py-2 border",
+                  borderColor,
+                  mutedTextColor,
+                  "hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                )}>
+                Cancel
+              </button>
+              <button
+                onClick={confirmDeletePrompt}
+                className="flex-1 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-4 py-2 transition-colors duration-200 rounded-lg">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Visibility Toggle Modal */}
+      {isVisibilityModalOpen && prompt && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className={cn(bgColor, "p-6 rounded-lg max-w-md w-full border", borderColor)}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={cn(textColor, "text-lg font-medium")}>
+                {prompt.isPublic ? "Make Private" : "Make Public"}
+              </h2>
+              <button
+                onClick={() => setIsVisibilityModalOpen(false)}
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
+                <X size={20} />
+              </button>
+            </div>
+            <p className={cn(mutedTextColor, "mb-6 text-sm")}>
+              {prompt.isPublic
+                ? "Are you sure you want to make this prompt private? Only you will be able to see it."
+                : "Are you sure you want to make this prompt public? Anyone will be able to see it."}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setIsVisibilityModalOpen(false)}
+                className={cn(
+                  "flex-1 px-4 py-2 border",
+                  borderColor,
+                  mutedTextColor,
+                  "hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                )}>
+                Cancel
+              </button>
+              <button
+                onClick={confirmToggleVisibility}
+                className="flex-1 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-4 py-2 transition-colors duration-200 rounded-lg">
+                {prompt.isPublic ? "Make Private" : "Make Public"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && editingPrompt && (
+        <PromptForm
+          isModal={true}
+          isEditing={true}
+          promptId={editingPrompt._id}
+          initialData={{
+            title: editingPrompt.title,
+            description: editingPrompt.description,
+            prompt: editingPrompt.prompt,
+            categories: editingPrompt.categories,
+            githubProfile: editingPrompt.githubProfile || "",
+            isPublic: editingPrompt.isPublic,
+          }}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditingPrompt(null);
+          }}
+          onSuccess={() => {
+            setIsEditModalOpen(false);
+            setEditingPrompt(null);
+          }}
+        />
+      )}
+
+      {/* Share Modal */}
+      {isShareModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className={cn(bgColor, "p-6 rounded-lg max-w-md w-full border", borderColor)}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={cn(textColor, "text-lg font-medium")}>Share Prompt</h2>
+              <button
+                onClick={() => setIsShareModalOpen(false)}
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
+                <X size={20} />
+              </button>
+            </div>
+            <p className={cn(mutedTextColor, "mb-6 text-sm")}>
+              Copy the URL to share this prompt with others.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setIsShareModalOpen(false)}
+                className={cn(
+                  "flex-1 px-4 py-2 border",
+                  borderColor,
+                  mutedTextColor,
+                  "hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                )}>
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  const url = window.location.href;
+                  navigator.clipboard.writeText(url);
+                  setIsShareModalOpen(false);
+                  // Show a brief success state
+                  setCopied("URL");
+                  setTimeout(() => setCopied(null), 2000);
+                }}
+                className="flex-1 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-4 py-2 transition-colors duration-200 rounded-lg">
+                Copy URL
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

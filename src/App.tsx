@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
   Copy,
-  Sparkles,
   Plus,
   X,
   User,
@@ -12,18 +11,24 @@ import {
   Expand,
   Heart,
   MessageCircleCode,
+  SquarePen,
+  LockKeyhole,
+  Sparkles,
+  Trash2,
 } from "lucide-react";
-import { useTheme } from "./ThemeContext";
+import { useTheme, APP_BACKGROUND_COLOR } from "./ThemeContext";
 import { Link } from "@tanstack/react-router";
 import "./fonts.css";
 import { SandpackProvider, SandpackLayout, SandpackCodeEditor } from "@codesandbox/sandpack-react";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import { PromptForm } from "./components/PromptForm";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { SignInButton, useUser } from "@clerk/clerk-react";
 import { Switch } from "./components/ui/switch";
 import { Id } from "../convex/_generated/dataModel";
+import { CATEGORIES } from "./constants/categories";
 
 interface Prompt {
   _id: string;
@@ -38,73 +43,6 @@ interface Prompt {
   slug?: string;
 }
 
-const CATEGORIES = [
-  ".cursorrules",
-  "Angular",
-  "Anthropic(Claude)",
-  "AutoHotkey",
-  "Backend",
-  "Bolt.new",
-  "C#",
-  "C++",
-  "ChatGPT",
-  "Codeium",
-  "Convex",
-  "Creatr",
-  "Cursor",
-  "Database",
-  "Deepseek",
-  "Devin",
-  "Django",
-  "Expo",
-  "Express.js",
-  "Flutter",
-  "Functional",
-  "Github Gopilot",
-  "Go",
-  "Guidelines Doc",
-  "HTMX",
-  "JavaScript",
-  "Jest",
-  "Laravel",
-  "Loveable",
-  "MagicUI",
-  "MCP",
-  "NextJS",
-  "Novo Elements",
-  "NuxtJS",
-  "Openai",
-  "Other",
-  "Perplexity",
-  "Prompt",
-  "Python",
-  "Radix UI",
-  "React",
-  "Readme",
-  "Replit",
-  "Requirements Doc",
-  "Ruby on Rails",
-  "Rust",
-  "Shadcn UI",
-  "ShipFast",
-  "Solidity",
-  "Structure Doc",
-  "Supabase",
-  "SvelteKit",
-  "SwiftUI",
-  "TabNine",
-  "Tailwind",
-  "TanStack",
-  "trae",
-  "Trickle",
-  "Typescript",
-  "v0",
-  "Vue",
-  "Wails.io",
-  "Windsurf",
-  "YouTube",
-] as const;
-
 const generateSlug = (title: string) => {
   return title
     .toLowerCase()
@@ -118,10 +56,16 @@ const PromptCard = ({
   prompt,
   copied,
   onCopy,
+  isOwner,
+  onEdit,
+  onToggleVisibility,
 }: {
   prompt: Prompt;
   copied: string | null;
   onCopy: (text: string) => void;
+  isOwner?: boolean;
+  onEdit?: (prompt: Prompt) => void;
+  onToggleVisibility?: (prompt: Prompt) => void;
 }) => {
   return (
     <div className="mt-4">
@@ -138,7 +82,7 @@ const PromptCard = ({
         <div className="flex items-center px-4 py-2 bg-[#2A2A2A] border-b border-[#343434]">
           <span className="text-[#6C6C6C] text-[12px] font-mono"></span>
           <div className="flex items-center gap-1">
-            <Link
+            {/* <Link
               to="/prompt/$slug"
               params={{ slug: prompt.slug || generateSlug(prompt.title) }}
               search={(prev) => ({
@@ -148,15 +92,36 @@ const PromptCard = ({
               className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
               <MessageCircleCode size={14} />
               <span className="text-[12px] font-mono">Comment</span>
-            </Link>
+            </Link> */}
 
             <Link
               to="/prompt/$slug"
               params={{ slug: prompt.slug || generateSlug(prompt.title) }}
               className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
               <Expand size={14} />
-              <span className="text-[12px] font-mono">Expand</span>
+              <span className="text-[12px] font-mono">open</span>
             </Link>
+
+            {isOwner && onEdit && (
+              <button
+                onClick={() => onEdit(prompt)}
+                className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+                <SquarePen size={14} />
+                <span className="text-[12px] font-mono">Edit</span>
+              </button>
+            )}
+
+            {isOwner && onToggleVisibility && (
+              <button
+                onClick={() => onToggleVisibility(prompt)}
+                className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
+                {prompt.isPublic ? <Lock size={14} /> : <LockKeyhole size={14} />}
+                <span className="text-[12px] font-mono">
+                  {prompt.isPublic ? "Private" : "Public"}
+                </span>
+              </button>
+            )}
+
             <button
               onClick={() => onCopy(prompt.prompt)}
               className="flex items-center gap-0.5 px-1.5 py-0.5 text-[#6C6C6C] hover:text-white transition-colors duration-200">
@@ -194,45 +159,49 @@ function App() {
   const [copied, setCopied] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [categories, setCategories] = useState(
+  const [categories, setCategories] = useState<Array<{ name: string; count: number }>>(
     CATEGORIES.map((category) => ({ name: category, count: 0 }))
   );
   const [count, setCount] = useState(0);
-  const [newPrompt, setNewPrompt] = useState({
-    title: "",
-    description: "",
-    prompt: "",
-    categories: [] as string[],
-    githubProfile: "",
-    stars: 0,
-    isPublic: true,
-  });
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMyPromptsOpen, setIsMyPromptsOpen] = useState(false);
   const [showPrivatePrompts, setShowPrivatePrompts] = useState(false);
   const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
-  const [categoriesInitialized, setCategoriesInitialized] = useState(false);
   const likePromptMutation = useMutation(api.prompts.likePrompt);
   const unlikePromptMutation = useMutation(api.prompts.unlikePrompt);
-  const { isSignedIn } = useUser();
+  const updatePromptMutation = useMutation(api.prompts.updatePrompt);
+  const toggleVisibilityMutation = useMutation(api.prompts.togglePromptVisibility);
+  const deleteCustomCategoryMutation = useMutation(api.prompts.deleteCustomCategory);
+  const { isSignedIn, user } = useUser();
   const [sortByLikes, setSortByLikes] = useState(false);
+  const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isVisibilityModalOpen, setIsVisibilityModalOpen] = useState(false);
+  const [promptToToggle, setPromptToToggle] = useState<Prompt | null>(null);
+  const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState<{ id: string; name: string } | null>(
+    null
+  );
 
-  const createPrompt = useMutation(api.prompts.createPrompt);
+  const customCategories = useQuery(api.prompts.getUserCustomCategories) || [];
   const searchResults = useQuery(api.prompts.searchPrompts, {
     searchQuery: searchQuery || undefined,
     categories: selectedCategories.length > 0 ? selectedCategories : undefined,
   });
 
   useEffect(() => {
-    if (categoriesInitialized || !searchResults) return;
-    setCategoriesInitialized(true);
+    if (!searchResults) return;
+
+    // Combine default categories with custom categories
+    const allCategories = [...CATEGORIES, ...customCategories.map((cat) => cat.name)];
+
     setCategories(
-      CATEGORIES.map((category) => ({
+      allCategories.map((category) => ({
         name: category,
         count: searchResults?.filter((prompt) => prompt.categories.includes(category)).length || 0,
       }))
     );
-  }, [searchResults]);
+  }, [searchResults, customCategories]);
 
   const privatePrompts = useQuery(api.prompts.getPrivatePrompts) || [];
   const privatePromptsCount = privatePrompts?.length || 0;
@@ -274,56 +243,6 @@ function App() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const handleSubmit = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-
-    if (!newPrompt.title.trim() || !newPrompt.prompt.trim()) {
-      alert("Please fill in all required fields (Title and Prompt)");
-      return;
-    }
-
-    const slug = generateSlug(newPrompt.title);
-
-    try {
-      await createPrompt({
-        title: newPrompt.title,
-        description: newPrompt.description,
-        prompt: newPrompt.prompt,
-        categories: newPrompt.categories,
-        githubProfile: newPrompt.githubProfile,
-        isPublic: newPrompt.isPublic,
-        slug,
-      });
-
-      setNewPrompt({
-        title: "",
-        description: "",
-        prompt: "",
-        categories: [],
-        githubProfile: "",
-        stars: 0,
-        isPublic: true,
-      });
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error creating prompt:", error);
-      alert("Failed to create prompt. Please try again.");
-    }
-  };
-
-  const toggleCategory = (category: string) => {
-    setNewPrompt((prev) => {
-      if (prev.categories.includes(category))
-        return {
-          ...prev,
-          categories: prev.categories.filter((c) => c !== category),
-        };
-
-      if (prev.categories.length >= 4) return prev;
-      return { ...prev, categories: [...prev.categories, category] };
-    });
-  };
-
   const toggleFilterCategory = (category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
@@ -334,7 +253,7 @@ function App() {
     setCount(prompts.length);
   }, [prompts.length]);
 
-  const bgColor = theme === "dark" ? "bg-[#0A0A0A]" : "bg-white";
+  const bgColor = APP_BACKGROUND_COLOR;
   const textColor = theme === "dark" ? "text-white" : "text-black";
   const mutedTextColor = theme === "dark" ? "text-[#A3A3A3]" : "text-gray-500";
   const borderColor = theme === "dark" ? "border-[#1F1F1F]" : "border-gray-200";
@@ -369,8 +288,73 @@ function App() {
     }
   };
 
+  const handleEditPrompt = (prompt: Prompt) => {
+    setEditingPrompt(prompt);
+    setIsEditModalOpen(true);
+  };
+
+  const handleToggleVisibility = (prompt: Prompt) => {
+    setPromptToToggle(prompt);
+    setIsVisibilityModalOpen(true);
+  };
+
+  const handleSaveEdit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!editingPrompt) return;
+
+    try {
+      await updatePromptMutation({
+        id: editingPrompt._id as Id<"prompts">,
+        title: editingPrompt.title,
+        description: editingPrompt.description,
+        prompt: editingPrompt.prompt,
+        categories: editingPrompt.categories,
+        githubProfile: editingPrompt.githubProfile,
+      });
+      setIsEditModalOpen(false);
+      setEditingPrompt(null);
+    } catch (error) {
+      console.error("Error updating prompt:", error);
+      alert("Failed to update prompt. Please try again.");
+    }
+  };
+
+  const confirmToggleVisibility = async () => {
+    if (!promptToToggle) return;
+
+    try {
+      await toggleVisibilityMutation({
+        id: promptToToggle._id as Id<"prompts">,
+        isPublic: !promptToToggle.isPublic,
+      });
+      setIsVisibilityModalOpen(false);
+      setPromptToToggle(null);
+    } catch (error) {
+      console.error("Error toggling visibility:", error);
+      alert("Failed to update prompt visibility. Please try again.");
+    }
+  };
+
+  const handleDeleteCustomCategory = (categoryId: Id<"customCategories">, categoryName: string) => {
+    setCategoryToDelete({ id: categoryId, name: categoryName });
+    setIsDeleteCategoryModalOpen(true);
+  };
+
+  const confirmDeleteCategory = async () => {
+    if (!categoryToDelete) return;
+
+    try {
+      await deleteCustomCategoryMutation({ id: categoryToDelete.id as Id<"customCategories"> });
+      setIsDeleteCategoryModalOpen(false);
+      setCategoryToDelete(null);
+    } catch (error) {
+      console.error("Error deleting custom category:", error);
+      alert("Failed to delete custom category. Please try again.");
+    }
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen ${bgColor}`}>
       <div className="sticky top-0 z-50">
         <Header
           searchQuery={searchQuery}
@@ -380,9 +364,6 @@ function App() {
         />
       </div>
       <div className="relative flex flex-col lg:flex-row gap-6 max-w-[full] mx-auto px-4 sm:px-6 py-8">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-[#F9EFE6] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[910px] w-[910px] rounded-full bg-[#F9EFE6] opacity-100 blur-[100px]"></div>
-        </div>
         <div className="w-full lg:w-64 lg:flex-none">
           <div className="lg:sticky lg:top-24">
             <div className="space-y-4">
@@ -401,6 +382,30 @@ function App() {
               </div>
               <div className="flex items-center space-x-2">
                 <Switch
+                  checked={showPrivatePrompts}
+                  onCheckedChange={(checked) => {
+                    if (isSignedIn) {
+                      setShowPrivatePrompts(checked);
+                      setIsMyPromptsOpen(false);
+                    } else {
+                      setIsSignInOpen(true);
+                    }
+                  }}
+                  disabled={!isSignedIn}
+                  className="data-[state=checked]:bg-[#1a1a1a]"
+                />
+                <label className={cn(mutedTextColor, "text-sm flex items-center gap-2")}>
+                  <span>{showPrivatePrompts ? "My Prompts" : "All Prompts"}</span>
+                  {privatePromptsCount > 0 && (
+                    <span className="text-xs bg-[#2A2A2A] text-white px-1.5 py-0.5 rounded">
+                      {privatePromptsCount}
+                    </span>
+                  )}
+                </label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
                   checked={sortByLikes}
                   onCheckedChange={setSortByLikes}
                   className="data-[state=checked]:bg-[#1a1a1a]"
@@ -417,74 +422,89 @@ function App() {
                 </label>
               </div>
 
-              <button
-                onClick={() => {
-                  if (isSignedIn) {
-                    setShowPrivatePrompts(!showPrivatePrompts);
-                    setIsMyPromptsOpen(false);
-                  } else {
-                    setIsSignInOpen(true);
-                  }
-                }}
-                className={cn(
-                  "w-full flex items-center gap-2 px-2.5 py-1.5 text-left",
-                  isSignedIn
-                    ? `${mutedTextColor} hover:${textColor} transition-colors duration-200`
-                    : "opacity-50 cursor-not-allowed",
-                  "text-[0.875em]"
-                )}>
-                <User size={16} />
-                <span>{showPrivatePrompts ? "Show All Prompts" : "My Prompts"}</span>
-                {privatePromptsCount > 0 && (
-                  <span className="ml-auto text-xs bg-[#2A2A2A] text-white px-1.5 py-0.5 rounded">
-                    {privatePromptsCount}
-                  </span>
-                )}
-              </button>
-
               <div>
-                <h3 className={cn(textColor, "text-sm font-medium mb-2")}>Categories</h3>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className={cn(textColor, "text-sm font-medium")}>Categories</h3>
+                </div>
+
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
-                  {categories.map((category) => (
-                    <button
-                      key={category.name}
-                      onClick={() => toggleFilterCategory(category.name)}
-                      className={cn(
-                        selectedCategories.includes(category.name)
-                          ? "bg-[#1a1a1a] text-white"
-                          : cn(mutedTextColor, `hover:${buttonBgColor}`, `hover:${textColor}`),
-                        "flex items-center justify-between px-2.5 py-1.5 text-left transition-colors duration-200 rounded-md text-[0.875em]"
-                      )}>
-                      <span className="flex items-center gap-2">
-                        {(category.name === "Cursor" || category.name === ".cursorrules") && (
-                          <img
-                            src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNjQgNjQiPjxwYXRoIGQ9Ik01My44IDE3LjkgMzMgOS42Yy0uNy0uMy0xLjUtLjMtMi4yIDBsLTIwLjYgOC4yYy0uOC4zLTEuMiAxLTEuMiAxLjh2MjQuN2MwIC44LjUgMS41IDEuMiAxLjhMMzEgNTQuNGMuNC4xLjcuMiAxLjEuMlYyOC44YzAtLjguNS0xLjUgMS4yLTEuOGwyMS4zLTguNWMtLjItLjMtLjUtLjUtLjgtLjZ6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJNNTUgMTkuN2MwLS40LS4yLS45LS40LTEuMkwzMy4zIDI3Yy0uOC4zLTEuMiAxLTEuMiAxLjh2MjUuOGMuNCAwIC43LS4xIDEuMS0uMmwyMC42LTguMmMuOC0uMyAxLjItMSAxLjItMS44VjE5Ljd6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJtNTAuNCAyMC4yLTE4LjMgNy4zVjUxTTEyLjkgMjAuNWwxOS4yIDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGNsYXNzPSJzdHJva2UtZmZmZmZmIj48L3BhdGg+PC9zdmc+"
-                            width="24"
-                            height="24"
-                            alt="Cursor icon"
-                          />
-                        )}
-                        {category.name === "Convex" && (
-                          <img
-                            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODU1IiBoZWlnaHQ9Ijg2MSIgdmlld0JveD0iMCAwIDg1NSA4NjEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01MzkuOTI0IDY3OC4xMTRDNjY3LjE1MSA2NjQuMjI2IDc4Ny4wOTQgNTk3LjYwMiA4NTMuMTM1IDQ4Ni40QzgyMS44NjMgNzYxLjQ0MyA1MTUuODM4IDkzNS4yODcgMjY2LjA0NiA4MjguNTUzQzI0My4wMjkgODE4Ljc0NCAyMjMuMjE3IDgwMi40MjggMjA5LjYyIDc4MS40NUMxNTMuNDg1IDY5NC44MTkgMTM1LjAzMiA1ODQuNTg4IDE2MS41NDYgNDg0LjU1NUMyMzcuMjk5IDYxMy4wNDQgMzkxLjMzMSA2OTEuODA4IDUzOS45MjQgNjc4LjExNFoiIGZpbGw9IiM2QjcyODAiLz4KPHBhdGggZD0iTTE1Ni44ODUgNDAzLjg0OUMxMDUuMzE0IDUyMC45NzUgMTAzLjA4IDY1OC4xMDggMTY2LjMwNSA3NzAuOTYxQy01Ni4xOTU5IDYwNi40NCAtNTMuNzY3OSAyNTQuMzgxIDE2My41ODYgOTEuNTExNEMxODMuNjkgNzYuNDU3OCAyMDcuNTgxIDY3LjUyMjggMjMyLjYzOCA2Ni4xNjMxQzMzNS42ODIgNjAuODIxNSA0NDAuMzc3IDk5Ljk2MDggNTEzLjggMTcyLjg5OEMzNjQuNjI0IDE3NC4zNTUgMjE5LjMzMyAyNjguMjY5IDE1Ni44ODUgNDAzLjg0OVoiIGZpbGw9IiM2QjcyODAiLz4KPHBhdGggZD0iTTU4NS43NTYgMjA4LjkzMkM1MTAuNDg4IDEwNS43OTEgMzkyLjY4MiAzNS41NzM1IDI2My42MDkgMzMuNDM2OEM1MTMuMTEgLTc3Ljg2MjQgODIwLjAwOCAxMDIuNTg2IDg1My40MTggMzY5LjM3NEM4NTYuNTI1IDM5NC4xNCA4NTIuNDQ2IDQxOS4zOTEgODQxLjI3OCA0NDEuNzI4Qzc5NC42NiA1MzQuNzY5IDcwOC4yMjQgNjA2LjkyOSA2MDcuMjE5IDYzMy42MzdDNjgxLjIyNCA0OTguNzM3IDY3Mi4wOTUgMzMzLjkyNSA1ODUuNzU2IDIwOC45MzJaIiBmaWxsPSIjNkI3MjgwIi8+Cjwvc3ZnPgo="
-                            width="16"
-                            height="16"
-                            alt="Convex icon"
-                          />
-                        )}
-                        <span className="truncate">{category.name}</span>
-                      </span>
-                      <span
-                        className={cn(
-                          selectedCategories.includes(category.name)
-                            ? "text-gray-400"
-                            : "text-[#525252]",
-                          "text-sm ml-2"
-                        )}>
-                        {category.count}
-                      </span>
-                    </button>
-                  ))}
+                  {categories
+                    .filter(
+                      (category) =>
+                        category.count > 0 ||
+                        (isSignedIn && customCategories.some((cc) => cc.name === category.name))
+                    )
+                    .map((category) => {
+                      const isCustomCategory = customCategories.some(
+                        (cc) => cc.name === category.name
+                      );
+                      const customCategoryData = customCategories.find(
+                        (cc) => cc.name === category.name
+                      );
+
+                      return (
+                        <div key={category.name} className="flex items-center gap-1">
+                          <button
+                            onClick={() => toggleFilterCategory(category.name)}
+                            className={cn(
+                              selectedCategories.includes(category.name)
+                                ? "bg-[#1a1a1a] text-white"
+                                : cn(
+                                    mutedTextColor,
+                                    `hover:${buttonBgColor}`,
+                                    `hover:${textColor}`
+                                  ),
+                              "flex items-center justify-between px-2.5 py-1.5 text-left transition-colors duration-200 rounded-md text-[0.875em] flex-1"
+                            )}>
+                            <span className="flex items-center gap-2">
+                              {(category.name === "Cursor" || category.name === ".cursorrules") && (
+                                <img
+                                  src="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNjQgNjQiPjxwYXRoIGQ9Ik01My44IDE3LjkgMzMgOS42Yy0uNy0uMy0xLjUtLjMtMi4yIDBsLTIwLjYgOC4yYy0uOC4zLTEuMiAxLTEuMiAxLjh2MjQuN2MwIC44LjUgMS41IDEuMiAxLjhMMzEgNTQuNGMuNC4xLjcuMiAxLjEuMlYyOC44YzAtLjguNS0xLjUgMS4yLTEuOGwyMS4zLTguNWMtLjItLjMtLjUtLjUtLjgtLjZ6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJNNTUgMTkuN2MwLS40LS4yLS45LS40LTEuMkwzMy4zIDI3Yy0uOC4zLTEuMiAxLTEuMiAxLjh2MjUuOGMuNCAwIC43LS4xIDEuMS0uMmwyMC42LTguMmMuOC0uMyAxLjItMSAxLjItMS44VjE5Ljd6IiBmaWxsPSIjNmI3MjgwIiBjbGFzcz0iZmlsbC1kOWRjZTEiPjwvcGF0aD48cGF0aCBkPSJtNTAuNCAyMC4yLTE4LjMgNy4zVjUxTTEyLjkgMjAuNWwxOS4yIDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0ic3F1YXJlIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGNsYXNzPSJzdHJva2UtZmZmZmZmIj48L3BhdGg+PC9zdmc+"
+                                  width="24"
+                                  height="24"
+                                  alt="Cursor icon"
+                                />
+                              )}
+                              {category.name === "Convex" && (
+                                <img
+                                  src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODU1IiBoZWlnaHQ9Ijg2MSIgdmlld0JveD0iMCAwIDg1NSA4NjEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01MzkuOTI0IDY3OC4xMTRDNjY3LjE1MSA2NjQuMjI2IDc4Ny4wOTQgNTk3LjYwMiA4NTMuMTM1IDQ4Ni40QzgyMS44NjMgNzYxLjQ0MyA1MTUuODM4IDkzNS4yODcgMjY2LjA0NiA4MjguNTUzQzI0My4wMjkgODE4Ljc0NCAyMjMuMjE3IDgwMi40MjggMjA5LjYyIDc4MS40NUMxNTMuNDg1IDY5NC44MTkgMTM1LjAzMiA1ODQuNTg4IDE2MS41NDYgNDg0LjU1NUMyMzcuMjk5IDYxMy4wNDQgMzkxLjMzMSA2OTEuODA4IDUzOS45MjQgNjc4LjExNFoiIGZpbGw9IiM2QjcyODAiLz4KPHBhdGggZD0iTTE1Ni44ODUgNDAzLjg0OUMxMDUuMzE0IDUyMC45NzUgMTAzLjA4IDY1OC4xMDggMTY2LjMwNSA3NzAuOTYxQy01Ni4xOTU5IDYwNi40NCAtNTMuNzY3OSAyNTQuMzgxIDE2My41ODYgOTEuNTExNEMxODMuNjkgNzYuNDU3OCAyMDcuNTgxIDY3LjUyMjggMjMyLjYzOCA2Ni4xNjMxQzMzNS42ODIgNjAuODIxNSA0NDAuMzc3IDk5Ljk2MDggNTEzLjggMTcyLjg5OEMzNjQuNjI0IDE3NC4zNTUgMjE5LjMzMyAyNjguMjY5IDE1Ni44ODUgNDAzLjg0OVoiIGZpbGw9IiM2QjcyODAiLz4KPHBhdGggZD0iTTU4NS43NTYgMjA4LjkzMkM1MTAuNDg4IDEwNS43OTEgMzkyLjY4MiAzNS41NzM1IDI2My42MDkgMzMuNDM2OEM1MTMuMTEgLTc3Ljg2MjQgODIwLjAwOCAxMDIuNTg2IDg1My40MTggMzY5LjM3NEM4NTYuNTI1IDM5NC4xNCA4NTIuNDQ2IDQxOS4zOTEgODQxLjI3OCA0NDEuNzI4Qzc5NC42NiA1MzQuNzY5IDcwOC4yMjQgNjA2LjkyOSA2MDcuMjE5IDYzMy42MzdDNjgxLjIyNCA0OTguNzM3IDY3Mi4wOTUgMzMzLjkyNSA1ODUuNzU2IDIwOC45MzJaIiBmaWxsPSIjNkI3MjgwIi8+Cjwvc3ZnPgo="
+                                  width="16"
+                                  height="16"
+                                  alt="Convex icon"
+                                />
+                              )}
+                              <span className="truncate">{category.name}</span>
+                            </span>
+                            <span
+                              className={cn(
+                                selectedCategories.includes(category.name)
+                                  ? "text-gray-400"
+                                  : "text-[#525252]",
+                                "text-sm ml-2"
+                              )}>
+                              {category.count}
+                            </span>
+                          </button>
+                          {isSignedIn && isCustomCategory && customCategoryData && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteCustomCategory(
+                                  customCategoryData._id,
+                                  customCategoryData.name
+                                );
+                              }}
+                              className={cn(
+                                mutedTextColor,
+                                "hover:text-red-500 transition-colors duration-200 p-1"
+                              )}
+                              title="Delete custom category">
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
 
@@ -509,9 +529,8 @@ function App() {
 
         <div className="flex-1">
           <div>
-            <h1 className="py-0 mb-8 text-left font-display text-xl font-medium text-neutral-900 sm:text-xl sm:leading-[1.15] animate-slide-up-fade [--offset:20px] [animation-duration:1s] [animation-fill-mode:both] motion-reduce:animate-fade-in [animation-delay:100ms]">
-              AI Prompts, Cursor Rules and MCP Server Directory for{" "}
-              <span className="line-through">Prompt Engineering</span> / Vibe Coding
+            <h1 className="py-0 mb-8 text-left font-display text-base font-normal  text-stone-600">
+              The CRM for Prompts, Vibe Coding, and Custom Rules.
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
@@ -519,7 +538,7 @@ function App() {
               <div
                 key={index}
                 className={cn(
-                  bgColor,
+                  "bg-white",
                   "border",
                   borderColor,
                   "p-3 sm:p-4 transition-all duration-200 rounded-lg",
@@ -528,8 +547,11 @@ function App() {
                 <div className="flex justify-between items-start text-left">
                   <div className="flex items-center gap-2">
                     {!prompt.isPublic && isSignedIn && (
-                      <Lock size={14} className={cn(mutedTextColor)} />
+                      <div className="bg-black px-1.5 py-1.5 rounded">
+                        <Lock size={14} className="text-white" />
+                      </div>
                     )}
+
                     <h2
                       className={cn(
                         textColor,
@@ -589,7 +611,14 @@ function App() {
                     )}
                   </div>
                 </div>
-                <PromptCard prompt={prompt} copied={copied} onCopy={copyToClipboard} />
+                <PromptCard
+                  prompt={prompt}
+                  copied={copied}
+                  onCopy={copyToClipboard}
+                  isOwner={isSignedIn && user && user.id === prompt.userId}
+                  onEdit={handleEditPrompt}
+                  onToggleVisibility={handleToggleVisibility}
+                />
               </div>
             ))}
           </div>
@@ -597,204 +626,11 @@ function App() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div
-            className={cn(
-              bgColor,
-              "p-4 sm:p-6 max-w-2xl w-full border",
-              borderColor,
-              "rounded-lg max-h-[90vh] overflow-y-auto"
-            )}>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="font-['Inter',sans-serif] text-[24px] leading-[32px] text-[#1A202C]">
-                Add New Prompt or Rules
-              </h2>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className={cn(mutedTextColor, `hover:${textColor}`)}>
-                <X size={24} />
-              </button>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
-                  Title<span className="text-[#EF442D]">* (required)</span>
-                </label>
-                <input
-                  type="text"
-                  value={newPrompt.title}
-                  onChange={(e) =>
-                    setNewPrompt({
-                      ...newPrompt,
-                      title: e.target.value.slice(0, 54),
-                    })
-                  }
-                  maxLength={54}
-                  className={cn(
-                    bgColor,
-                    "border",
-                    borderColor,
-                    textColor,
-                    "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
-                  )}
-                  placeholder="Enter prompt title"
-                  required
-                />
-              </div>
-              <div>
-                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
-                  Description (optional)
-                </label>
-                <input
-                  type="text"
-                  value={newPrompt.description}
-                  onChange={(e) => {
-                    const text = e.target.value;
-                    if (text.length <= 138) setNewPrompt({ ...newPrompt, description: text });
-                  }}
-                  maxLength={120}
-                  className={cn(
-                    bgColor,
-                    "border",
-                    borderColor,
-                    textColor,
-                    "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
-                  )}
-                  placeholder="Enter prompt description"
-                />
-              </div>
-              <div>
-                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
-                  GitHub or Social Profile (optional)
-                </label>
-                <input
-                  type="text"
-                  value={newPrompt.githubProfile}
-                  onChange={(e) =>
-                    setNewPrompt({
-                      ...newPrompt,
-                      githubProfile: e.target.value,
-                    })
-                  }
-                  className={cn(
-                    bgColor,
-                    "border",
-                    borderColor,
-                    textColor,
-                    "w-full p-3 placeholder-[#525252] rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
-                  )}
-                  placeholder="https:// Your GitHub or social profile URL"
-                />
-              </div>
-              <div>
-                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
-                  Categories<span className="text-[#EF442D]">* (required)</span> (A max of 4. Select
-                  all that apply)
-                </label>
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
-                  {CATEGORIES.map((category) => (
-                    <button
-                      type="button"
-                      key={category}
-                      onClick={() => toggleCategory(category)}
-                      className={cn(
-                        newPrompt.categories.includes(category)
-                          ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
-                          : [
-                              "border-" + borderColor,
-                              mutedTextColor,
-                              "hover:border-[#A3A3A3]",
-                            ].join(" "),
-                        "p-1.5 border rounded-lg transition-colors duration-200 text-xs focus:outline-none focus:ring-1 focus:ring-black"
-                      )}>
-                      {category}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <p className={cn(mutedTextColor, "text-xs")}>
-                {" "}
-                <span className="text-xs">
-                  <a href="https://github.com/waynesutton/promptstack/discussions/new?category=support&title=Support%20Request&body=This%20discussion%20is%20about%20a%20potential%20spam%20or%20bug%20orfeature%20request">
-                    Click here to suggest a new category here.
-                  </a>
-                </span>
-              </p>
-              <div>
-                <label className={cn(mutedTextColor, "block text-sm font-medium mb-1")}>
-                  Prompt<span className="text-[#EF442D]">* (required)</span>
-                </label>
-                <textarea
-                  value={newPrompt.prompt}
-                  onChange={(e) => setNewPrompt({ ...newPrompt, prompt: e.target.value })}
-                  className={cn(
-                    bgColor,
-                    "border",
-                    borderColor,
-                    textColor,
-                    "w-full p-3 placeholder-[#525252] h-32 rounded-lg focus:outline-none focus:ring-1 focus:ring-black"
-                  )}
-                  placeholder="Enter your prompt text or code gen rules or code examples"
-                  required
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <label className={cn(mutedTextColor, "block text-sm font-medium")}>
-                  Visibility
-                </label>
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    disabled={!isSignedIn}
-                    onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: true }))}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
-                      newPrompt.isPublic
-                        ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
-                        : ["border-" + borderColor, mutedTextColor].join(" "),
-                      !isSignedIn && "opacity-50 cursor-not-allowed"
-                    )}>
-                    <Globe size={16} />
-                    <span>Public</span>
-                  </button>
-                  <button
-                    type="button"
-                    disabled={!isSignedIn}
-                    onClick={() => setNewPrompt((prev) => ({ ...prev, isPublic: false }))}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
-                      !newPrompt.isPublic
-                        ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
-                        : ["border-" + borderColor, mutedTextColor].join(" "),
-                      !isSignedIn && "opacity-50 cursor-not-allowed"
-                    )}>
-                    <Lock size={14} className={cn(mutedTextColor)} />
-                    <span>Private</span>
-                  </button>
-                </div>
-                {!isSignedIn ? (
-                  <p className={cn(mutedTextColor, "text-sm")}>
-                    Sign in to set prompt visibility or delete your prompts.
-                  </p>
-                ) : (
-                  <p className={cn(mutedTextColor, "text-sm")}>
-                    {newPrompt.isPublic
-                      ? "Anyone can view this prompt"
-                      : "Only you can view this prompt"}
-                  </p>
-                )}
-              </div>
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  className="w-full bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-6 py-3 flex items-center justify-center gap-2 transition-colors duration-200 rounded-lg">
-                  <Sparkles size={20} />
-                  Submit Prompt
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <PromptForm
+          isModal={true}
+          onClose={() => setIsModalOpen(false)}
+          onSuccess={() => setIsModalOpen(false)}
+        />
       )}
 
       {isSignInOpen && (
@@ -887,9 +723,122 @@ function App() {
           </div>
         </div>
       )}
-      {/* footer starts here */}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && editingPrompt && (
+        <PromptForm
+          isModal={true}
+          isEditing={true}
+          promptId={editingPrompt._id}
+          initialData={{
+            title: editingPrompt.title,
+            description: editingPrompt.description,
+            prompt: editingPrompt.prompt,
+            categories: editingPrompt.categories,
+            githubProfile: editingPrompt.githubProfile || "",
+            isPublic: editingPrompt.isPublic,
+          }}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditingPrompt(null);
+          }}
+          onSuccess={() => {
+            setIsEditModalOpen(false);
+            setEditingPrompt(null);
+          }}
+        />
+      )}
+
+      {/* Visibility Toggle Modal */}
+      {isVisibilityModalOpen && promptToToggle && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className={cn(bgColor, "p-6 rounded-lg max-w-md w-full border", borderColor)}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={cn(textColor, "text-lg font-medium")}>
+                {promptToToggle.isPublic ? "Make Private" : "Make Public"}
+              </h2>
+              <button
+                onClick={() => {
+                  setIsVisibilityModalOpen(false);
+                  setPromptToToggle(null);
+                }}
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
+                <X size={20} />
+              </button>
+            </div>
+            <p className={cn(mutedTextColor, "mb-6 text-sm")}>
+              {promptToToggle.isPublic
+                ? "Are you sure you want to make this prompt private? Only you will be able to see it."
+                : "Are you sure you want to make this prompt public? Anyone will be able to see it."}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setIsVisibilityModalOpen(false);
+                  setPromptToToggle(null);
+                }}
+                className={cn(
+                  "flex-1 px-4 py-2 border",
+                  borderColor,
+                  mutedTextColor,
+                  "hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                )}>
+                Cancel
+              </button>
+              <button
+                onClick={confirmToggleVisibility}
+                className="flex-1 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-4 py-2 transition-colors duration-200 rounded-lg">
+                {promptToToggle.isPublic ? "Make Private" : "Make Public"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Category Modal */}
+      {isDeleteCategoryModalOpen && categoryToDelete && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className={cn(bgColor, "p-6 rounded-lg max-w-md w-full border", borderColor)}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className={cn(textColor, "text-lg font-medium")}>Delete Custom Category</h2>
+              <button
+                onClick={() => {
+                  setIsDeleteCategoryModalOpen(false);
+                  setCategoryToDelete(null);
+                }}
+                className={cn(mutedTextColor, "hover:text-white transition-colors")}>
+                <X size={20} />
+              </button>
+            </div>
+            <p className={cn(mutedTextColor, "mb-6 text-sm")}>
+              Are you sure you want to delete the "{categoryToDelete.name}" category? This action
+              cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setIsDeleteCategoryModalOpen(false);
+                  setCategoryToDelete(null);
+                }}
+                className={cn(
+                  "flex-1 px-4 py-2 border",
+                  borderColor,
+                  mutedTextColor,
+                  "hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                )}>
+                Cancel
+              </button>
+              <button
+                onClick={confirmDeleteCategory}
+                className="flex-1 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white px-4 py-2 transition-colors duration-200 rounded-lg">
+                Delete Category
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer count={count} />
-      {/* footer ends here */}
     </div>
   );
 }
