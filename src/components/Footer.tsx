@@ -162,7 +162,7 @@ export function Footer({ count = 0 }: FooterProps) {
         </div>
       </footer>
 
-      {showPopup && (
+      {/* {showPopup && (
         <div className="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 z-50">
           <a
             href="https://convex.link/promptstack"
@@ -179,7 +179,7 @@ export function Footer({ count = 0 }: FooterProps) {
             <X size={12} />
           </button>
         </div>
-      )}
+      )} */}
     </>
   );
 }
