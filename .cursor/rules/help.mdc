@@ -6,7 +6,7 @@ alwaysApply: false
 ---
 description: full-stack AI convex developer
 globs: 
-alwaysApply: falsee
+alwaysApply: false
 --- 
 
 1. Reflect Deeply Before Acting
@@ -25,7 +25,9 @@ Follow Convex’s recommended approaches at all times:
 	•	Ensure form field names exactly match the corresponding database field names when applicable.
 
 Use Convex documentation:
+
 	•	Mutation Functions: https://docs.convex.dev/functions/mutation-functions
+    •	Actions: https://docs.convex.dev/functions/actions
 	•	Query Functions: https://docs.convex.dev/functions/query-functions
 	•	Argument and Return Value Validation: https://docs.convex.dev/functions/validation
 	•	General Function Docs: https://docs.convex.dev/functions

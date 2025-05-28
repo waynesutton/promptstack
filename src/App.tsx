@@ -32,6 +32,7 @@ import { CATEGORIES } from "./constants/categories";
 
 interface Prompt {
   _id: string;
+  _creationTime?: number;
   title: string;
   description: string;
   prompt: string;
@@ -174,6 +175,7 @@ function App() {
   const deleteCustomCategoryMutation = useMutation(api.prompts.deleteCustomCategory);
   const { isSignedIn, user } = useUser();
   const [sortByLikes, setSortByLikes] = useState(false);
+  const [sortByDate, setSortByDate] = useState(false);
   const [editingPrompt, setEditingPrompt] = useState<Prompt | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isVisibilityModalOpen, setIsVisibilityModalOpen] = useState(false);
@@ -182,6 +184,7 @@ function App() {
   const [categoryToDelete, setCategoryToDelete] = useState<{ id: string; name: string } | null>(
     null
   );
+  const [isListView, setIsListView] = useState(false);
 
   const customCategories = useQuery(api.prompts.getUserCustomCategories) || [];
   const searchResults = useQuery(api.prompts.searchPrompts, {
@@ -209,9 +212,28 @@ function App() {
   const prompts = searchResults || [];
 
   const sortedPrompts = useMemo(() => {
-    if (!sortByLikes) return prompts;
-    return [...prompts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-  }, [prompts, sortByLikes]);
+    let sorted = [...prompts];
+
+    if (sortByDate) {
+      sorted = sorted.sort((a, b) => (b._creationTime || 0) - (a._creationTime || 0));
+    } else if (sortByLikes) {
+      sorted = sorted.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    }
+
+    return sorted;
+  }, [prompts, sortByLikes, sortByDate]);
+
+  const sortedPrivatePrompts = useMemo(() => {
+    let sorted = [...privatePrompts];
+
+    if (sortByDate) {
+      sorted = sorted.sort((a, b) => (b._creationTime || 0) - (a._creationTime || 0));
+    } else if (sortByLikes) {
+      sorted = sorted.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    }
+
+    return sorted;
+  }, [privatePrompts, sortByLikes, sortByDate]);
 
   const cn = (...classes: (string | boolean | undefined)[]) => {
     return classes.filter(Boolean).join(" ");
@@ -394,23 +416,80 @@ function App() {
                   disabled={!isSignedIn}
                   className="data-[state=checked]:bg-[#1a1a1a]"
                 />
-                <label className={cn(mutedTextColor, "text-sm flex items-center gap-2")}>
+                <button
+                  onClick={() => {
+                    if (isSignedIn) {
+                      setShowPrivatePrompts(!showPrivatePrompts);
+                      setIsMyPromptsOpen(false);
+                    } else {
+                      setIsSignInOpen(true);
+                    }
+                  }}
+                  className={cn(
+                    mutedTextColor,
+                    "text-sm flex items-center gap-2 hover:text-gray-700 transition-colors"
+                  )}>
                   <span>{showPrivatePrompts ? "My Prompts" : "All Prompts"}</span>
                   {privatePromptsCount > 0 && (
                     <span className="text-xs bg-[#2A2A2A] text-white px-1.5 py-0.5 rounded">
                       {privatePromptsCount}
                     </span>
                   )}
-                </label>
+                </button>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={sortByDate}
+                  onCheckedChange={(checked) => {
+                    if (isSignedIn) {
+                      setSortByDate(checked);
+                      if (checked) setSortByLikes(false); // Disable likes sort when date sort is enabled
+                    } else {
+                      setIsSignInOpen(true);
+                    }
+                  }}
+                  disabled={!isSignedIn}
+                  className="data-[state=checked]:bg-[#1a1a1a]"
+                />
+                <button
+                  onClick={() => {
+                    if (isSignedIn) {
+                      setSortByDate(!sortByDate);
+                      if (!sortByDate) setSortByLikes(false); // Disable likes sort when date sort is enabled
+                    } else {
+                      setIsSignInOpen(true);
+                    }
+                  }}
+                  className={cn(mutedTextColor, "text-sm hover:text-gray-700 transition-colors")}>
+                  sort by date
+                </button>
               </div>
 
               <div className="flex items-center space-x-2">
                 <Switch
                   checked={sortByLikes}
-                  onCheckedChange={setSortByLikes}
+                  onCheckedChange={(checked) => {
+                    if (isSignedIn) {
+                      setSortByLikes(checked);
+                      if (checked) setSortByDate(false); // Disable date sort when likes sort is enabled
+                    } else {
+                      setIsSignInOpen(true);
+                    }
+                  }}
+                  disabled={!isSignedIn}
                   className="data-[state=checked]:bg-[#1a1a1a]"
                 />
-                <label className={cn(mutedTextColor, "text-sm")}>
+                <button
+                  onClick={() => {
+                    if (isSignedIn) {
+                      setSortByLikes(!sortByLikes);
+                      if (!sortByLikes) setSortByDate(false); // Disable date sort when likes sort is enabled
+                    } else {
+                      setIsSignInOpen(true);
+                    }
+                  }}
+                  className={cn(mutedTextColor, "text-sm hover:text-gray-700 transition-colors")}>
                   sort by{" "}
                   <span className="text-sm">
                     <img
@@ -419,7 +498,16 @@ function App() {
                       className="inline w-4 h-4"
                     />
                   </span>
-                </label>
+                </button>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={isListView}
+                  onCheckedChange={setIsListView}
+                  className="data-[state=checked]:bg-[#1a1a1a]"
+                />
+                <label className={cn(mutedTextColor, "text-sm")}>list view</label>
               </div>
 
               <div>
@@ -528,100 +616,198 @@ function App() {
         </div>
 
         <div className="flex-1">
-          <div>
-            <h1 className="py-0 mb-8 text-left font-display text-base font-normal  text-stone-600">
-              The CRM for Prompts, Vibe Coding, and Custom Rules.
-            </h1>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-            {(showPrivatePrompts ? privatePrompts : sortedPrompts).map((prompt, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "bg-white",
-                  "border",
-                  borderColor,
-                  "p-3 sm:p-4 transition-all duration-200 rounded-lg",
-                  "shadow-[0_20px_34px_#0000000f,0_4px_10px_#0000000a,0_1px_4px_#00000008,0_1px_8px_#00000005]"
-                )}>
-                <div className="flex justify-between items-start text-left">
-                  <div className="flex items-center gap-2">
+          {isListView ? (
+            // List View - Hacker News style
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {(showPrivatePrompts ? sortedPrivatePrompts : sortedPrompts).map((prompt, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "bg-white border border-gray-200",
+                    "p-3 hover:bg-gray-50 transition-colors duration-200 rounded-lg"
+                  )}>
+                  <div className="flex items-center gap-3">
+                    {/* Index number */}
+                    <span className={cn(mutedTextColor, "text-sm font-mono w-6 text-right")}>
+                      {index + 1}.
+                    </span>
+
+                    {/* Privacy indicator */}
                     {!prompt.isPublic && isSignedIn && (
                       <div className="bg-black px-1.5 py-1.5 rounded">
                         <Lock size={14} className="text-white" />
                       </div>
                     )}
 
-                    <h2
-                      className={cn(
-                        textColor,
-                        "text-base sm:text-med font-normal mb-1.5 text-left"
-                      )}>
-                      {prompt.title}
-                    </h2>
-                  </div>
-                </div>
-                <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm text-left")}>
-                  {prompt.description}
-                </p>
-                <div className="flex flex-wrap items-center gap-2 text-left">
-                  {prompt.categories.map((category, idx) => (
-                    <span
-                      key={idx}
-                      className={cn(
-                        buttonBgColor,
-                        mutedTextColor,
-                        "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
-                      )}>
-                      {category}
-                    </span>
-                  ))}
-                  <div className="flex items-center gap-3 ml-auto">
-                    <button
-                      onClick={() => handleLike(prompt._id)}
-                      className={cn(
-                        "flex items-center gap-1 transition-colors duration-200",
-                        likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
-                      )}>
-                      <Heart
-                        size={16}
-                        className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
-                      />
-                      <span className="text-xs">{prompt.likes || 0}</span>
-                    </button>
-                    {prompt.githubProfile && (
-                      <a
-                        href={
-                          prompt.githubProfile.startsWith("http")
-                            ? prompt.githubProfile
-                            : `https://github.com/${prompt.githubProfile.replace("@", "")}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {/* Title and link */}
+                    <div className="flex-1">
+                      <Link
+                        to="/prompt/$slug"
+                        params={{ slug: prompt.slug || generateSlug(prompt.title) }}
+                        className={cn(textColor, "text-sm font-medium hover:underline")}>
+                        {prompt.title}
+                      </Link>
+
+                      {/* Categories */}
+                      <div className="flex items-center gap-2 mt-1">
+                        {prompt.categories.slice(0, 3).map((category, idx) => (
+                          <span
+                            key={idx}
+                            className={cn(
+                              mutedTextColor,
+                              "text-xs px-1.5 py-0.5 bg-gray-100 rounded"
+                            )}>
+                            {category}
+                          </span>
+                        ))}
+                        {prompt.categories.length > 3 && (
+                          <span className={cn(mutedTextColor, "text-xs")}>
+                            +{prompt.categories.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-3">
+                      {/* Like button */}
+                      <button
+                        onClick={() => handleLike(prompt._id)}
+                        className={cn(
+                          "flex items-center gap-1 transition-colors duration-200",
+                          likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
+                        )}>
+                        <Heart
+                          size={14}
+                          className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
+                        />
+                        <span className="text-xs">{prompt.likes || 0}</span>
+                      </button>
+
+                      {/* Social profile */}
+                      {prompt.githubProfile && (
+                        <a
+                          href={
+                            prompt.githubProfile.startsWith("http")
+                              ? prompt.githubProfile
+                              : `https://github.com/${prompt.githubProfile.replace("@", "")}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cn(
+                            mutedTextColor,
+                            "hover:text-gray-700 flex items-center gap-1 transition-colors duration-200"
+                          )}>
+                          <User size={14} />
+                          <span className="text-xs">{getDomainFromUrl(prompt.githubProfile)}</span>
+                        </a>
+                      )}
+
+                      {/* Open link */}
+                      <Link
+                        to="/prompt/$slug"
+                        params={{ slug: prompt.slug || generateSlug(prompt.title) }}
                         className={cn(
                           mutedTextColor,
-                          `hover:${textColor}`,
-                          "flex items-center gap-1 transition-colors duration-200 text-left"
+                          "hover:text-gray-700 transition-colors duration-200"
                         )}>
-                        <User size={16} />
-                        <span className="text-xs sm:text-sm">
-                          {getDomainFromUrl(prompt.githubProfile)}
-                        </span>
-                      </a>
-                    )}
+                        <Expand size={14} />
+                      </Link>
+                    </div>
                   </div>
                 </div>
-                <PromptCard
-                  prompt={prompt}
-                  copied={copied}
-                  onCopy={copyToClipboard}
-                  isOwner={isSignedIn && user && user.id === prompt.userId}
-                  onEdit={handleEditPrompt}
-                  onToggleVisibility={handleToggleVisibility}
-                />
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            // Grid View - Original layout
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+              {(showPrivatePrompts ? sortedPrivatePrompts : sortedPrompts).map((prompt, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "bg-white",
+                    "border border-gray-200",
+                    "p-3 sm:p-4 transition-all duration-200 rounded-lg"
+                  )}>
+                  <div className="flex justify-between items-start text-left">
+                    <div className="flex items-center gap-2">
+                      {!prompt.isPublic && isSignedIn && (
+                        <div className="bg-black px-1.5 py-1.5 rounded">
+                          <Lock size={14} className="text-white" />
+                        </div>
+                      )}
+
+                      <h2
+                        className={cn(
+                          textColor,
+                          "text-base sm:text-med font-normal mb-1.5 text-left"
+                        )}>
+                        {prompt.title}
+                      </h2>
+                    </div>
+                  </div>
+                  <p className={cn(mutedTextColor, "mb-3 text-xs sm:text-sm text-left")}>
+                    {prompt.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 text-left">
+                    {prompt.categories.map((category, idx) => (
+                      <span
+                        key={idx}
+                        className={cn(
+                          buttonBgColor,
+                          mutedTextColor,
+                          "inline-block px-2 py-1 text-xs sm:text-sm rounded-md text-left"
+                        )}>
+                        {category}
+                      </span>
+                    ))}
+                    <div className="flex items-center gap-3 ml-auto">
+                      <button
+                        onClick={() => handleLike(prompt._id)}
+                        className={cn(
+                          "flex items-center gap-1 transition-colors duration-200",
+                          likedPrompts.has(prompt._id) ? "text-[#2a2a2a]" : mutedTextColor
+                        )}>
+                        <Heart
+                          size={16}
+                          className={likedPrompts.has(prompt._id) ? "fill-current" : ""}
+                        />
+                        <span className="text-xs">{prompt.likes || 0}</span>
+                      </button>
+                      {prompt.githubProfile && (
+                        <a
+                          href={
+                            prompt.githubProfile.startsWith("http")
+                              ? prompt.githubProfile
+                              : `https://github.com/${prompt.githubProfile.replace("@", "")}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cn(
+                            mutedTextColor,
+                            `hover:${textColor}`,
+                            "flex items-center gap-1 transition-colors duration-200 text-left"
+                          )}>
+                          <User size={16} />
+                          <span className="text-xs sm:text-sm">
+                            {getDomainFromUrl(prompt.githubProfile)}
+                          </span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <PromptCard
+                    prompt={prompt}
+                    copied={copied}
+                    onCopy={copyToClipboard}
+                    isOwner={isSignedIn && user && user.id === prompt.userId}
+                    onEdit={handleEditPrompt}
+                    onToggleVisibility={handleToggleVisibility}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -638,7 +824,7 @@ function App() {
           <div className={cn(bgColor, "p-4 rounded-lg max-w-sm w-full border", borderColor)}>
             <div className="flex justify-between items-center mb-2">
               <h2 className={cn(textColor, "text-sm font-normal")}>
-                Sign in to create private prompts or delete your own prompts.
+                Log in to create private prompts.
               </h2>
               <button
                 onClick={() => setIsSignInOpen(false)}

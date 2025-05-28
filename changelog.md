@@ -107,6 +107,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Latest] - 2024-12-19
 
+### Added
+
+- ✅ **List View Toggle**: Added new toggle below "My Prompts" and "All Prompts" to switch between grid view and list view
+- ✅ **Hacker News Style Layout**: Created compact list view showing prompt names, social profiles, like icons, tags, and open icons
+- ✅ **View Persistence**: List view toggle state maintained while browsing
+- ✅ **Responsive Design**: List view adapts to different screen sizes while maintaining readability
+- ✅ **Index Numbers**: Added numbered list format similar to Hacker News for easy reference
+- ✅ **Compact Categories**: Shows first 3 categories with "+X more" indicator for space efficiency
+
 ### Fixed
 
 - ✅ **Custom Category Cleanup**: Fixed issue where deleting a custom category from the sidebar didn't remove it from existing prompts - now when a user deletes their custom category, it's automatically removed from all their prompts that used that category

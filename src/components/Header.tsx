@@ -51,7 +51,8 @@ export function Header({ searchQuery, setSearchQuery, setIsModalOpen }: HeaderPr
               <h1 className={cn(textColor, "font-inter text-[16px] leading-tight")}>
                 <span className="font-normal text-[18px]">PromptStack</span>
                 <br />
-                <span className="font-normal text-[16px]">
+                <span className="font-normal text-[16px] text-slate-500">
+                  The CRM for Prompts, Vibe Coding, and Custom Rules.
                   {/* AI Prompts and Code Generation Directory for Prompt Engineering */}
                 </span>
               </h1>
