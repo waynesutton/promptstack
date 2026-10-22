@@ -1,6 +1,8 @@
 # PromptStack - The CRM for Prompts, Vibe Coding, and Custom Rules.
 
-**[PromptStack](https://promptstack.dev)** is a **open-source** real-time prompt management platform built with React, [Convex.dev](https://convex.link/promptstackgithub), and Clerk authentication. It enables users to create, organize, and share AI prompts with features like custom categories, privacy controls, and community engagement through likes and comments. The platform features a sleek, responsive design with both grid and list views, real-time updates, and comprehensive search and filtering capabilities.
+> The hosted version at promptstack.dev is retired. The code stays here, open source, so you can run your own copy. See [Installation](#installation).
+
+**PromptStack** is a **open-source** real-time prompt management platform built with React, [Convex.dev](https://convex.link/promptstackgithub), and Clerk authentication. It enables users to create, organize, and share AI prompts with features like custom categories, privacy controls, and community engagement through likes and comments. The platform features a sleek, responsive design with both grid and list views, real-time updates, and comprehensive search and filtering capabilities.
 
 ## Features
 
@@ -93,7 +95,7 @@ Convex.dev provides a real-time database and backend that makes building reactiv
 
 - [Convex.dev](https://docs.convex.dev/) - Real-time database and backend with automatic synchronization
 - [Clerk](https://clerk.com/) - Authentication and user management
-- [Netlify](https://netlify.com) - Static site hosting and deployment
+- [Netlify](https://netlify.com) - Static site hosting (example config in `netlify.toml`)
 
 ### Development Tools
 
@@ -196,26 +198,50 @@ For detailed information about each file and directory, see [`files.md`](./files
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/waynesutton/PromptStack
-cd PromptStack
-bun install
+git clone https://github.com/waynesutton/promptstack
+cd promptstack
+npm install
 ```
 
-Set up environment variables in `.env.local`:
+Create a Convex project. This writes `CONVEX_DEPLOYMENT` and `VITE_CONVEX_URL` to `.env.local`:
 
 ```bash
-# Convex
-VITE_CONVEX_URL=your_convex_deployment_url
+npx convex dev --once
+```
 
-# Clerk
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+Add your Clerk publishable key to `.env.local`. It is the only Clerk value the browser needs:
+
+```bash
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+```
+
+Create a JWT template named `convex` in the Clerk dashboard, then set its issuer URL on the Convex deployment. This is a server value, so it goes in Convex env, not `.env.local`:
+
+```bash
+npx convex env set CLERK_ISSUER_URL https://your-instance.clerk.accounts.dev
 ```
 
 Start the development server:
 
 ```bash
-bun run dev
+npm run dev
 ```
+
+Checks to run before you deploy:
+
+```bash
+npm run lint   # Convex lint rules, including access control on every public function
+npm test       # convex-test suite for comment, like, rating, and ownership rules
+npm run build  # typecheck and production build with the Content Security Policy
+```
+
+To deploy on Netlify, set `CONVEX_DEPLOY_KEY` in Site configuration, Environment variables, and use the build command in `netlify.toml`.
+
+## Security
+
+- Report security issues privately through a GitHub security advisory. See [SECURITY.md](./SECURITY.md).
+- Never commit keys. `.env.local` is gitignored. Deploy keys go in your host dashboard, server secrets go in `npx convex env set`.
+- Anything prefixed `VITE_` ships to the browser. Only put the Convex URL and the Clerk publishable key there.
 
 ## Contributing
 
@@ -224,7 +250,3 @@ We welcome contributions from the community! Feel free to submit a pull request 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f6a1c7ac-d77a-4c43-92f9-7e8ca585c0d6/deploy-status)](https://app.netlify.com/sites/promptstack/deploys)

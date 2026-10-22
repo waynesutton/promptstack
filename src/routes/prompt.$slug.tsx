@@ -139,7 +139,7 @@ function PromptDetail() {
           <meta name="description" content={prompt.description} />
           <meta property="og:title" content={`${prompt.title} - PromptStack`} />
           <meta property="og:description" content={prompt.description} />
-          <meta property="og:image" content="https://promptstack.vercel.app/og-image.jpg" />
+          <meta property="og:image" content="/og-image.png" />
           <meta name="twitter:title" content={`${prompt.title} - PromptStack`} />
           <meta name="twitter:description" content={prompt.description} />
         </Helmet>

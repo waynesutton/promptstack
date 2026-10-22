@@ -1,9 +1,11 @@
+# Example config for self hosting on Netlify.
+# Set CONVEX_DEPLOY_KEY in the Netlify dashboard (Site configuration, Environment variables),
+# never in this file. `npx convex deploy` sets VITE_CONVEX_URL for the build.
 [build]
-  command = "npx convex deploy && npm run build"
+  command = "npx convex deploy --cmd 'npm run build'"
   publish = "dist"
-  environment = { VITE_CONVEX_URL = "https://prestigious-woodpecker-186.convex.cloud" }
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200

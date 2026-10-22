@@ -1,10 +1,6 @@
-# https://promptstack.dev/robots.txt
 # Allow all crawlers
 User-agent: *
 Allow: /
 
 # Disallow private prompts
 Disallow: /private/
-
-# Sitemap
-Sitemap: https://promptstack.dev/sitemap.xml

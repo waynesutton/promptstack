@@ -31,7 +31,7 @@ function About() {
 
               <p className="text-base mb-8">
                 <a
-                  href="https://promptstack.dev"
+                  href="https://github.com/waynesutton/promptstack"
                   className={`${mutedTextColor} hover:${textColor}`}>
                   PromptStack
                 </a>{" "}

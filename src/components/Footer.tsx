@@ -52,7 +52,7 @@ export function Footer({ count = 0 }: FooterProps) {
                     <p
                       className={`${mutedTextColor} hover:${textColor} transition-colors duration-200`}>
                       <a
-                        href="https://promptstack.dev"
+                        href="https://github.com/waynesutton/promptstack"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center">
