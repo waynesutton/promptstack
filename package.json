@@ -9,11 +9,13 @@
     "dev:backend": "convex dev --tail-logs",
     "build": "tsc && vite build --config vite.config.ts",
     "tsc": "tsc",
-    "lint": "eslint .",
+    "lint": "eslint convex",
+    "lint:app": "eslint src",
+    "test": "vitest run",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.22.8",
+    "@clerk/clerk-react": "^5.61.11",
     "@codesandbox/sandpack-react": "^2.19.10",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -38,7 +40,8 @@
     "@xixixao/convex-typescript-plugin": "^0.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "convex": "^1.18.2",
+    "convex": "^1.47.0",
+    "dompurify": "^3.4.17",
     "framer-motion": "^11.0.8",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.344.0",
@@ -52,6 +55,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@convex-dev/eslint-plugin": "^5.0.0",
+    "@edge-runtime/vm": "^5.0.0",
+    "@eslint/js": "^8.57.1",
     "@tailwindcss/typography": "^0.5.16",
     "@types/react": "latest",
     "@types/react-dom": "latest",
@@ -59,16 +65,19 @@
     "@typescript-eslint/parser": "^7.1.1",
     "@vitejs/plugin-react": "latest",
     "autoprefixer": "^10.4.18",
+    "convex-test": "^0.0.64",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "globals": "^15.15.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.35",
     "rollup": "^4.32.1",
     "tailwindcss": "^3.4.1",
     "typescript": "latest",
     "typescript-eslint": "^8.23.0",
-    "vite": "latest"
+    "vite": "latest",
+    "vitest": "^3.2.7"
   },
   "engines": {
     "node": ">=18.0.0"

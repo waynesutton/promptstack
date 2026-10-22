@@ -5,6 +5,7 @@ import { api } from "../../convex/_generated/api";
 import { MinimalTiptapEditor } from "./minimal-tiptap";
 import { Content, generateHTML } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import DOMPurify from "dompurify";
 import { MessageSquare, X, Trash2 } from "lucide-react";
 import { Doc, Id } from "../../convex/_generated/dataModel";
 
@@ -21,6 +22,25 @@ interface ThreadedComment {
   replies?: ThreadedComment[];
 }
 
+// Returns sanitized HTML for TipTap JSON, or null when the content is not TipTap JSON
+function renderCommentHtml(content: string): string | null {
+  try {
+    const parsedContent = JSON.parse(content);
+    return DOMPurify.sanitize(generateHTML(parsedContent, [StarterKit]));
+  } catch {
+    return null;
+  }
+}
+
+// Comment content is user supplied: sanitized HTML for TipTap docs, plain text otherwise
+function CommentBody({ content }: { content: string }) {
+  const html = renderCommentHtml(content);
+  if (html === null) {
+    return <div className="prose prose-sm max-w-none whitespace-pre-wrap">{content}</div>;
+  }
+  return <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
 export function CommentSection({ promptId }: CommentSectionProps) {
   const { user, isSignedIn } = useUser();
   const [comment, setComment] = useState<Content>();
@@ -29,16 +49,6 @@ export function CommentSection({ promptId }: CommentSectionProps) {
   const comments = useQuery(api.comments.getComments, { promptId });
   const addComment = useMutation(api.comments.addComment);
   const deleteComment = useMutation(api.comments.deleteComment);
-
-  const renderComment = (content: string) => {
-    try {
-      const parsedContent = JSON.parse(content);
-      return generateHTML(parsedContent, [StarterKit]);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
-      return content;
-    }
-  };
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -52,8 +62,6 @@ export function CommentSection({ promptId }: CommentSectionProps) {
       await addComment({
         promptId,
         content: JSON.stringify(contentToSend),
-        userId: user.id,
-        userName: user.fullName || user.username || "Anonymous",
         parentId: replyingTo || undefined,
       });
       if (replyingTo) {
@@ -124,12 +132,7 @@ export function CommentSection({ promptId }: CommentSectionProps) {
           </button>
         )}
       </div>
-      <div
-        className="prose prose-sm max-w-none"
-        dangerouslySetInnerHTML={{
-          __html: renderComment(comment.content),
-        }}
-      />
+      <CommentBody content={comment.content} />
       {isSignedIn && (
         <button
           onClick={() => setReplyingTo(comment._id)}

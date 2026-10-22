@@ -11,18 +11,20 @@
 - **`tsconfig.json`** - Main TypeScript configuration
 - **`tsconfig.app.json`** - TypeScript config for application code
 - **`tsconfig.node.json`** - TypeScript config for Node.js environment
-- **`vite.config.ts`** - Vite build tool configuration with React plugin
+- **`vite.config.ts`** - Vite build tool configuration with React plugin and a build only Content Security Policy that reads the Convex and Clerk hosts from `VITE_` env vars
+- **`vitest.config.ts`** - Vitest config for in memory Convex function tests (`npm test`)
 - **`tailwind.config.js`** - Tailwind CSS configuration with custom theme
 - **`postcss.config.js`** - PostCSS configuration for CSS processing
-- **`eslint.config.js`** - ESLint configuration for code linting
+- **`eslint.config.js`** - ESLint configuration, including `@convex-dev/eslint-plugin` with `require-access-control` for `convex/` (`npm run lint`)
 - **`.gitignore`** - Git ignore patterns
 - **`.npmrc`** - npm configuration
 - **`.node-version`** - Node.js version specification
-- **`netlify.toml`** - Netlify deployment configuration
+- **`netlify.toml`** - Example Netlify config for self hosting (deploy key lives in the Netlify dashboard, never in this file)
 
 ### Documentation Files
 
 - **`README.md`** - Main project documentation and setup instructions
+- **`SECURITY.md`** - Security policy: how to report issues, who can do what, and what is public by design
 - **`files.md`** - This file - comprehensive file structure documentation
 - **`changelog.md`** - Development changelog with feature tracking
 - **`modprompts.md`** - Additional prompt examples and documentation
@@ -98,9 +100,11 @@
 
 ### Database & Functions
 
-- **`schema.ts`** - Convex database schema definitions (prompts, comments, starRatings, customCategories)
-- **`prompts.ts`** - Prompt-related database queries and mutations (CRUD, ownership validation, custom categories)
-- **`comments.ts`** - Comment system database functions
+- **`schema.ts`** - Convex database schema definitions (prompts, comments, starRatings, promptLikes, customCategories) with indexes for every query
+- **`prompts.ts`** - Prompt-related database queries and mutations (CRUD, ownership validation, one like and one rating per signed in user, custom categories)
+- **`comments.ts`** - Comment system database functions (author taken from the auth token, TipTap JSON validation, private prompt checks)
+- **`lib/access.ts`** - Shared access helpers: `requireIdentity` for signed in callers and `canViewPrompt`, the single visibility rule for prompts
+- **`security.test.ts`** - convex-test suite proving signed out callers and other users cannot comment, like, rate, edit, or read private prompts
 - **`auth.config.ts`** - Authentication configuration for Clerk integration
 - **`tsconfig.json`** - TypeScript configuration for Convex functions
 - **`README.md`** - Convex-specific documentation
@@ -132,7 +136,6 @@
 
 - **`site.webmanifest`** - Web app manifest for PWA features
 - **`robots.txt`** - Search engine crawler instructions
-- **`sitemap.xml`** - Site structure for search engines
 - **`og-image.png`** - Open Graph image for social sharing
 
 ### Data Files

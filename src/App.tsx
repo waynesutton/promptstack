@@ -167,7 +167,8 @@ function App() {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMyPromptsOpen, setIsMyPromptsOpen] = useState(false);
   const [showPrivatePrompts, setShowPrivatePrompts] = useState(false);
-  const [likedPrompts, setLikedPrompts] = useState<Set<string>>(new Set());
+  const myLikedPromptIds = useQuery(api.prompts.getMyLikedPromptIds);
+  const likedPrompts = useMemo(() => new Set<string>(myLikedPromptIds ?? []), [myLikedPromptIds]);
   const likePromptMutation = useMutation(api.prompts.likePrompt);
   const unlikePromptMutation = useMutation(api.prompts.unlikePrompt);
   const updatePromptMutation = useMutation(api.prompts.updatePrompt);
@@ -281,32 +282,21 @@ function App() {
   const borderColor = theme === "dark" ? "border-[#1F1F1F]" : "border-gray-200";
   const buttonBgColor = theme === "dark" ? "bg-[#222222]" : "bg-gray-100";
 
+  // Likes are stored per user on the server, so signed out visitors are asked to sign in
   const handleLike = async (promptId: Id<"prompts">) => {
-    if (likedPrompts.has(promptId)) {
-      await unlikePromptMutation({
-        promptId,
-      });
-      setLikedPrompts((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(promptId);
-        return newSet;
-      });
+    if (!isSignedIn) {
+      setIsSignInOpen(true);
       return;
     }
 
     try {
-      setLikedPrompts((prev) => new Set([...prev, promptId]));
-
-      await likePromptMutation({
-        promptId,
-      });
+      if (likedPrompts.has(promptId)) {
+        await unlikePromptMutation({ promptId });
+      } else {
+        await likePromptMutation({ promptId });
+      }
     } catch (error) {
-      setLikedPrompts((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(promptId);
-        return newSet;
-      });
-      console.error("Error liking prompt:", error);
+      console.error("Error updating like:", error);
     }
   };
 

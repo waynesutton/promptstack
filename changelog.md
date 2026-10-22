@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-10-21
+
+### Security
+
+- Comments now require sign in, take the author from the auth token, and accept only TipTap JSON up to 20000 characters.
+- Comment HTML is sanitized with DOMPurify before rendering, and non TipTap content renders as plain text.
+- Likes and ratings now require sign in and count once per user.
+- Comments on private prompts are visible only to the prompt owner.
+- Production builds ship a Content Security Policy.
+- Added `SECURITY.md` and a convex-test suite that checks these rules.
+
+### Changed
+
+- The hosted site at promptstack.dev is retired. Links now point to the GitHub repo, and the sitemap and Plausible analytics were removed.
+- `netlify.toml` no longer hardcodes a Convex deployment URL; `npx convex deploy --cmd` sets it at build time.
+- Upgraded `convex` to 1.47 and `@clerk/clerk-react` to 5.61. Added indexes so no query uses `.filter`.
+- `npm run lint` now runs the Convex ESLint plugin on `convex/`; `npm run lint:app` lints the frontend.
+
 ## [Current] - 2024-12-19
 
 ### Added
